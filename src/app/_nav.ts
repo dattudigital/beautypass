@@ -63,6 +63,28 @@ export const navItems = [
       }]
   },
   {
+    name: 'Refferal Rewards',
+    url: '/refferal-rewards',
+    icon: 'icon-cursor',
+    children: [
+      {
+        name: 'User Activities',
+        url: '/refferal-rewards/user-activities',
+        icon: 'icon-cursor'
+      },
+      {
+        name: 'User History',
+        url: '/refferal-rewards/user-history',
+        icon: 'icon-cursor'
+      },
+      {
+        name: 'Perks',
+        url: '/refferal-rewards/perks',
+        icon: 'icon-cursor'
+      }
+    ]
+  },
+  {
     name: 'Reports',
     url: '/reports',
     icon: 'icon-note',

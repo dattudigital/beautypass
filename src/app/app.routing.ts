@@ -104,6 +104,10 @@ export const routes: Routes = [
         loadChildren: './views/reports/reports.module#ReportsModule'
       },
       {
+        path: 'refferal-rewards',
+        loadChildren: './views/refferal-rewards/refferal-rewards.module#RefferalRewardsModule'
+      },
+      {
         path: 'icons',
         loadChildren: './views/icons/icons.module#IconsModule'
       },
