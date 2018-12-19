@@ -63,6 +63,34 @@ export const navItems = [
       }]
   },
   {
+    name: 'Reports',
+    url: '/reports',
+    icon: 'icon-note',
+    children: [
+      {
+        name: 'Voucher Reports',
+        url: '/reports/voucher',
+        icon: 'icon-note'
+      }
+      // ,
+      // {
+      //   name: 'User Activity Reports',
+      //   url: '/reports/user-activity',
+      //   icon: 'icon-note'
+      // },
+      // {
+      //   name: 'Pearks and Rewards',
+      //   url: '/reports/perks',
+      //   icon: 'icon-note'
+      // },
+      // {
+      //   name: 'Employee Log History',
+      //   url: '/reports/logs',
+      //   icon: 'icon-note'
+      // }
+    ]
+  },
+  {
     name: 'Colors',
     url: '/theme/colors',
     icon: 'icon-drop'

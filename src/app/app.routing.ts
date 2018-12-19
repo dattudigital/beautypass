@@ -100,6 +100,10 @@ export const routes: Routes = [
         loadChildren: './views/broadcast/broadcast.module#BroadcastModule'
       },
       {
+        path: 'reports',
+        loadChildren: './views/reports/reports.module#ReportsModule'
+      },
+      {
         path: 'icons',
         loadChildren: './views/icons/icons.module#IconsModule'
       },
