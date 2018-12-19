@@ -47,6 +47,22 @@ export const navItems = [
     ]
   },
   {
+    name: 'Broadcast',
+    url: '/admin',
+    icon: 'icon-people',
+     children: [
+      {
+        name: 'Sms To All',
+        url: '/admin/broadcast-all',
+        icon: 'icon-note'
+      },
+      {
+        name: 'Broadcast Memberships',
+        url: '/admin/broadcast-packages',
+        icon: 'icon-note'
+      }]
+  },
+  {
     name: 'Colors',
     url: '/theme/colors',
     icon: 'icon-drop'

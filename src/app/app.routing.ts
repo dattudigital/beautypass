@@ -96,6 +96,10 @@ export const routes: Routes = [
         loadChildren: './views/testimonials/testimonials.module#TestimonialsModule'
       },
       {
+        path: 'admin',
+        loadChildren: './views/broadcast/broadcast.module#BroadcastModule'
+      },
+      {
         path: 'icons',
         loadChildren: './views/icons/icons.module#IconsModule'
       },
