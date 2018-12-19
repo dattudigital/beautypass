@@ -90,6 +90,10 @@ export const routes: Routes = [
       {
         path: 'beauty-tips',
         loadChildren: './views/beautytip/beautytip.module#BeautytipModule'
+      },     
+      {
+        path: 'testmonials',
+        loadChildren: './views/testimonials/testimonials.module#TestimonialsModule'
       },
       {
         path: 'icons',

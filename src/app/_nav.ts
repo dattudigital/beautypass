@@ -30,6 +30,23 @@ export const navItems = [
     icon: 'icon-speedometer'    
   },
   {
+    name: 'Testmonials',
+    url: '/testmonials',
+    icon: 'icon-note',
+    children: [
+      {
+        name: 'Written Testmonials',
+        url: '/testmonials/written',
+        icon: 'icon-note'
+      },
+      {
+        name: 'Video Testmonials',
+        url: '/testmonials/video',
+        icon: 'icon-note'
+      },
+    ]
+  },
+  {
     name: 'Colors',
     url: '/theme/colors',
     icon: 'icon-drop'
