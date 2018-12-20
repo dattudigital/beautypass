@@ -1,0 +1,53 @@
+<ngx-spinner
+bdColor="rgba(51, 51, 51, 0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple">
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> User Activities
+              <span> <i (click)="exportAsXLSX()" class="fa fa-file-excel-o"style="font-size:24px;color:blue;margin-right: 20px;cursor: pointer; float:right"></i></span> 
+              <span> <i (click)="pdfDownload()" class="fa fa-file-pdf-o" style="font-size:24px;color:red; margin-right: 15px;cursor: pointer; float:right"></i></span> 
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Points</th>
+                    <th>Description</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of categorysData | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{item.activity_name}}</td>
+                    <td>{{item.activity_points}}</td>
+                    <td>{{item.activity_desc}}</td>
+                    <td>{{item.activity_start_date | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{item.activity_end_date | date: 'dd/MM/yyyy'}}</td>
+     
+                  </tr>
+                  <tr *ngIf="!categorysData || categorysData.length ==0">
+                    No Records Found
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              <!-- <div class="col-xs-12 col-12">
+                <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize" class="pagination-sm"
+                            previousText="&lsaquo;" nextText="&rsaquo;" [boundaryLinks]="true"></pagination>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <!--/.col-->
+      </div>
+    </div>
+    

@@ -1,0 +1,65 @@
+<ngx-spinner
+bdColor="rgba(51, 51, 51, 0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple">
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="card-body">
+  <div class="form-group row">
+      <div class="col-sm-4">
+          <label style="margin-right: 10px;"><b>Start Date :</b></label>
+        <input type="date" [(ngModel)]="startDate" (ngModelChange)="getStartDate($event);"/>
+      </div>
+      <div class="col-sm-4">
+          <label style="margin-right: 10px;"><b>End Date :</b></label>
+        <input type="date" [(ngModel)]="endDate" (ngModelChange)="getEndDate($event);"/>
+      </div>
+      <div class="col-sm-4">
+      <button class="btn btn-sm btn-primary" (click)="getReports();"><b> Submit </b></button>
+      </div>
+  </div>
+</div>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>Voucher Reports 
+          <span> <i (click)="exportAsXLSX()" class="fa fa-file-excel-o"style="font-size:24px;color:blue;margin-right: 20px;cursor: pointer; float:right"></i></span> 
+          <span> <i (click)="pdfDownload()" class="fa fa-file-pdf-o" style="font-size:24px;color:red; margin-right: 15px;cursor: pointer; float:right"></i></span> 
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-striped table-sm">
+            <thead>
+              <tr>
+                <th>Coupons For</th>
+                <th>Used</th>
+                <th>Unused</th>
+                <th>Expired</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of categorysData | paginate: { itemsPerPage: 10, currentPage: p }">
+                <td>{{item.coupons_for}}</td>
+                <td>{{item.Used}}</td>
+                <td>{{item.Unused}}</td>
+                <td>{{item.Expired}}</td>
+              </tr>
+              <tr *ngIf="!categorysData || categorysData.length ==0">
+                No Records Found
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          <!-- <div class="col-xs-12 col-12">
+            <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize" class="pagination-sm"
+                        previousText="&lsaquo;" nextText="&rsaquo;" [boundaryLinks]="true"></pagination>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  
+</div>

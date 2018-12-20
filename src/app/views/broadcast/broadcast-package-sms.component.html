@@ -1,0 +1,44 @@
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="animated fadeIn">
+    <div class="container">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    Broad Cast For Memberships
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-6">
+                            <div class="row form-group">
+                                <label class="col-sm-3">Studio Id</label>
+                                <div class="col-sm-6">
+                                    <select name="broadcast" id="" [(ngModel)]="broadcastSelectedId">
+                                        <option [ngValue]="undefined" disabled>Select Studio id</option>
+                                        <option *ngFor=" let broadcast of broadcastIds " [ngValue]="broadcast.studioID">{{broadcast.studioID}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-3">Text to Send</label>
+                                <div class="col-sm-5">
+                                    <textarea name="text-send" placeholder="Write Sms Text" id="" cols="25" rows="3"
+                                        [(ngModel)]="textToSend"></textarea>
+
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-primary" style="margin-left: 42px" (click)="sendBroadcastSmsToMembership()"
+                                        value="Submite">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -47,169 +47,69 @@ export const navItems = [
     ]
   },
   {
-    name: 'Colors',
-    url: '/theme/colors',
-    icon: 'icon-drop'
+    name: 'Broadcast',
+    url: '/admin',
+    icon: 'icon-people',
+     children: [
+      {
+        name: 'Sms To All',
+        url: '/admin/broadcast-all',
+        icon: 'icon-note'
+      },
+      {
+        name: 'Broadcast Memberships',
+        url: '/admin/broadcast-packages',
+        icon: 'icon-note'
+      }]
   },
   {
-    name: 'Typography',
-    url: '/theme/typography',
-    icon: 'icon-pencil'
-  },
-  {
-    title: true,
-    name: 'Components'
-  },
-  {
-    name: 'Buttons',
-    url: '/buttons',
+    name: 'Refferal Rewards',
+    url: '/refferal-rewards',
     icon: 'icon-cursor',
     children: [
       {
-        name: 'Buttons',
-        url: '/buttons/buttons',
+        name: 'User Activities',
+        url: '/refferal-rewards/user-activities',
         icon: 'icon-cursor'
       },
       {
-        name: 'Dropdowns',
-        url: '/buttons/dropdowns',
+        name: 'User History',
+        url: '/refferal-rewards/user-history',
         icon: 'icon-cursor'
       },
       {
-        name: 'Brand Buttons',
-        url: '/buttons/brand-buttons',
+        name: 'Perks',
+        url: '/refferal-rewards/perks',
         icon: 'icon-cursor'
       }
     ]
   },
   {
-    name: 'Charts',
-    url: '/charts',
-    icon: 'icon-pie-chart'
-  },
-  {
-    name: 'Icons',
-    url: '/icons',
-    icon: 'icon-star',
+    name: 'Reports',
+    url: '/reports',
+    icon: 'icon-note',
     children: [
       {
-        name: 'CoreUI Icons',
-        url: '/icons/coreui-icons',
-        icon: 'icon-star',
-        badge: {
-          variant: 'success',
-          text: 'NEW'
-        }
-      },
-      {
-        name: 'Flags',
-        url: '/icons/flags',
-        icon: 'icon-star'
-      },
-      {
-        name: 'Font Awesome',
-        url: '/icons/font-awesome',
-        icon: 'icon-star',
-        badge: {
-          variant: 'secondary',
-          text: '4.7'
-        }
-      },
-      {
-        name: 'Simple Line Icons',
-        url: '/icons/simple-line-icons',
-        icon: 'icon-star'
+        name: 'Voucher Reports',
+        url: '/reports/voucher',
+        icon: 'icon-note'
       }
+      // ,
+      // {
+      //   name: 'User Activity Reports',
+      //   url: '/reports/user-activity',
+      //   icon: 'icon-note'
+      // },
+      // {
+      //   name: 'Pearks and Rewards',
+      //   url: '/reports/perks',
+      //   icon: 'icon-note'
+      // },
+      // {
+      //   name: 'Employee Log History',
+      //   url: '/reports/logs',
+      //   icon: 'icon-note'
+      // }
     ]
-  },
-  {
-    name: 'Notifications',
-    url: '/notifications',
-    icon: 'icon-bell',
-    children: [
-      {
-        name: 'Alerts',
-        url: '/notifications/alerts',
-        icon: 'icon-bell'
-      },
-      {
-        name: 'Badges',
-        url: '/notifications/badges',
-        icon: 'icon-bell'
-      },
-      {
-        name: 'Modals',
-        url: '/notifications/modals',
-        icon: 'icon-bell'
-      }
-    ]
-  },
-  {
-    name: 'Widgets',
-    url: '/widgets',
-    icon: 'icon-calculator',
-    badge: {
-      variant: 'info',
-      text: 'NEW'
-    }
-  },
-  {
-    divider: true
-  },
-  {
-    title: true,
-    name: 'Extras',
-  },
-  {
-    name: 'Pages',
-    url: '/pages',
-    icon: 'icon-star',
-    children: [
-      {
-        name: 'Login',
-        url: '/login',
-        icon: 'icon-star'
-      },
-      {
-        name: 'Register',
-        url: '/register',
-        icon: 'icon-star'
-      },
-      {
-        name: 'Error 404',
-        url: '/404',
-        icon: 'icon-star'
-      },
-      {
-        name: 'Error 500',
-        url: '/500',
-        icon: 'icon-star'
-      }
-    ]
-  },
-  {
-    name: 'Disabled',
-    url: '/dashboard',
-    icon: 'icon-ban',
-    badge: {
-      variant: 'secondary',
-      text: 'NEW'
-    },
-    attributes: { disabled: true },
-  },
-  {
-    name: 'Download CoreUI',
-    url: 'http://coreui.io/angular/',
-    icon: 'icon-cloud-download',
-    class: 'mt-auto',
-    variant: 'success',
-    attributes: { target: '_blank', rel: 'noopener' }
-  },
-  {
-    name: 'Try CoreUI PRO',
-    url: 'http://coreui.io/pro/angular/',
-    icon: 'icon-layers',
-    variant: 'danger',
-    attributes: { target: '_blank', rel: 'noopener' }
   }
 ];
