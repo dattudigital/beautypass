@@ -1,278 +1,17 @@
-<ngx-spinner
-bdColor="rgba(51, 51, 51, 0.8)"
-size="medium"
-color="#fff"
-type="ball-scale-multiple">
-<p style="font-size: 20px; color: white">Loading...</p>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
+
+
 <div class="card-body">
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
-      <button (click)="largeModalCreate.show();" class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Create
+      <button (click)=" clearData();addOrUpdateEmployee.show()" class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add
         Employee</button>
     </div>
-
   </div>
 </div>
-<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-danger" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Delete Employee</h4>
-        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure to Delete ?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
-        <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div bsModal #largeModalCreate="bs-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Create Employee</h4>
-        <button type="button" class="close" (click)="largeModalCreate.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div *ngFor="let alert of alertsDismiss">
-                <b>
-                  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
-                </b>
-              </div>
-              <div class="card-header">
-                <strong>Create User</strong>
-              </div>
-              <div class="card-body">
-                <form name="form" id="Login" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
-                  <p class="text-muted">Create account</p>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">First Name</span>
-                    </div>
-                    <input type="text" maxlength="50" class="form-control" placeholder="First Name" name="emp_firstname"
-                      [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_firstname" #emp_firstname="ngModel"
-                      [ngClass]="{ 'is-invalid': f.submitted && emp_firstname.invalid }" required>
-                    <div *ngIf="f.submitted && emp_firstname.invalid" class="invalid-feedback">
-                      <div *ngIf="emp_firstname.errors.required">First Name is required</div>
-                    </div>
-                  </div>
-                  <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">Last Name</span>
-                      </div>
-                      <input type="text" maxlength="50" class="form-control" placeholder="Last Name" name="emp_lastname"
-                        [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_lastname" #emp_lastname="ngModel"
-                        [ngClass]="{ 'is-invalid': f.submitted && emp_lastname.invalid }" required>
-                      <div *ngIf="f.submitted && emp_lastname.invalid" class="invalid-feedback">
-                        <div *ngIf="emp_lastname.errors.required">Name is required</div>
-                      </div>
-                    </div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Mobile </span>
-                    </div>
-                    <input type="number" maxlength="12" class="form-control" placeholder="Mobile" name="emp_mobile"
-                      [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_mobile" #emp_mobile="ngModel"
-                      [ngClass]="{ 'is-invalid': f.submitted && emp_mobile.invalid }" required>
-                    <div *ngIf="f.submitted && emp_mobile.invalid" class="invalid-feedback">
-                      <div *ngIf="emp_mobile.errors.required">Mobile Number is required</div>
-                    </div>
-                  </div>
-                  <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">Branch Name </span>
-                      </div>
-                      <input type="text" maxlength="12" class="form-control" placeholder="Branch Name" name="emp_branch"
-                        [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_branch" #emp_branch="ngModel"
-                        [ngClass]="{ 'is-invalid': f.submitted && emp_branch.invalid }" required>
-                      <div *ngIf="f.submitted && emp_branch.invalid" class="invalid-feedback">
-                        <div *ngIf="emp_branch.errors.required">Mobile Number is required</div>
-                      </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">Address</span>
-                        </div>
-                        <textarea type="text"maxlength="500" rows="5" class="form-control" placeholder="Address" name="emp_address"
-                          [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_address" #emp_address="ngModel"
-                          [ngClass]="{ 'is-invalid': f.submitted && emp_address.invalid }" required></textarea>
-                        <div *ngIf="f.submitted && emp_address.invalid" class="invalid-feedback">
-                          <div *ngIf="emp_address.errors.required">Address is required</div>
-                        </div>
-                      </div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Email</span>
-                    </div>
-                    <input type="text" maxlength="50" class="form-control" placeholder="Email" name="emp_email"
-                      [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_email" #emp_email="ngModel"
-                      [ngClass]="{ 'is-invalid': f.submitted && emp_email.invalid }" required>
-                    <div *ngIf="f.submitted && emp_email.invalid" class="invalid-feedback">
-                      <div *ngIf="emp_email.errors.required">Email is required</div>
-                    </div>
-                  </div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Password</span>
-                    </div>
-                    <input type="password" maxlength="50" class="form-control" placeholder="Password" name="emp_password"
-                      [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_password" #emp_password="ngModel"
-                      [ngClass]="{ 'is-invalid': f.submitted && emp_password.invalid }" required>
-                    <div *ngIf="f.submitted && emp_password.invalid" class="invalid-feedback">
-                      <div *ngIf="emp_password.errors.required">Password is required</div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 col-form-label" for="text-input"></label>
-                    <button class="btn btn-success">Create Account</button>
-                  </div>
-
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="CloseButton" class="btn btn-secondary" (click)="largeModalCreate.hide()">Close</button>
-
-      </div>
-    </div>
-  </div>
-</div>
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Edit Employee Details</h4>
-        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <strong>Edit Employee </strong>
-              </div>
-              <div class="card-body">
-                <form class="form-horizontal">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">First Name</span>
-                        </div>
-                        <input type="text" maxlength="50" class="form-control" placeholder="First Name" name="emp_firstname"
-                          [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_firstname" #emp_firstname="ngModel"
-                          [ngClass]="{ 'is-invalid': f.submitted && emp_firstname.invalid }" required>
-                        <div *ngIf="f.submitted && emp_firstname.invalid" class="invalid-feedback">
-                          <div *ngIf="emp_firstname.errors.required">First Name is required</div>
-                        </div>
-                      </div>
-                      <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">Last Name</span>
-                          </div>
-                          <input type="text" maxlength="50" class="form-control" placeholder="Last Name" name="emp_lastname"
-                            [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_lastname" #emp_lastname="ngModel"
-                            [ngClass]="{ 'is-invalid': f.submitted && emp_lastname.invalid }" required>
-                          <div *ngIf="f.submitted && emp_lastname.invalid" class="invalid-feedback">
-                            <div *ngIf="emp_lastname.errors.required">Name is required</div>
-                          </div>
-                        </div>
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">Mobile No</span>
-                        </div>
-                        <input type="number" maxlength="12" class="form-control" placeholder="Mobile" name="emp_mobile"
-                          [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_mobile" #emp_mobile="ngModel"
-                          [ngClass]="{ 'is-invalid': f.submitted && emp_mobile.invalid }" required>
-                        <div *ngIf="f.submitted && emp_mobile.invalid" class="invalid-feedback">
-                          <div *ngIf="emp_mobile.errors.required">Mobile Number is required</div>
-                        </div>
-                      </div>
-                      <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">Branch Name </span>
-                          </div>
-                          <input type="text" maxlength="50" class="form-control" placeholder="Branch Name" name="emp_branch"
-                            [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_branch" #emp_branch="ngModel"
-                            [ngClass]="{ 'is-invalid': f.submitted && emp_branch.invalid }" required>
-                          <div *ngIf="f.submitted && emp_branch.invalid" class="invalid-feedback">
-                            <div *ngIf="emp_branch.errors.required">Mobile Number is required</div>
-                          </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text">Address</span>
-                            </div>
-                            <textarea type="text"maxlength="500" rows="5" class="form-control" placeholder="Address" name="emp_address"
-                              [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_address" #emp_address="ngModel"
-                              [ngClass]="{ 'is-invalid': f.submitted && emp_address.invalid }" required></textarea>
-                            <div *ngIf="f.submitted && emp_address.invalid" class="invalid-feedback">
-                              <div *ngIf="emp_address.errors.required">Address is required</div>
-                            </div>
-                          </div>
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">Email</span>
-                        </div>
-                        <input type="text" maxlength="50" class="form-control" placeholder="Email" name="emp_email"
-                          [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_email" #emp_email="ngModel"
-                          [ngClass]="{ 'is-invalid': f.submitted && emp_email.invalid }" required>
-                        <div *ngIf="f.submitted && emp_email.invalid" class="invalid-feedback">
-                          <div *ngIf="emp_email.errors.required">Email is required</div>
-                        </div>
-                      </div>
-
-                      <!-- <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"><i class="icon-lock"></i></span>
-                        </div>
-                        <input type="password" maxlength="50" class="form-control" placeholder="Password" name="emp_password"
-                          [ngModelOptions]="{standalone: true}" [(ngModel)]="editData.emp_password" #emp_password="ngModel"
-                          [ngClass]="{ 'is-invalid': f.submitted && emp_password.invalid }" required>
-                        <div *ngIf="f.submitted && emp_password.invalid" class="invalid-feedback">
-                          <div *ngIf="emp_password.errors.required">Password is required</div>
-                        </div>
-                      </div> -->
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-        <button type="button" [disabled]="validBtn" class="btn btn-primary" (click)="updatePromotion(editData);largeModal.hide();add();">Save
-          changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div *ngFor="let alert of alertsDismiss">
-  <b>
-    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
-  </b>
-</div>
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-lg-12">
@@ -295,19 +34,19 @@ type="ball-scale-multiple">
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of categorysData | paginate: { itemsPerPage: 10, currentPage: p }">
+              <tr *ngFor="let item of employeeDetails | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                 <td>{{item.emp_firstname}}</td>
                 <td>{{item.emp_lastname}}</td>
                 <td>{{item.emp_address}} </td>
                 <td>{{item.emp_mobile}}</td>
                 <td>{{item.emp_email}}</td>
                 <td>{{item.emp_branch}}</td>
-                <td> <button class="btn-primary" data-toggle="modal" (click)="largeModal.show();editPromotion(item,i)"><i
+                <td> <button class="btn-primary" data-toggle="modal" (click)="addOrUpdateEmployee.show();editEmployee(item,i)"><i
                       class="fa fa-edit"></i></button></td>
-                <td> <button class="btn-danger" data-toggle="modal" (click)="dangerModal.show();DeletePromotion(item,i)"><i
+                <td> <button class="btn-danger" data-toggle="modal" (click)="dangerModal.show();DeleteEmployee(item,i)"><i
                       class="fa fa-trash"></i></button></td>
               </tr>
-              <tr *ngIf="!categorysData || categorysData.length ==0">
+              <tr *ngIf="!employeeDetails || employeeDetails.length ==0">
                 No Records Found
               </tr>
             </tbody>
@@ -321,5 +60,171 @@ type="ball-scale-multiple">
       </div>
     </div>
     <!--/.col-->
+  </div>
+</div>
+
+
+<div bsModal #addOrUpdateEmployee="bs-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card" style="margin-bottom: 0;">
+            <div *ngFor="let alert of alertsDismiss">
+              <b>
+                <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+              </b>
+            </div>
+            <div class="card-header">
+              <strong *ngIf="!employeeData.employee_id">Add Employee</strong>
+              <strong *ngIf="employeeData.employee_id">Edit Employee</strong>
+              <button type="button" class="close" (click)="addOrUpdateEmployee.hide()">&times;</button>
+            </div>
+            <div class="card-body">
+              <form name="form" id="Login" (ngSubmit)="f.form.valid && saveEmployee()" #f="ngForm" novalidate>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">First Name</span>
+                  </div>
+                  <input type="text" maxlength="50" class="form-control" placeholder="First Name" name="emp_firstname"
+                    [ngModelOptions]="{standalone: true}" [(ngModel)]="employeeData.emp_firstname" #emp_firstname="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && emp_firstname.invalid }" required>
+                  <div *ngIf="f.submitted && emp_firstname.invalid" class="invalid-feedback">
+                    <div *ngIf="emp_firstname.errors.required">First Name is required</div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Last Name</span>
+                  </div>
+                  <input type="text" maxlength="50" class="form-control" placeholder="Last Name" name="emp_lastname"
+                    [ngModelOptions]="{standalone: true}" [(ngModel)]="employeeData.emp_lastname" #emp_lastname="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && emp_lastname.invalid }" required>
+                  <div *ngIf="f.submitted && emp_lastname.invalid" class="invalid-feedback">
+                    <div *ngIf="emp_lastname.errors.required"> Last Name is required</div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Mobile </span>
+                  </div>
+                  <input type="number" maxlength="12" class="form-control" placeholder="Mobile" name="emp_mobile"
+                    [ngModelOptions]="{standalone: true}" [(ngModel)]="employeeData.emp_mobile" #emp_mobile="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && emp_mobile.invalid }" required>
+                  <div *ngIf="f.submitted && emp_mobile.invalid" class="invalid-feedback">
+                    <div *ngIf="emp_mobile.errors.required">Mobile Number is required</div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Branch Name </span>
+                  </div>
+                  <input type="text" maxlength="12" class="form-control" placeholder="Branch Name" name="emp_branch"
+                    [ngModelOptions]="{standalone: true}" [(ngModel)]="employeeData.emp_branch" #emp_branch="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && emp_branch.invalid }" required>
+                  <div *ngIf="f.submitted && emp_branch.invalid" class="invalid-feedback">
+                    <div *ngIf="emp_branch.errors.required">Branch Name is required</div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Address</span>
+                  </div>
+                  <textarea type="text" maxlength="500" rows="5" class="form-control" placeholder="Address" name="emp_address"
+                    [ngModelOptions]="{standalone: true}" [(ngModel)]="employeeData.emp_address" #emp_address="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && emp_address.invalid }" required></textarea>
+                  <div *ngIf="f.submitted && emp_address.invalid" class="invalid-feedback">
+                    <div *ngIf="emp_address.errors.required">Address is required</div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Email</span>
+                  </div>
+                  <input type="text" maxlength="50" class="form-control" placeholder="Email" name="emp_email"
+                    [ngModelOptions]="{standalone: true}" [(ngModel)]="employeeData.emp_email" #emp_email="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && emp_email.invalid }" required>
+                  <div *ngIf="f.submitted && emp_email.invalid" class="invalid-feedback">
+                    <div *ngIf="emp_email.errors.required">Email is required</div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Password</span>
+                  </div>
+                  <input type="password" maxlength="50" class="form-control" placeholder="Password" name="emp_password"
+                    [ngModelOptions]="{standalone: true}" [(ngModel)]="employeeData.emp_password" #emp_password="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && emp_password.invalid }" required>
+                  <div *ngIf="f.submitted && emp_password.invalid" class="invalid-feedback">
+                    <div *ngIf="emp_password.errors.required">Password is required</div>
+                  </div>
+                </div>
+                <div class="form-group pull-right">
+                  <span *ngIf="!employeeData.employee_id">
+                    <button class="btn btn-success">Add</button> &nbsp; &nbsp;
+                  </span>
+                  <span *ngIf="employeeData.employee_id">
+                    <button class="btn btn-success">Update</button>&nbsp; &nbsp;
+                  </span>
+                  <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addOrUpdateEmployee.hide()">Close</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngFor="let alert of alertsDismiss">
+  <b>
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+  </b>
+</div>
+
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#EC8D8D">
+        <h4 class="modal-title">Delete Employee</h4>
+        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to Delete ?</p>
+      </div>
+      <div class="container">
+        <table class="table table-bordered table-striped table-sm" style="padding:10px;">
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Address</th>
+              <th>Mobile</th>
+              <th>Email</th>
+              <th>Branch</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{deleteuser.emp_firstname}}</td>
+              <td>{{deleteuser.emp_lastname}}</td>
+              <td>{{deleteuser.emp_address}} </td>
+              <td>{{deleteuser.emp_mobile}}</td>
+              <td>{{deleteuser.emp_email}}</td>
+              <td>{{deleteuser.emp_branch}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
+      </div>
+    </div>
   </div>
 </div>
