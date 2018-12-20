@@ -9,7 +9,7 @@ export class FaqsService {
 
  
   constructor(private http: Http) { }
-  public rgisterSubmit(data:any) {
+  public addOrUpdateFaq(data:any) {
     return this.http.post(environment.host + 'faqs', data);
   }
   public getList() {

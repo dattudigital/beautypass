@@ -6,7 +6,7 @@ import { FaqsRoutingModule } from './faqs-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule} from 'ngx-bootstrap/alert';
-import { FormsModule } from '@angular/forms';
+import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [   
@@ -16,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     ModalModule.forRoot(),
     AlertModule.forRoot(),
     FormsModule,
-    NgxPaginationModule   
+    NgxPaginationModule  ,
+    ReactiveFormsModule 
   ],
   declarations: [ FaqsComponent ]
 })

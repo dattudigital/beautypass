@@ -32,20 +32,10 @@ export class EmployeesComponent implements OnInit {
     msg: `Testmonial Details Updated Successfully`,
     timeout: 5000
   }];
-  totalItems: number;
-  bigCurrentPage: number = 1;
-  currentImage: any = '';
-  bankuploadedFiles: any;
-  myFiles: string[] = [];
-  bankstmtImage: number = 0;
   data = [];
-  uploadedFiles: any[] = [];
-  userImageName = '';
-  userimagePreview: any;
-  userImage: string;
-  hideModal = false;
-  alertMessageValue: boolean;
-  validBtn: boolean;
+  employeeDetails: any;
+  deleteData: any = [];
+  userData: any;
   employeeData = {
     'emp_firstname': '',
     'emp_lastname': '',
@@ -58,10 +48,6 @@ export class EmployeesComponent implements OnInit {
     "emp_status": "1",
     "employee_id": null
   }
-  employeeDetails: any;
-  createdValue = false;
-  deleteData: { employee_id: any; emp_status: number; };
-  userData: any;
 
   constructor(private spinner: NgxSpinnerService, private service: LoginService, private router: Router, sanitizer: DomSanitizer) {
     this.alertsHtml = this.alertsHtml.map((alert: any) => ({
@@ -101,17 +87,18 @@ export class EmployeesComponent implements OnInit {
     }
   ];
 
-  clearData() {
-    this.employeeData.emp_email = '';
-    this.employeeData.emp_firstname = '';
-    this.employeeData.emp_lastname = '';
-    this.employeeData.emp_mobile = '';
-    this.employeeData.emp_password = '';
-    this.employeeData.emp_address = '';
-    this.employeeData.emp_branch = '';
-    this.employeeData.employee_id = '';
+  removeFields() {
+    this.employeeData.employee_id = '',
+      this.employeeData.emp_firstname = '',
+      this.employeeData.emp_lastname = '',
+      this.employeeData.emp_address = '',
+      this.employeeData.emp_mobile = '',
+      this.employeeData.emp_email = '',
+      this.employeeData.emp_password = '',
+      this.employeeData.emp_branch = '',
+      this.employeeData.emp_role = '',
+      this.employeeData.emp_status = ''
   }
-
   editEmployee(data, index) {
     console.log(index)
     data.index = index
@@ -128,18 +115,29 @@ export class EmployeesComponent implements OnInit {
     if (this.employeeData.emp_firstname != '' && this.employeeData.emp_lastname != '' && this.employeeData.emp_mobile != '' && this.employeeData.emp_address != '' && this.employeeData.emp_password != '' && this.employeeData.emp_branch != '') {
       let element = document.getElementById("CloseButton");
       console.log(val)
-      var data = {
-        employee_id: val.employee_id,
-        emp_firstname: val.emp_firstname,
-        emp_lastname: val.emp_lastname,
-        emp_address: val.emp_address,
-        emp_mobile: val.emp_mobile,
-        emp_email: val.emp_email,
-        emp_password: val.emp_password,
-        emp_branch: val.emp_branch,
-        emp_role: val.emp_role,
-        emp_status: val.emp_status
+      console.log(this.employeeData.emp_status)
+      if (!this.employeeData.employee_id) {
+        this.employeeData.emp_status = '1'
+      } else {
+        this.employeeData.emp_status = '0'
       }
+      console.log(this.employeeData.employee_id)
+      if (!this.employeeData.employee_id) {
+        this.employeeData.employee_id = null;
+      }
+      var data = {
+        employee_id: this.employeeData.employee_id,
+        emp_firstname: this.employeeData.emp_firstname,
+        emp_lastname: this.employeeData.emp_lastname,
+        emp_address: this.employeeData.emp_address,
+        emp_mobile: this.employeeData.emp_mobile,
+        emp_email: this.employeeData.emp_email,
+        emp_password: this.employeeData.emp_password,
+        emp_branch: this.employeeData.emp_branch,
+        emp_role: this.employeeData.emp_role,
+        emp_status: this.employeeData.emp_status
+      }
+      return;
       console.log(data.employee_id)
       this.service.addOrUpdateEmployee(data).subscribe();
       element.click();
