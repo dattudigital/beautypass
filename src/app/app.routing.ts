@@ -1,34 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-// Import Containers
 import { DefaultLayoutComponent } from './containers';
-
-import { P404Component } from './views/error/404.component';
-import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
-// import { UsersComponent } from './views/users/users.component'
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
-  } ,
-  {
-    path: '404',
-    component: P404Component,
-    data: {
-      title: 'Page 404'
-    }
-  },
-  {
-    path: '500',
-    component: P500Component,
-    data: {
-      title: 'Page 500'
-    }
   },
   {
     path: 'login',
@@ -52,13 +32,9 @@ export const routes: Routes = [
     },
     children: [
       // {
-      //   path: 'base',
-      //   loadChildren: './views/base/base.module#BaseModule'
+      //   path: 'buttons',
+      //   loadChildren: './views/buttons/buttons.module#ButtonsModule'
       // },
-      {
-        path: 'buttons',
-        loadChildren: './views/buttons/buttons.module#ButtonsModule'
-      },
       {
         path: 'charts',
         loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
@@ -70,7 +46,7 @@ export const routes: Routes = [
       {
         path: 'users',
         loadChildren: './views/users/users.module#UsersModule',
-        data: {preload: true}
+        data: { preload: true }
       },
       {
         path: 'mindbody-coupons',
@@ -83,11 +59,11 @@ export const routes: Routes = [
       {
         path: 'faqs',
         loadChildren: './views/faqs/faqs.module#FaqsModule'
-      },      
+      },
       {
         path: 'beauty-tips',
         loadChildren: './views/beautytip/beautytip.module#BeautytipModule'
-      },     
+      },
       {
         path: 'testmonials',
         loadChildren: './views/testimonials/testimonials.module#TestimonialsModule'
@@ -125,7 +101,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
