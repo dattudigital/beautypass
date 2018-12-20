@@ -35,10 +35,10 @@ export const routes: Routes = [
       //   path: 'buttons',
       //   loadChildren: './views/buttons/buttons.module#ButtonsModule'
       // },
-      {
-        path: 'charts',
-        loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
-      },
+      // {
+      //   path: 'charts',
+      //   loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
+      // },
       {
         path: 'dashboard',
         loadChildren: './views/dashboard/dashboard.module#DashboardModule'
@@ -79,23 +79,11 @@ export const routes: Routes = [
       {
         path: 'refferal-rewards',
         loadChildren: './views/refferal-rewards/refferal-rewards.module#RefferalRewardsModule'
-      },
-      {
-        path: 'icons',
-        loadChildren: './views/icons/icons.module#IconsModule'
-      },
-      {
-        path: 'notifications',
-        loadChildren: './views/notifications/notifications.module#NotificationsModule'
-      },
-      {
-        path: 'theme',
-        loadChildren: './views/theme/theme.module#ThemeModule'
-      },
-      {
-        path: 'widgets',
-        loadChildren: './views/widgets/widgets.module#WidgetsModule'
       }
+      // {
+      //   path: 'notifications',
+      //   loadChildren: './views/notifications/notifications.module#NotificationsModule'
+      // }
     ]
   }
 ];
