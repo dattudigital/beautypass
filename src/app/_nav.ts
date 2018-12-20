@@ -2,17 +2,17 @@ export const navItems = [
   {
     name: 'Dashboard',
     url: '/dashboard',
-    icon: 'icon-speedometer'    
+    icon: 'icon-home'    
   },
   {
     name: 'Users',
     url: '/users',
-    icon: 'icon-speedometer'    
+    icon: 'icon-people'   
   },  
   {
     name: 'coupons',
     url: '/mindbody-coupons',
-    icon: 'icon-speedometer'    
+    icon: 'icon-envelope-open'
   },  
   {
     name: 'Employees',
@@ -22,12 +22,12 @@ export const navItems = [
   {
     name: 'Faqs',
     url: '/faqs',
-    icon: 'icon-speedometer'    
+    icon: 'icon-plus'    
   },
   {
     name: 'Beauty Tips',
     url: '/beauty-tips',
-    icon: 'icon-speedometer'    
+    icon: 'icon-user-female'   
   },
   {
     name: 'Testmonials',
