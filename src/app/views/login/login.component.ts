@@ -1,42 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'login.component.html'
 })
-export class LoginComponent {
-  errorMeassage=false;
-  editData={
-  'emailid': '',
-  'password':''
+
+export class LoginComponent implements OnInit {
+  errorMeassage = false;
+  loginData = {
+    'emailid': '',
+    'password': ''
   }
-  categorysData: any;
-  constructor(private spinner: NgxSpinnerService,private router: Router,private service: LoginService) { }
-  toDashBoard(){
-    this.router.navigate(['dashboard'])
+  employeeForm: FormGroup;
+  submitted = false;
+  constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private router: Router, private service: LoginService) { }
+
+  ngOnInit() {
+    this.employeeForm = this.formBuilder.group({
+      Email: ['', Validators.required],
+      Password: ['', Validators.required]
+    });
   }
+  get f() { return this.employeeForm.controls; }
+
   onSubmit() {
-    this.spinner.show();
-    console.log(this.editData);
-    if(this.editData.emailid!='' && this.editData.password!=''){
-      this.service.loginSubmit(this.editData).subscribe(response => {
-        this.categorysData = response.json();
-        // console.log(this.categorysData.data[0]);
-        this.spinner.hide();
-        if(this.categorysData.status==true){
-          localStorage.setItem('loginDetails', JSON.stringify(this.categorysData.data));
-          this.router.navigate(['dashboard']);
-        } else{
-         this.errorMeassage=true;
-       }
-      }, err => {
-        this.spinner.hide();
-      })
-      ;
+    this.submitted = true;
+    if (this.employeeForm.invalid) {
+      return;
     }
-   
-   // this.updatePromotion(this.editData);
+    var data = {
+      emailid: this.loginData.emailid,
+      password: this.loginData.password
+    }
+    this.spinner.show();
+    console.log(data);
+    this.service.loginSubmit(data).subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        localStorage.setItem('loginDetails', JSON.stringify(response.json().result));
+        this.router.navigate(['dashboard']);
+      } else {
+        this.errorMeassage = true;
+      }
+    }, err => {
+      this.spinner.hide();
+    });
+
   }
+
 }
