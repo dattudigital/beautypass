@@ -48,28 +48,45 @@ export class EmployeesComponent implements OnInit {
   //deleteData: { tip_id: any; tip_title: any; tip_description: any; profile_name: any; rec_status: number; };
   alertMessageValue: boolean;
   validBtn: boolean;
-  editData={
+  editData = {
     'emp_firstname': '',
-    'emp_lastname':'',
-    'emp_password':'',
-    'emp_email':'',
+    'emp_lastname': '',
+    'emp_password': '',
+    'emp_email': '',
     "emp_address": "hyd",
     "emp_mobile": "",
     "emp_branch": "hyd",
     "emp_role": "1",
     "emp_status": "1"
-    }
-    categorysData: any;
-    createdValue=false;
+  }
+  categorysData: any;
+  createdValue = false;
   deleteData: { employee_id: any; emp_firstname: any; emp_address: any; emp_mobile: any; emp_email: any; emp_password: any; emp_branch: any; emp_role: any; emp_status: number; };
   userData: any;
-  constructor(private spinner: NgxSpinnerService,private service:LoginService,private router: Router, sanitizer: DomSanitizer) {
+
+  constructor(private spinner: NgxSpinnerService, private service: LoginService, private router: Router, sanitizer: DomSanitizer) {
     this.alertsHtml = this.alertsHtml.map((alert: any) => ({
       type: alert.type,
       msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
     }));
-   }
-   alertsHtml: any = [
+  }
+
+  ngOnInit() {
+    this.spinner.show();
+    this.service.getEmpList().subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.categorysData = response.json().data;
+        console.log(this.categorysData);
+      } else {
+        this.categorysData = [];
+      }
+      // this.userData = JSON.parse(localStorage.getItem('loginDetails'));
+      // console.log(this.userData[0].employee_id);
+    });
+  }
+
+  alertsHtml: any = [
     {
       type: 'success',
       msg: `<strong>Well done!</strong> You successfully read this important alert message.`
@@ -83,25 +100,28 @@ export class EmployeesComponent implements OnInit {
       msg: `<strong>Warning!</strong> Better check yourself, you're not looking too good.`
     }
   ];
-  clearData(){
-    this.editData.emp_email='';
-    this.editData.emp_firstname='';
-    this.editData.emp_lastname='';
-    this.editData.emp_mobile='';
-    this.editData.emp_password='';
-    this.editData.emp_address='';
-    this.editData.emp_branch='';
+
+  clearData() {
+    this.editData.emp_email = '';
+    this.editData.emp_firstname = '';
+    this.editData.emp_lastname = '';
+    this.editData.emp_mobile = '';
+    this.editData.emp_password = '';
+    this.editData.emp_address = '';
+    this.editData.emp_branch = '';
   }
+
   editPromotion(data, index) {
     data.index = index;
     this.editData = data;
     console.log(this.editData)
   }
-  clearForm(){
+  clearForm() {
     (<HTMLFormElement>document.getElementById("Login")).reset();
-   }
-  updatePromotion(val) {
-    if(this.editData.emp_firstname!='' && this.editData.emp_lastname!='' && this.editData.emp_mobile!='' && this.editData.emp_address!='' && this.editData.emp_password!='' && this.editData.emp_branch!=''){
+  }
+
+  addOrUpdateEmployees(val) {
+    if (this.editData.emp_firstname != '' && this.editData.emp_lastname != '' && this.editData.emp_mobile != '' && this.editData.emp_address != '' && this.editData.emp_password != '' && this.editData.emp_branch != '') {
       let element = document.getElementById("CloseButton");
       console.log(val)
       var data = {
@@ -113,15 +133,15 @@ export class EmployeesComponent implements OnInit {
         emp_email: val.emp_email,
         emp_password: val.emp_password,
         emp_branch: val.emp_branch,
-        emp_role:val.emp_role,
+        emp_role: val.emp_role,
         emp_status: val.emp_status
       }
-       if(!data.employee_id){
-         this.addCreate();
-         this.clearData();
-       }
-      this.service.rgisterSubmit(data).subscribe();
-  
+      if (!data.employee_id) {
+        this.addCreate();
+        this.clearData();
+      }
+      this.service.addOrUpdateEmployee(data).subscribe();
+
       element.click();
       this.categorysData = [];
       this.service.getEmpList().subscribe(response => {
@@ -131,7 +151,7 @@ export class EmployeesComponent implements OnInit {
         this.clearForm();
       });
     }
-    
+
   }
   DeletePromotion(val) {
     console.log(val)
@@ -143,14 +163,14 @@ export class EmployeesComponent implements OnInit {
       emp_email: val.emp_email,
       emp_password: val.emp_password,
       emp_branch: val.emp_branch,
-      emp_role:val.emp_role,
+      emp_role: val.emp_role,
       emp_status: 0
-    
+
     }
     this.deleteData = data;
   }
   deleteAlert() {
-    this.service.rgisterSubmit(this.deleteData).subscribe();
+    this.service.addOrUpdateEmployee(this.deleteData).subscribe();
     this.delete();
     this.categorysData = [];
     this.service.getEmpList().subscribe(response => {
@@ -183,7 +203,7 @@ export class EmployeesComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.editData);
-    this.updatePromotion(this.editData)
+    this.addOrUpdateEmployees(this.editData)
     // this.service.rgisterSubmit(this.editData).subscribe(response => {
     //   this.categorysData = response.json().data;
     //   console.log(this.categorysData);
@@ -192,19 +212,10 @@ export class EmployeesComponent implements OnInit {
     //   }else{
     //     this.createdValue=false;
     //   }
-    
-      //this.router.navigate(['dashboard'])
-   // });
-   // this.updatePromotion(this.editData);
+
+    //this.router.navigate(['dashboard'])
+    // });
+    // this.updatePromotion(this.editData);
   }
-ngOnInit(){
-  this.spinner.show();
-  this.service.getEmpList().subscribe(response => {
-    this.categorysData = response.json().data;
-    console.log(this.categorysData);
-    this.userData=JSON.parse(localStorage.getItem('loginDetails'));
-    console.log(this.userData[0].employee_id);
-    this.spinner.hide();
-  });
-}
+
 }
