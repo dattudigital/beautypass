@@ -12,7 +12,7 @@ import { RefferalRewardsRoutingModule } from './refferal-rewards-routing.module'
 
 import { TypeaheadModule } from "ngx-bootstrap";
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
@@ -21,6 +21,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     CommonModule,
     FormsModule,
     TypeaheadModule,
+    ReactiveFormsModule,
     AlertModule,
     RefferalRewardsRoutingModule,
     NgxPaginationModule,
