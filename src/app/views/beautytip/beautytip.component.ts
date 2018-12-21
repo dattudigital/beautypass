@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { BeautyTipsService } from '../../services/beauty-tips.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export function getAlertConfig(): AlertConfig {
   return Object.assign(new AlertConfig(), { type: 'success' });
 }
@@ -37,30 +37,24 @@ export class BeautyTipsComponent implements OnInit {
     'tip_title': '',
     'tip_description': '',
     'tip_img': '',
+    'tip_video': '',
     'profile_name': '',
     'rec_status': ''
   }
 
-
-  totalItems: number;
-  categorysData: any;
+  beautytipsData: any;
   editData: any = [];
-  bigCurrentPage: number = 1;
   currentImage: any = '';
-  bankuploadedFiles: any;
-  myFiles: string[] = [];
-  bankstmtImage: number = 0;
   data = [];
   uploadedFiles: any[] = [];
   userImageName = '';
   userimagePreview: any;
   userImage: string;
-  hideModal = false;
-  deleteData: { tip_id: any; tip_title: any; tip_description: any; profile_name: any; rec_status: number; };
+  deleteData: any = [];
+  deletetip: '';
   alertMessageValue: boolean;
   validBtn: boolean;
   userData: any;
-  model: any = {};
 
   constructor(private spinner: NgxSpinnerService, private router: Router, private service: BeautyTipsService, sanitizer: DomSanitizer) {
     this.alertsHtml = this.alertsHtml.map((alert: any) => ({
@@ -74,10 +68,10 @@ export class BeautyTipsComponent implements OnInit {
     this.service.getBeautyTipsList().subscribe(response => {
       this.spinner.hide();
       if (response.json().status == true) {
-        this.categorysData = response.json().data;
-        console.log(this.categorysData);
+        this.beautytipsData = response.json().data;
+        console.log(this.beautytipsData);
       } else {
-        this.categorysData = [];
+        this.beautytipsData = [];
       }
     });
 
@@ -175,20 +169,18 @@ export class BeautyTipsComponent implements OnInit {
   //   this.service.editBeautyTip(data).subscribe();
 
   //   element.click();
-  //   this.categorysData = [];
+  //   this.beautytipsData = [];
   //   this.service.getBeautyTipsList().subscribe(response => {
-  //     this.categorysData = response.json().data;
-  //     console.log(this.categorysData);
+  //     this.beautytipsData = response.json().data;
+  //     console.log(this.beautytipsData);
   //     //this.addCreate();
   //   });
   // }
-  DeletePromotion(val) {
-    console.log(val)
+  DeleteBeautyTips(val) {
+    this.deletetip = val;
+    console.log(this.deletetip);
     var data = {
       tip_id: val.tip_id,
-      tip_title: val.tip_title,
-      tip_description: val.tip_description,
-      profile_name: val.profile_name,
       rec_status: 0
     }
     this.deleteData = data;
@@ -196,10 +188,10 @@ export class BeautyTipsComponent implements OnInit {
   // deleteAlert() {
   //   this.service.editBeautyTip(this.deleteData).subscribe();
   //   this.delete();
-  //   this.categorysData = [];
+  //   this.beautytipsData = [];
   //   this.service.getBeautyTipsList().subscribe(response => {
-  //     this.categorysData = response.json().data;
-  //     console.log(this.categorysData)
+  //     this.beautytipsData = response.json().data;
+  //     console.log(this.beautytipsData)
   //   });
 
   // }
