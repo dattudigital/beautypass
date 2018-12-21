@@ -1,0 +1,13 @@
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+
+<div class="add-bulk" style="padding-left: 350px;">
+    <div class="container">
+        <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file"
+            accept=".xlsx">
+        <button type="button" class="btn btn-info" (click)="Upload()">Upload</button> &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-warning" (click)="addBulkCoupons()">Submit</button>
+    </div>
+</div>

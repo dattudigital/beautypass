@@ -24,7 +24,7 @@ export class RefferalRewardsService {
   public getMindBodyCoupons() {
     return this.http.get(environment.host + 'mindbody-coupons');
   }
-  public editMindBodyCoupons(data:any) {
+  public addoreditMindBodyCoupons(data:any) {
     return this.http.post(environment.host + 'mindbody-coupons',data);
   }
   public getUserlistForHistory(data:any) {

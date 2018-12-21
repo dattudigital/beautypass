@@ -1,87 +1,115 @@
-<ngx-spinner
-bdColor="rgba(51, 51, 51, 0.8)"
-size="medium"
-color="#fff"
-type="ball-scale-multiple">
-<p style="font-size: 20px; color: white">Loading...</p>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
-<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-danger" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Delete Coupon</h4>
-          <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure to Delete ?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
-          <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
-        </div>
+
+<div class="card-body">
+  <div class="row">
+    <div class="col-6 col-sm-4 col-md text-center">
+      <button type="button" class="btn btn-primary" style="float: right;" (click)="redirectToBulk()"><i class="icon-envelope-open"></i>&nbsp;Add
+        MindBody Coupons</button>
+    </div>
+  </div>
+</div>
+
+<div bsModal #deleteCoupon="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#EC8D8D">
+        <h4 class="modal-title">Delete MindBody Coupons</h4>
+        <button type="button" class="close" (click)="deleteCoupon.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to Delete ?</p>
+      </div>
+      <div class="container">
+        <table class="table table-bordered table-striped table-sm" style="padding:10px;">
+          <thead>
+            <tr>
+              <th>Coupon Number</th>
+              <th>Cost</th>
+              <th>Status</th>
+              <th>Type</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="deleteRecord">
+              <td>{{deleteRecord.coupons_number}}</td>
+              <td>{{deleteRecord.coupons_for}}</td>
+              <td>{{deleteRecord.coupons_status}}</td>
+              <td>{{deleteRecord.coupons_type}}</td>
+              <td>{{deleteRecord.coupons_startdate}}</td>
+              <td>{{deleteRecord.coupons_enddate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="deleteCoupon.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteCoupon.hide();deleteAlert();">Delete</button>
       </div>
     </div>
   </div>
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 class="modal-title"></h4>
-      <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
+</div>
+
+
+<div bsModal #editCoupon="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
       <div class="row">
         <div class="col-md-12">
-          <div class="card">
+          <div class="card" style="margin-bottom: 0;">
             <div class="card-header">
-              <strong>Edit Coupons</strong> 
+              <strong>Edit MindBody Coupons</strong>
             </div>
             <div class="card-body">
-              <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+              <form [formGroup]="couponsForm">
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Coupon Number<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50"  name="coupons_number" class="form-control" placeholder="Text" [(ngModel)]="editData.coupons_number"
-                    #coupons_number="ngModel" [ngClass]="{ 'is-invalid': f.submitted && coupons_number.invalid }"
-                    required>
-                    <div *ngIf="f.submitted && coupons_number.invalid" class="invalid-feedback">
-                      <div *ngIf="coupons_number.errors.required">Coupon Number is required</div>
+                    <input type="text" maxlength="50" formControlName="Number" class="form-control" placeholder="MindBody Number"
+                      [(ngModel)]="editData.coupons_number" [ngClass]="{ 'is-invalid': submitted && f.Number.errors }">
+                    <div *ngIf="submitted && f.Number.errors" class="invalid-feedback">
+                      <div *ngIf="f.Number.errors.required" style="color:red">Coupon Number is required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Cost<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="10" formControlName="Cost" class="form-control" placeholder="cost"
+                      [(ngModel)]="editData.coupons_for" [ngClass]="{ 'is-invalid': submitted && f.Cost.errors }">
+                    <div *ngIf="submitted && f.Cost.errors" class="invalid-feedback">
+                      <div *ngIf="f.Cost.errors.required" style="color:red">Cost is required</div>
                     </div>
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Cost<b style="color:red">*</b></label>
-                  <div class="col-md-9">
-                    <input type="text" maxlength="10"  name="coupons_for" class="form-control" placeholder="Text" [(ngModel)]="editData.coupons_for"
-                    #coupons_for="ngModel" [ngClass]="{ 'is-invalid': f.submitted && coupons_for.invalid }"
-                    required>
-                    <div *ngIf="f.submitted && coupons_for.invalid" class="invalid-feedback">
-                      <div *ngIf="coupons_for.errors.required">Cost is required</div>
-                    </div>
-                  </div>
+                  <button class="btn btn-primary" style="margin-left:26%" (click)="onSubmit()">Update</button>
+                  &nbsp;&nbsp;
+                  <button type="button" id="CloseButton" class="btn btn-secondary" (click)="editCoupon.hide();">Close</button>
                 </div>
-                <button  class="btn btn-primary" style="margin-left:26%">Save changes</button>
               </form>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" id="CloseButton" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-     
-    </div>
-  </div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <div *ngFor="let alert of alertsDismiss">
-  <b><alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert></b> 
- </div>
+  <b>
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+  </b>
+</div>
+
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-lg-12">
@@ -104,17 +132,19 @@ aria-hidden="true">
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of categorysData | paginate: { itemsPerPage: 10, currentPage: p }">
+              <tr *ngFor="let item of couponsData | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
                 <td>{{item.coupons_number}}</td>
                 <td>{{item.coupons_for}}</td>
                 <td>{{item.coupons_status}}</td>
                 <td>{{item.coupons_type}}</td>
                 <td>{{item.coupons_startdate}}</td>
                 <td>{{item.coupons_enddate}}</td>
-                <td> <button class="btn-primary" data-toggle="modal" (click)="largeModal.show();editPromotion(item,i)"><i class="fa fa-edit"></i></button></td>
-                <td> <button class="btn-danger"  data-toggle="modal"(click)="dangerModal.show();DeletePromotion(item,i)"><i class="fa fa-trash"></i></button></td>
+                <td> <button class="btn-primary" data-toggle="modal" (click)="editCoupon.show();editCoupons(item,i)"><i
+                      class="fa fa-edit"></i></button></td>
+                <td> <button class="btn-danger" data-toggle="modal" (click)="deleteCoupon.show();deleteCoupons(item,i)"><i
+                      class="fa fa-trash"></i></button></td>
               </tr>
-              <tr *ngIf="!categorysData || categorysData.length ==0">
+              <tr *ngIf="!couponsData || couponsData.length ==0">
                 No Records Found
               </tr>
             </tbody>
@@ -127,6 +157,5 @@ aria-hidden="true">
         </div>
       </div>
     </div>
-    <!--/.col-->
   </div>
 </div>
