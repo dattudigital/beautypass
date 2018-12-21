@@ -124,7 +124,6 @@ export class FaqsComponent implements OnInit {
       faq_status: this.faqs.faq_status
     }
     let modelClose = document.getElementById("CloseButton");
-
     console.log(data);
     this.service.addOrUpdateFaq(data).subscribe(res => {
       modelClose.click();

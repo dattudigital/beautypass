@@ -5,20 +5,20 @@ import { FaqsComponent } from './faqs.component';
 import { FaqsRoutingModule } from './faqs-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { AlertModule} from 'ngx-bootstrap/alert';
-import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
+import { AlertModule } from 'ngx-bootstrap/alert';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [   
+  imports: [
     CommonModule,
     FaqsRoutingModule,
     NgxSpinnerModule,
     ModalModule.forRoot(),
     AlertModule.forRoot(),
     FormsModule,
-    NgxPaginationModule  ,
-    ReactiveFormsModule 
+    NgxPaginationModule,
+    ReactiveFormsModule
   ],
-  declarations: [ FaqsComponent ]
+  declarations: [FaqsComponent]
 })
 export class FaqsModule { }
