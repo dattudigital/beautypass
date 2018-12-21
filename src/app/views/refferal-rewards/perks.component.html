@@ -1,54 +1,33 @@
-<ngx-spinner
-bdColor="rgba(51, 51, 51, 0.8)"
-size="medium"
-color="#fff"
-type="ball-scale-multiple">
-<p style="font-size: 20px; color: white">Loading...</p>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
 <div class="card-body">
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
-      <button type="button" (click)="removeFields();addorUpdatePerks.show();" class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add Perks</button>
-    </div> 
-  </div>
-</div>
-<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-danger" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Delete Perk</h4>
-          <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure to Delete ?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
-          <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
-        </div>
-      </div>
+      <button type="button" (click)="removeFields();addorUpdatePerks.show();" class="btn btn-primary" style="float: right;"><i
+          class="fa fa-lightbulb-o"></i>&nbsp;Add Perks</button>
     </div>
   </div>
+</div>
 <div bsModal #addorUpdatePerks="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-  <div class="modal-content">      
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
       <div class="row">
         <div class="col-md-12">
           <div class="card" style="margin-bottom: 0;">
-            <div class="card-header">              
-                <strong *ngIf="!perksData.rewardpoint_id">Add Perks</strong>
-                <strong *ngIf="perksData.rewardpoint_id">Edit Perks</strong>
-                <button type="button" class="close" (click)="addorUpdatePerks.hide();">&times;</button>
+            <div class="card-header">
+              <strong *ngIf="!perksData.rewardpoint_id">Add Perks</strong>
+              <strong *ngIf="perksData.rewardpoint_id">Edit Perks</strong>
+              <button type="button" class="close" (click)="addorUpdatePerks.hide();">&times;</button>
             </div>
             <div class="card-body">
               <form name="form" [formGroup]="perksForm">
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Reward Name<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50"  formControlName="rewardName" class="form-control" placeholder="Reward Points Name" [(ngModel)]="perksData.rewardpoint_name" [ngClass]="{ 'is-invalid': submitted && f.rewardName.errors }">
+                    <input type="text" maxlength="50" formControlName="rewardName" class="form-control" placeholder="Reward Points Name"
+                      [(ngModel)]="perksData.rewardpoint_name" [ngClass]="{ 'is-invalid': submitted && f.rewardName.errors }">
                     <div *ngIf="submitted && f.rewardName.errors" class="invalid-feedback">
                       <div *ngIf="f.rewardName.errors.required" style="color:red">Reward Name is required</div>
                     </div>
@@ -57,99 +36,47 @@ aria-hidden="true">
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Amount<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="number" maxlength="50"  formControlName="amount" class="form-control" placeholder="Reward Amount" [(ngModel)]="perksData.rewardpoint_amount" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
+                    <input type="number" maxlength="50" formControlName="amount" class="form-control" placeholder="Reward Amount"
+                      [(ngModel)]="perksData.rewardpoint_amount" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
                     <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
                       <div *ngIf="f.amount.errors.required" style="color:red">Reward Amount is required</div>
                     </div>
                   </div>
                 </div>
                 <div *ngIf="perksData.rewardpoint_id">
+                  <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Status</label>
                     <div class="col-md-8">
-                      <select class="form-control" name="vehicletype1" [(ngModel)]="perksData.rewardpoint_status" [(ngModel)]="showMoreControls"
-                        [ngModelOptions]="{standalone: true}">
+                      <select class="form-control" name="vehicletype1" [(ngModel)]="perksData.rewardpoint_status"
+                        [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
                         <option value="1">Active</option>
                         <option value="0">In active</option>
                       </select>
                     </div>
                   </div>
-                  <span *ngIf="!perksData.rewardpoint_id">
-                    <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdatePerk(perksData)">ADD</button>
-                  </span>
-                  <span *ngIf="perksData.rewardpoint_id">
-                    <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdatePerk(perksData)">Update</button>
-                  </span>
-                  &nbsp;&nbsp;
-                  <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdatePerks.hide();">Close</button>
+                </div>
+                <span *ngIf="!perksData.rewardpoint_id">
+                  <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdatePerk(perksData)">ADD</button>
+                </span>
+                <span *ngIf="perksData.rewardpoint_id">
+                  <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdatePerk(perksData)">Update</button>
+                </span>
+                &nbsp;&nbsp;
+                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdatePerks.hide();">Close</button>
               </form>
             </div>
           </div>
         </div>
-      </div>
-    <div class="modal-footer">
-      <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdatePerks.hide()">Close</button>    
+      </div>     
     </div>
   </div>
 </div>
-</div>
-<!-- <div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title"></h4>
-        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <strong>Edit Perks</strong> 
-              </div>
-              <div class="card-body">
-                <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
-                  <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Reward Name<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <input type="text" maxlength="50"  name="rewardpoint_name" class="form-control" placeholder="Text" [(ngModel)]="perksData.rewardpoint_name"
-                      #rewardpoint_name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && rewardpoint_name.invalid }"
-                        required>
-                        <div *ngIf="f.submitted && rewardpoint_name.invalid" class="invalid-feedback">
-                          <div *ngIf="rewardpoint_name.errors.required">Reward Name is required</div>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Amount<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <input type="number" maxlength="50"  name="rewardpoint_amount" class="form-control" placeholder="Text" [(ngModel)]="perksData.rewardpoint_amount"
-                      #rewardpoint_amount="ngModel" [ngClass]="{ 'is-invalid': f.submitted && rewardpoint_amount.invalid }"
-                        required>
-                        <div *ngIf="f.submitted && rewardpoint_amount.invalid" class="invalid-feedback">
-                          <div *ngIf="rewardpoint_amount.errors.required">Amount is required</div>
-                        </div>
-                    </div>
-                  </div>
-                  <button  class="btn btn-primary" style="margin-left:26%">Save Changes</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="CloseButtonCreate" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="updatePromotion(perksData);largeModal.hide();" >Save changes</button> comment
-      </div>
-    </div>
-  </div>
-</div> -->
+
 <div *ngFor="let alert of alertsDismiss">
-  <b><alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert></b> 
- </div>
+  <b>
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+  </b>
+</div>
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-lg-12">
@@ -163,7 +90,6 @@ aria-hidden="true">
               <tr>
                 <th>Reward Point Name</th>
                 <th>Amount</th>
-              
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Edit</th>
@@ -171,28 +97,61 @@ aria-hidden="true">
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of categorysData | paginate: { itemsPerPage: 10, currentPage: p }">
-                <td>{{item.rewardpoint_name}}</td>
-                <td>{{item.rewardpoint_amount}}</td>
-              
-                <td>{{item.rewardpoint_start_date | date: 'dd/MM/yyyy'}}</td>
-                <td>{{item.rewardpoint_end_date | date: 'dd/MM/yyyy'}}</td>
-                <td> <button class="btn-primary" data-toggle="modal" (click)="addorUpdatePerks.show();editPromotion(item,i)"><i class="fa fa-edit"></i></button></td>
-                <td> <button class="btn-danger"  data-toggle="modal"(click)="dangerModal.show();DeletePromotion(item,i)"><i class="fa fa-trash"></i></button></td>
+              <tr *ngFor="let data of Perk | paginate: { itemsPerPage: 10, currentPage: currentPageIndex };let i = index">
+                <td>{{data.rewardpoint_name}}</td>
+                <td>{{data.rewardpoint_amount}}</td>
+                <td>{{data.rewardpoint_start_date | date: 'dd/MM/yyyy'}}</td>
+                <td>{{data.rewardpoint_end_date | date: 'dd/MM/yyyy'}}</td>
+                <td> <button class="btn-primary" data-toggle="modal" (click)="addorUpdatePerks.show();editPerk(data,i)"><i
+                      class="fa fa-edit"></i></button></td>
+                <td> <button class="btn-danger" data-toggle="modal" (click)="deletePerks.show();editPerk(data,i)"><i
+                      class="fa fa-trash"></i></button></td>
               </tr>
-              <tr *ngIf="!categorysData || categorysData.length ==0">
+              <tr *ngIf="!Perk || Perk.length ==0">
                 No Records Found
               </tr>
             </tbody>
           </table>
-          <pagination-controls (pageChange)="p = $event"></pagination-controls>
-          <!-- <div class="col-xs-12 col-12">
-            <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize" class="pagination-sm"
-                        previousText="&lsaquo;" nextText="&rsaquo;" [boundaryLinks]="true"></pagination>
-          </div> -->
+          <pagination-controls (pageChange)="currentPageIndex = $event"></pagination-controls>
         </div>
       </div>
     </div>
-    <!--/.col-->
+  </div>
+</div>
+
+<div bsModal  #deletePerks="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#EC8D8D">
+        <h4 class="modal-title">Delete Reward</h4>
+        <button type="button" class="close" (click)="deletePerks.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to Delete ?</p>
+      </div>
+      <div class="container">
+        <table class="table table-bordered table-striped table-sm" style="padding:10px;">
+          <thead>
+            <tr>
+              <th>Reward Point Name</th>
+              <th>Reward Point Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{perksData.rewardpoint_name}}</td>
+              <td>{{perksData.rewardpoint_amount}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="deleteCloseButton" class="btn btn-secondary" (click)="deletePerks.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deletePerks.hide();deletePerk();">Delete</button>
+      </div>
+    </div>
   </div>
 </div>

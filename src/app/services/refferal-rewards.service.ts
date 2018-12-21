@@ -12,13 +12,13 @@ export class RefferalRewardsService {
   public getUserActivitiesList() {
     return this.http.get(environment.host + 'reffer-activities');
   }
-  public editUserActivitiesList(data:any) {
+  public _addOrEditRefferalActivities(data:any) {
     return this.http.post(environment.host + 'reffer-activities', data);
   }
   public getPerksList() {
     return this.http.get(environment.host + 'reward-points');
   }
-  public editPerksList(data:any) {
+  public addOrEditPerksList(data:any) {
     return this.http.post(environment.host + 'reward-points', data);
   }
   public getMindBodyCoupons() {
