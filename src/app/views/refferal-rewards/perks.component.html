@@ -1,4 +1,3 @@
-hiiiiiiiiii
 <ngx-spinner
 bdColor="rgba(51, 51, 51, 0.8)"
 size="medium"
@@ -9,7 +8,7 @@ type="ball-scale-multiple">
 <div class="card-body">
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
-      <button type="button" (click)="f1.reset();largeModalCreate.show();" class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Create Reward</button>
+      <button type="button" (click)="removeFields();addorUpdatePerks.show();" class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add Perks</button>
     </div> 
   </div>
 </div>
@@ -32,62 +31,68 @@ type="ball-scale-multiple">
       </div>
     </div>
   </div>
-<div bsModal #largeModalCreate="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div bsModal #addorUpdatePerks="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 aria-hidden="true">
 <div class="modal-dialog modal-lg" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 class="modal-title">Create Reward</h4>
-      <button type="button" class="close" (click)="largeModalCreate.hide()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
+  <div class="modal-content">      
       <div class="row">
         <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <strong>Create Reward</strong>
+          <div class="card" style="margin-bottom: 0;">
+            <div class="card-header">              
+                <strong *ngIf="!perksData.rewardpoint_id">Add Perks</strong>
+                <strong *ngIf="perksData.rewardpoint_id">Edit Perks</strong>
+                <button type="button" class="close" (click)="addorUpdatePerks.hide();">&times;</button>
             </div>
             <div class="card-body">
-              <form name="form" (ngSubmit)="f1.form.valid && onSubmit()" #f1="ngForm" novalidate>
+              <form name="form" [formGroup]="perksForm">
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Reward Name<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50"  name="rewardpoint_name" class="form-control" placeholder="Text" [(ngModel)]="editData.rewardpoint_name"
-                    #rewardpoint_name="ngModel" [ngClass]="{ 'is-invalid': f1.submitted && rewardpoint_name.invalid }"
-                      required>
-                      <div *ngIf="f1.submitted && rewardpoint_name.invalid" class="invalid-feedback">
-                        <div *ngIf="rewardpoint_name.errors.required">Reward Name is required</div>
-                      </div>
+                    <input type="text" maxlength="50"  formControlName="rewardName" class="form-control" placeholder="Reward Points Name" [(ngModel)]="perksData.rewardpoint_name" [ngClass]="{ 'is-invalid': submitted && f.rewardName.errors }">
+                    <div *ngIf="submitted && f.rewardName.errors" class="invalid-feedback">
+                      <div *ngIf="f.rewardName.errors.required" style="color:red">Reward Name is required</div>
+                    </div>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Amount<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="number" maxlength="50"  name="rewardpoint_amount" class="form-control" placeholder="Text" [(ngModel)]="editData.rewardpoint_amount"
-                    #rewardpoint_amount="ngModel" [ngClass]="{ 'is-invalid': f1.submitted && rewardpoint_amount.invalid }"
-                      required>
-                      <div *ngIf="f1.submitted && rewardpoint_amount.invalid" class="invalid-feedback">
-                        <div *ngIf="rewardpoint_amount.errors.required">Amount is required</div>
-                      </div>
+                    <input type="number" maxlength="50"  formControlName="amount" class="form-control" placeholder="Reward Amount" [(ngModel)]="perksData.rewardpoint_amount" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }">
+                    <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
+                      <div *ngIf="f.amount.errors.required" style="color:red">Reward Amount is required</div>
+                    </div>
                   </div>
                 </div>
-                <button  class="btn btn-primary" >Save</button>
+                <div *ngIf="perksData.rewardpoint_id">
+                    <label class="col-md-3 col-form-label" for="text-input">Status</label>
+                    <div class="col-md-8">
+                      <select class="form-control" name="vehicletype1" [(ngModel)]="perksData.rewardpoint_status" [(ngModel)]="showMoreControls"
+                        [ngModelOptions]="{standalone: true}">
+                        <option value="1">Active</option>
+                        <option value="0">In active</option>
+                      </select>
+                    </div>
+                  </div>
+                  <span *ngIf="!perksData.rewardpoint_id">
+                    <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdatePerk(perksData)">ADD</button>
+                  </span>
+                  <span *ngIf="perksData.rewardpoint_id">
+                    <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdatePerk(perksData)">Update</button>
+                  </span>
+                  &nbsp;&nbsp;
+                  <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdatePerks.hide();">Close</button>
               </form>
             </div>
           </div>
         </div>
       </div>
-    </div>
     <div class="modal-footer">
-      <button type="button" id="CloseButton" class="btn btn-secondary" (click)="largeModalCreate.hide()">Close</button>
-    
+      <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdatePerks.hide()">Close</button>    
     </div>
-  </div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  </div>
+</div>
+</div>
+<!-- <div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -109,7 +114,7 @@ aria-hidden="true">
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Reward Name<b style="color:red">*</b></label>
                     <div class="col-md-9">
-                      <input type="text" maxlength="50"  name="rewardpoint_name" class="form-control" placeholder="Text" [(ngModel)]="editData.rewardpoint_name"
+                      <input type="text" maxlength="50"  name="rewardpoint_name" class="form-control" placeholder="Text" [(ngModel)]="perksData.rewardpoint_name"
                       #rewardpoint_name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && rewardpoint_name.invalid }"
                         required>
                         <div *ngIf="f.submitted && rewardpoint_name.invalid" class="invalid-feedback">
@@ -120,7 +125,7 @@ aria-hidden="true">
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Amount<b style="color:red">*</b></label>
                     <div class="col-md-9">
-                      <input type="number" maxlength="50"  name="rewardpoint_amount" class="form-control" placeholder="Text" [(ngModel)]="editData.rewardpoint_amount"
+                      <input type="number" maxlength="50"  name="rewardpoint_amount" class="form-control" placeholder="Text" [(ngModel)]="perksData.rewardpoint_amount"
                       #rewardpoint_amount="ngModel" [ngClass]="{ 'is-invalid': f.submitted && rewardpoint_amount.invalid }"
                         required>
                         <div *ngIf="f.submitted && rewardpoint_amount.invalid" class="invalid-feedback">
@@ -137,11 +142,11 @@ aria-hidden="true">
       </div>
       <div class="modal-footer">
         <button type="button" id="CloseButtonCreate" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-        <!-- <button type="button" class="btn btn-primary" (click)="updatePromotion(editData);largeModal.hide();" >Save changes</button> -->
+        <button type="button" class="btn btn-primary" (click)="updatePromotion(perksData);largeModal.hide();" >Save changes</button> comment
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div> -->
 <div *ngFor="let alert of alertsDismiss">
   <b><alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert></b> 
  </div>
@@ -172,7 +177,7 @@ aria-hidden="true">
               
                 <td>{{item.rewardpoint_start_date | date: 'dd/MM/yyyy'}}</td>
                 <td>{{item.rewardpoint_end_date | date: 'dd/MM/yyyy'}}</td>
-                <td> <button class="btn-primary" data-toggle="modal" (click)="largeModal.show();editPromotion(item,i)"><i class="fa fa-edit"></i></button></td>
+                <td> <button class="btn-primary" data-toggle="modal" (click)="addorUpdatePerks.show();editPromotion(item,i)"><i class="fa fa-edit"></i></button></td>
                 <td> <button class="btn-danger"  data-toggle="modal"(click)="dangerModal.show();DeletePromotion(item,i)"><i class="fa fa-trash"></i></button></td>
               </tr>
               <tr *ngIf="!categorysData || categorysData.length ==0">

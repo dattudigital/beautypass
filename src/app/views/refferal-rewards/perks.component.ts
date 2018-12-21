@@ -4,9 +4,9 @@ import { AlertConfig } from 'ngx-bootstrap/alert';
 import { Router } from '@angular/router';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // such override allows to keep some initial values
-
 
 export function getAlertConfig(): AlertConfig {
   return Object.assign(new AlertConfig(), { type: 'success' });
@@ -34,12 +34,14 @@ export class PerksComponent implements OnInit {
     msg: `Testmonial Details Updated Successfully`,
     timeout: 5000
   }];
+  perksForm: FormGroup;
   totalItems: number;
   categorysData: any;
-  editData: any = [];
+  perksData: any = [];
   bigCurrentPage: number = 1;
+  submitted = false;
   deleteData: { rewardpoint_id: any; rewardpoint_name: any; rewardpoint_amount: any; rewardpoint_status: number; };
-  constructor(private spinner: NgxSpinnerService,private router: Router,private service: RefferalRewardsService ,sanitizer: DomSanitizer) {
+  constructor(private spinner: NgxSpinnerService,private router: Router,private service: RefferalRewardsService ,sanitizer: DomSanitizer,private formBuilder:FormBuilder) {
     this.alertsHtml = this.alertsHtml.map((alert: any) => ({
       type: alert.type,
       msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
@@ -52,8 +54,20 @@ export class PerksComponent implements OnInit {
       console.log(this.categorysData);
       this.spinner.hide();
     });
-  
+    this.perksForm = this.formBuilder.group({
+      rewardName: ['', Validators.required],
+      amount: ['', Validators.required]
+    });
   }
+
+  removeFields(){
+    this.submitted = false;
+    this.perksData.rewardpoint_id = null;
+    this.perksData.rewardpoint_name = '';
+    this.perksData.rewardpoint_amount = '';
+    this.perksData.rewardpoint_status = '';
+  }
+
    alertsHtml: any = [
     {
       type: 'success',
@@ -68,15 +82,45 @@ export class PerksComponent implements OnInit {
       msg: `<strong>Warning!</strong> Better check yourself, you're not looking too good.`
     }
   ];
+
   editPromotion(data, index) {
     data.index = index;
-    this.editData = data;
-    console.log(this.editData)
+    this.perksData = data;
+    console.log(this.perksData)
   }
+  
+  addOrUpdatePerk(){
+    this.submitted = true;
+  
+    if (this.perksForm.invalid) {
+      return;
+    }
+
+    if (!this.perksData.rewardpoint_id) {
+      this.perksData.rewardpoint_status = '1'
+    } else {
+      this.perksData.rewardpoint_status = '0'
+    }
+  
+    if (!this.perksData.rewardpoint_id) {
+      this.perksData.rewardpoint_id = null;
+    }
+
+    var data = {
+      rewardpoint_id: this.perksData.rewardpoint_id,
+      rewardpoint_name: this.perksData.rewardpoint_name,
+      rewardpoint_amount: this.perksData.rewardpoint_amount,
+      rewardpoint_status: this.perksData.rewardpoint_status
+    }
+  }
+
   onSubmit() {
-    //console.log(this.editData.tip_title);
-    this.updatePromotion(this.editData);
+    //console.log(this.perksData.tip_title);
+    this.updatePromotion(this.perksData);
   }
+  
+  get f() { return this.perksForm.controls; }
+  
   updatePromotion(val) {
     let element = document.getElementById("CloseButton");
     let element1 = document.getElementById("CloseButtonCreate");
