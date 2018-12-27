@@ -11,7 +11,7 @@ export function getAlertConfig(): AlertConfig {
   return Object.assign(new AlertConfig(), { type: 'success' });
 }
 @Component({
-  templateUrl: 'beauty-tips.component.html',
+  templateUrl: 'beautytip.component.html',
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
