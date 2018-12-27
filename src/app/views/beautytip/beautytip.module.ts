@@ -7,11 +7,13 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule} from 'ngx-bootstrap/alert';
 import { FormsModule } from '@angular/forms';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 @NgModule({
   imports: [   
     CommonModule,
     BeautytipRoutingModule,
+    SimpleNotificationsModule,
     NgxSpinnerModule,
     ModalModule.forRoot(),
     AlertModule.forRoot(),

@@ -6,7 +6,6 @@ import * as XLSX from 'xlsx';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 // such override allows to keep some initial values
 
 export function getAlertConfig(): AlertConfig {
@@ -28,12 +27,22 @@ export function getAlertConfig(): AlertConfig {
 })
 
 export class MindbodyCouponsBulkComponent {
-  constructor(private service: RefferalRewardsService, private spinner: NgxSpinnerService) { }
+
+  empData: any;
   arrayBuffer: any;
   list: any = [];
   file: File;
+  constructor(private service: RefferalRewardsService, private spinner: NgxSpinnerService, private router: Router) {
+    this.empData = JSON.parse(localStorage.getItem('loginDetails'));
+    //  console.log(this.empData[0].employee_id);
+  }
+
   incomingfile(event) {
     this.file = event.target.files[0];
+  }
+
+  redirectToCoupons() {
+    this.router.navigate(['mindbody-coupons']);
   }
 
   Upload() {
@@ -47,16 +56,20 @@ export class MindbodyCouponsBulkComponent {
       var workbook = XLSX.read(bstr, { type: "binary", cellDates: true });
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
-      console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       this.list = XLSX.utils.sheet_to_json(worksheet, { raw: false })
-      console.log(this.list)
     }
     fileReader.readAsArrayBuffer(this.file);
   }
   addBulkCoupons() {
+    this.list.forEach(element => {
+      element.empid = this.empData[0].employee_id;
+    });
+    console.log(this.list);
+    console.log(this.list);
     this.spinner.show();
     this.service.addoreditMindBodyCoupons(this.list).subscribe(res => {
-      this.spinner.hide()
+      this.spinner.hide();
+      this.router.navigate(['mindbody-coupons']);
       console.log(res.json());
     })
   }

@@ -18,14 +18,15 @@ export class RefferalRewardsService {
   public getPerksList() {
     return this.http.get(environment.host + 'reward-points');
   }
-  public addOrEditPerksList(data:any) {
+  public addOrEditPerksList(data:any) { 
     return this.http.post(environment.host + 'reward-points', data);
   }
   public getMindBodyCoupons() {
     return this.http.get(environment.host + 'mindbody-coupons');
   }
   public addoreditMindBodyCoupons(data:any) {
-    return this.http.post(environment.host + 'mindbody-coupons',data);
+    // return this.http.post(environment.host + 'mindbody-coupons',data); bulk-uplod
+    return this.http.post(environment.host + 'bulk-uplod',data);
   }
   public getUserlistForHistory(data:any) {
     return this.http.get(environment.host + 'user-search?name='+data);

@@ -73,8 +73,8 @@ export class MindbodyCouponsComponent implements OnInit {
 
   }
 
-  redirectToBulk(){
-this.router.navigate(['mindbody-coupons/bulk'])
+  redirectToBulk() {
+    this.router.navigate(['mindbody-coupons/bulk'])
   }
 
   alertsHtml: any = [

@@ -124,10 +124,8 @@ export class FaqsComponent implements OnInit {
       faq_status: this.faqs.faq_status
     }
     let modelClose = document.getElementById("CloseButton");
-    console.log(data);
     this.service.addOrUpdateFaq(data).subscribe(res => {
       modelClose.click();
-      console.log(res.json());
       if(res.json().status == true){
         this.faqData.push(res.json().data)
       }
@@ -137,39 +135,7 @@ export class FaqsComponent implements OnInit {
   editFaqs(data, index) {
     data.index = index;
     this.faqs = data;
-    console.log(this.faqs)
   }
-
-  // onSubmit() {
-  //   this.updatePromotion(this.editData);
-  // }
-
-  // updatePromotion(val) {
-  //   let element = document.getElementById("CloseButton");
-  //   let element1 = document.getElementById("CloseButtonCreate");
-  //   if (val.faq_id) {
-  //     this.faqData = [];
-  //     this.add();
-  //   } else {
-  //     this.addCreate();
-  //   }
-  //   console.log(val)
-  //   var data = {
-  //     faq_id: val.faq_id,
-  //     faq_question: val.faq_question,
-  //     faq_answer: val.faq_answer,
-  //     faq_status: 1
-  //   }
-  //   console.log(data)
-  //   this.service.rgisterSubmit(data).subscribe();
-  //   this.faqData = [];
-  //   this.service.getList().subscribe(response => {
-  //     this.faqData = response.json().data;
-  //     console.log(this.faqData);
-  //     element.click();
-  //     element1.click();
-  //   });
-  // }
 
   DeleteFaqs(val) {
     this.deleteRecord = val

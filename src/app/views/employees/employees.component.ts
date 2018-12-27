@@ -137,17 +137,20 @@ export class EmployeesComponent implements OnInit {
         emp_role: this.employeeData.emp_role,
         emp_status: this.employeeData.emp_status
       }
-      return;
       console.log(data.employee_id)
-      this.service.addOrUpdateEmployee(data).subscribe();
-      element.click();
-      this.employeeDetails = [];
-      this.service.getEmpList().subscribe(response => {
-        this.employeeDetails = response.json().data;
-        console.log(this.employeeDetails);
-        //this.addCreate();
-        this.clearForm();
+      this.spinner.show();
+      this.service.addOrUpdateEmployee(data).subscribe(res => {
+        element.click();
+        this.employeeDetails = [];
+        this.service.getEmpList().subscribe(response => {
+          this.employeeDetails = response.json().data;
+          this.spinner.hide();
+          console.log(this.employeeDetails);
+          //this.addCreate();
+          this.clearForm();
+        });
       });
+
     }
   }
   deleteuser: any = []
@@ -164,12 +167,15 @@ export class EmployeesComponent implements OnInit {
   }
 
   deleteAlert() {
-    this.service.addOrUpdateEmployee(this.deleteData).subscribe();
-    this.delete();
-    this.employeeDetails = [];
-    this.service.getEmpList().subscribe(response => {
-      this.employeeDetails = response.json().data;
-      console.log(this.employeeDetails)
+    this.spinner.show();
+    this.service.addOrUpdateEmployee(this.deleteData).subscribe(res => {
+      this.delete();
+      this.employeeDetails = [];
+      this.service.getEmpList().subscribe(response => {
+        this.spinner.hide();
+        this.employeeDetails = response.json().data;
+        console.log(this.employeeDetails)
+      });
     });
   }
 

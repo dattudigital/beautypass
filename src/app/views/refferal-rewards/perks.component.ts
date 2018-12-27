@@ -35,11 +35,11 @@ export class PerksComponent implements OnInit {
   currentPageIndex: number = 1;
   submitted = false;
   deleteData: { rewardpoint_id: any; rewardpoint_status: number; };
-  
+
   constructor(private spinner: NgxSpinnerService, private router: Router, private service: RefferalRewardsService, sanitizer: DomSanitizer, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) {
-   
+
   }
-  
+
   ngOnInit() {
     this.spinner.show();
     this.service.getPerksList().subscribe(response => {
@@ -76,8 +76,6 @@ export class PerksComponent implements OnInit {
 
     if (!this.perksData.rewardpoint_id) {
       this.perksData.rewardpoint_status = '1'
-    } else {
-      this.perksData.rewardpoint_status = '0'
     }
 
     if (!this.perksData.rewardpoint_id) {
@@ -92,11 +90,24 @@ export class PerksComponent implements OnInit {
       rewardpoint_status: this.perksData.rewardpoint_status
     }
     this.spinner.show();
+
     this.service.addOrEditPerksList(data).subscribe(res => {
       this.spinner.hide();
       modelClose.click();
       if (res.json().status == true) {
-        this.Perk.push(res.json().data)
+        if (!this.perksData.rewardpoint_id) {
+          this.Perk.push(res.json().data)
+        } else {
+          let rowIndex = ((this.currentPageIndex - 1) * 10) + (this.perksData.index);
+          console.log(this.Perk);
+          console.log(this.perksData);
+          if (this.perksData.rewardpoint_status == '0') {
+            this.Perk.splice(rowIndex, 1)
+          } else {
+            this.Perk[rowIndex].rewardpoint_amount = res.json().data.rewardpoint_amount;
+            this.Perk[rowIndex].rewardpoint_name = res.json().data.rewardpoint_name;
+          }
+        }
       }
     })
   }
@@ -106,7 +117,7 @@ export class PerksComponent implements OnInit {
   deletePerk(val) {
     console.log(val)
     var data = {
-      rewardpoint_id: this.perksData.rewardpoint_id,     
+      rewardpoint_id: this.perksData.rewardpoint_id,
       rewardpoint_status: 0
     }
     this.deleteData = data;
@@ -114,12 +125,12 @@ export class PerksComponent implements OnInit {
     let deleteButton = document.getElementById("deleteCloseButton");
     console.log(this.currentPageIndex)
     console.log(this.perksData)
-    let rowIndex = ( ( this.currentPageIndex - 1 ) * 10 ) + (this.perksData.index);
+    let rowIndex = ((this.currentPageIndex - 1) * 10) + (this.perksData.index);
     console.log(rowIndex)
     this.service.addOrEditPerksList(data).subscribe(res => {
-      this.Perk.splice(rowIndex,1)
+      this.Perk.splice(rowIndex, 1)
       deleteButton.click();
-      this.spinner.hide();           
+      this.spinner.hide();
     })
   }
 

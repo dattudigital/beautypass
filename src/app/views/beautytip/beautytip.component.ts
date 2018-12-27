@@ -4,12 +4,12 @@ import { AlertConfig } from 'ngx-bootstrap/alert';
 import { Router } from '@angular/router';
 import { BeautyTipsService } from '../../services/beauty-tips.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-declare var $: any;
 
+// such override allows to keep some initial values
+declare var $: any;
 export function getAlertConfig(): AlertConfig {
   return Object.assign(new AlertConfig(), { type: 'success' });
 }
-
 @Component({
   templateUrl: 'beautytip.component.html',
   encapsulation: ViewEncapsulation.None,
@@ -24,24 +24,12 @@ export function getAlertConfig(): AlertConfig {
   ],
   providers: [{ provide: AlertConfig, useFactory: getAlertConfig }]
 })
-
 export class BeautyTipsComponent implements OnInit {
   alerts: any[] = [{
     type: 'success',
-    msg: `BeautyTips Updated Successfully`,
+    msg: `Testmonial Details Updated Successfully`,
     timeout: 5000
   }];
-
-  beautytips: any = {
-    'tip_id': '',
-    'tip_title': '',
-    'tip_description': '',
-    'tip_img': '',
-    'profile_name': '',
-    'rec_status': ''
-  }
-
-
   totalItems: number;
   categorysData: any;
   editData: any = [];
@@ -60,78 +48,32 @@ export class BeautyTipsComponent implements OnInit {
   alertMessageValue: boolean;
   validBtn: boolean;
   userData: any;
-  model: any = {};
-
   constructor(private spinner: NgxSpinnerService, private router: Router, private service: BeautyTipsService, sanitizer: DomSanitizer) {
     this.alertsHtml = this.alertsHtml.map((alert: any) => ({
       type: alert.type,
       msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
     }));
   }
-
   ngOnInit() {
     this.spinner.show();
     this.service.getBeautyTipsList().subscribe(response => {
+      this.categorysData = response.json().data;
+      console.log(this.categorysData);
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.categorysData = response.json().data;
-        console.log(this.categorysData);
-      } else {
-        this.categorysData = [];
-      }
     });
+    this.userData=JSON.parse(localStorage.getItem('loginDetails'));
+    console.log(this.userData[0].employee_id);
 
-    // if(localStorage.loginDetails){
-    //   this.userData=JSON.parse(localStorage.getItem('loginDetails'));
-    //   console.log(this.userData[0].employee_id);
-    // }
   }
+  model: any = {};
 
-  addOrUpdateBeautyTips() {
-    if (!this.beautytips.rec_status) {
-      this.beautytips.rec_status = '1'
-    } else {
-      this.beautytips.rec_status = '0'
-    }
-    console.log(this.beautytips.tip_id)
-    if (!this.beautytips.tip_id) {
-      console.log('@@@@@@@@')
-      this.beautytips.tip_id = null;
-    }
-    console.log(this.beautytips.tip_id)
-    var data = {
-      tip_id: this.beautytips.tip_id,
-      tip_title: this.beautytips.tip_title,
-      tip_description: this.beautytips.tip_description,
-      tip_img: this.beautytips.tip_img,
-      tip_category: 1,
-      profile_name: this.beautytips.profile_name,
-      rec_status: this.beautytips.rec_status
-    }
-    console.log(data);
-    this.service.AddOrEditBeautyTip(data).subscribe(res => {
-      console.log(res.json())
-    })
+  onSubmit() {
+    console.log(this.editData.tip_title);
+    this.updatePromotion(this.editData);
   }
-
-  editBeautyTip(data, index) {
-    this.beautytips = data;
-    console.log(this.beautytips.tip_img)
-    this.userimagePreview = this.beautytips.tip_img
+  getList() {
+  
   }
-
-  removeFields() {
-    this.beautytips.tip_id = '';
-    this.beautytips.tip_title = '';
-    this.beautytips.tip_description = '';
-    this.beautytips.tip_img = ''
-  }
-
-  // onSubmit() {
-  //   console.log(this.editData.tip_title);
-  //   this.updatePromotion(this.editData);
-  // }
-
   alertsHtml: any = [
     {
       type: 'success',
@@ -153,35 +95,37 @@ export class BeautyTipsComponent implements OnInit {
     this.userImage = '';
   }
   editPromotion(data, index) {
+    data.index = index;
     this.editData = data;
     console.log(this.editData)
   }
-
-  // updatePromotion(val) {
-  //   let element = document.getElementById("CloseButton");
-  //   console.log(val)
-  //   var data = {
-  //     tip_id: val.tip_id,
-  //     tip_title: val.tip_title,
-  //     tip_description: val.tip_description,
-  //     tip_img: this.userImage,
-  //     tip_category: 1,
-  //     profile_name: this.userImageName,
-  //     rec_status: val.rec_status
-  //   }
-  //   if (!data.tip_id) {
-  //     this.addCreate();
-  //   }
-  //   this.service.editBeautyTip(data).subscribe();
-
-  //   element.click();
-  //   this.categorysData = [];
-  //   this.service.getBeautyTipsList().subscribe(response => {
-  //     this.categorysData = response.json().data;
-  //     console.log(this.categorysData);
-  //     //this.addCreate();
-  //   });
-  // }
+  updatePromotion(val) {
+    let element = document.getElementById("CloseButton");
+    console.log(val)
+    var data = {
+      tip_id: val.tip_id,
+      tip_title: val.tip_title,
+      tip_description: val.tip_description,
+      tip_img: this.userImage,
+      tip_category: 1,
+      profile_name: this.userImageName,
+      rec_status: val.rec_status
+    }
+     if(!data.tip_id){
+       this.addCreate();
+     }
+     this.spinner.show();
+    this.service.editBeautyTip(data).subscribe(res =>{
+      element.click();
+      this.categorysData = [];
+      this.service.getBeautyTipsList().subscribe(response => {
+        this.spinner.hide();
+        this.categorysData = response.json().data;
+        console.log(this.categorysData);
+        //this.addCreate();
+      });
+    });
+  }
   DeletePromotion(val) {
     console.log(val)
     var data = {
@@ -193,16 +137,18 @@ export class BeautyTipsComponent implements OnInit {
     }
     this.deleteData = data;
   }
-  // deleteAlert() {
-  //   this.service.editBeautyTip(this.deleteData).subscribe();
-  //   this.delete();
-  //   this.categorysData = [];
-  //   this.service.getBeautyTipsList().subscribe(response => {
-  //     this.categorysData = response.json().data;
-  //     console.log(this.categorysData)
-  //   });
-
-  // }
+  deleteAlert() {
+    this.spinner.show();
+    this.service.editBeautyTip(this.deleteData).subscribe(res => {
+      this.delete();
+      this.categorysData = [];
+      this.service.getBeautyTipsList().subscribe(response => {
+        this.categorysData = response.json().data;
+        this.spinner.hide();
+        console.log(this.categorysData)
+      });
+    });
+  }
   alertsDismiss: any = [];
   add(): void {
     this.alertsDismiss.push({
@@ -225,7 +171,6 @@ export class BeautyTipsComponent implements OnInit {
       timeout: 5000
     });
   }
-
   getFileDetails(event, text1) {
     this.currentImage = text1;
     console.log(this.currentImage);
@@ -236,6 +181,7 @@ export class BeautyTipsComponent implements OnInit {
       this.uploadedFiles = files.name;
       console.log(this.uploadedFiles);
     }
+
     if (files && file) {
       var reader = new FileReader();
       reader.onload = this._handleReaderLoaded.bind(this);
@@ -245,31 +191,35 @@ export class BeautyTipsComponent implements OnInit {
     if (event.target.files && event.target.files[0] && this.currentImage === 'p') {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
-      this.beautytips.profile_name = file.name;
-      console.log(this.beautytips.profile_name);
+      this.userImageName = file.name;
+      console.log(this.userImageName);
       reader.onload = (event) => {
         this.userimagePreview = event.target;
       }
     }
+
+
   }
   //image base64 format
   _handleReaderLoaded(readerEvt) {
+
+
     if (this.currentImage === 'p') {
       var binaryString = readerEvt.target.result;
-      this.beautytips.image = btoa(binaryString);
-      console.log("final" + this.beautytips.image)
+      this.userImage = btoa(binaryString);
+      console.log("final" + this.userImage)
     }
+
     this.currentImage = ''
   }
-
-  requiredValue() {
-    if (this.editData.tip_title == "") {
-      this.alertMessageValue = true;
-      this.validBtn = true
+  requiredValue(){
+    if(this.editData.tip_title==""){
+      this.alertMessageValue=true;
+      this.validBtn=true
     }
-    else {
-      this.alertMessageValue = false;
-      this.validBtn = false;
+    else{
+      this.alertMessageValue=false;
+      this.validBtn=false;
     }
   }
 }
