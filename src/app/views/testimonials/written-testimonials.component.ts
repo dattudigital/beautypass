@@ -4,6 +4,8 @@ import { AlertConfig } from 'ngx-bootstrap/alert';
 import { Router } from '@angular/router';
 import { TestmonialsService } from '../../services/TestmonialsService';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 // such override allows to keep some initial values
 
@@ -31,14 +33,29 @@ export class WrittenTestimonialsComponent implements OnInit {
     msg: `Testmonial Details Updated Successfully`,
     timeout: 5000
   }];
+
+  testmonials: any[];
+  cols: any[];
+  testimonialData: any = {
+    'fullname': '',
+    'comments': '',
+    'recomment': '',
+    'rating_1': '',
+    'rating_2': '',
+    'rating_3': '',
+    'rating_4': '',
+    'rating_5': ''
+  }
   totalItems: number;
-  categorysData: any;
   editData: any = [];
   bigCurrentPage: number = 1;
   deleteConfirm: boolean;
   deleteData: { testimonial_id: any; user_id: any; rating_1: any; rating_2: any; rating_3: any; rating_4: any; rating_5: any; comments: any; status: number; recomment: any; uploadpic: any; };
   userData: any;
-  constructor(private spinner: NgxSpinnerService,private router: Router,private service: TestmonialsService ,sanitizer: DomSanitizer) {
+
+  testimonialForm: FormGroup;
+
+  constructor(private spinner: NgxSpinnerService,private router: Router,private service: TestmonialsService ,sanitizer: DomSanitizer , private formBuilder: FormBuilder) {
     this.alertsHtml = this.alertsHtml.map((alert: any) => ({
       type: alert.type,
       msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
@@ -63,12 +80,35 @@ export class WrittenTestimonialsComponent implements OnInit {
   }
   ngOnInit() {
     this.spinner.show();
-  this.service.getWrittenTestmonials().subscribe(response => {
-    this.categorysData = response.json().data;
-    console.log(this.categorysData);
+   this.service.getWrittenTestmonials().subscribe(response => {
+    this.testmonials = response.json().data;
+    console.log(this.testmonials);
     this.userData=JSON.parse(localStorage.getItem('loginDetails'));
     console.log(this.userData[0].employee_id);
     this.spinner.hide();
+  });
+
+  this.cols = [
+    { field: 'fullname', header: 'Username' },
+    { field: 'comments', header: 'Comments' },
+    { field: 'recomment', header: 'Recomment' },
+    { field: 'rating_1', header: 'Rating_1' },
+    { field: 'rating_2', header: 'Rating_2' },
+    { field: 'rating_3', header: 'Rating_3' },
+    { field: 'rating_4', header: 'Rating_4'},
+    { field: 'rating_5', header: 'Rating_5' },
+  ];
+
+  this.testimonialForm = this.formBuilder.group({
+    Name: ['', Validators.required],
+    Comment: ['', Validators.required],
+    Recomment: ['', Validators.required],
+    Rating1: ['', Validators.required],
+    Rating2: ['', Validators.required],
+    Rating3: ['', Validators.required],
+    Rating4: ['', Validators.required],
+    Rating5: ['', Validators.required],
+
   });
 
 }
@@ -128,10 +168,10 @@ deleteAlert(){
   this.deleteConfirm=true;
   this.service.editWrittenTestmonials(this.deleteData).subscribe();
   this.delete();
-  this.categorysData=[];
+  this.testmonials=[];
   this.service.getWrittenTestmonials().subscribe(response => {
-    this.categorysData = response.json().data;
-    console.log(this.categorysData)
+    this.testmonials = response.json().data;
+    console.log(this.testmonials)
   });
 }
 alertsDismiss: any = [];

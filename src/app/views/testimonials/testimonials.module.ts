@@ -10,9 +10,10 @@ import { VideoTestimonialsComponent } from './video-testimonials.component';
 import { TestimonialsRoutingModule } from './testimonials-routing.module';
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   imports: [
@@ -24,7 +25,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NgxSpinnerModule,
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    TableModule,
+    ReactiveFormsModule
   ],
   declarations: [
     WrittenTestimonialsComponent,

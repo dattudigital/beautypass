@@ -54,6 +54,8 @@
     "ngx-pagination": "^3.2.1",
     "ngx-perfect-scrollbar": "^7.1.0",
     "ngx-spinner": "^6.1.2",
+    "primeicons": "^1.0.0",
+    "primeng": "^7.0.3",
     "rxjs": "^6.3.3",
     "simple-line-icons": "^2.4.1",
     "ts-helpers": "^1.1.2",
