@@ -34,6 +34,13 @@ export class EmployeesComponent implements OnInit {
     msg: `Testmonial Details Updated Successfully`,
     timeout: 5000
   }];
+ toastOptions: ToastOptions = {
+    title: "My title",
+    msg: "The message",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
   data = [];
   employeeDetails: any;
   deleteData: any = [];
@@ -74,20 +81,13 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  addToast() { 
-    var toastOptions: ToastOptions = {
-      title: "My title",
-      msg: "The message",
-      showClose: true,
-      timeout: 3000,
-      theme: 'default'
-    };
+  addToast() {    
     // Add see all possible types in one shot     
-    this.toastyService.info(toastOptions);
-    this.toastyService.success(toastOptions);
-    this.toastyService.wait(toastOptions);
-    this.toastyService.error(toastOptions);
-    this.toastyService.warning(toastOptions);
+    this.toastyService.info(this.toastOptions);
+    this.toastyService.success(this.toastOptions);
+    this.toastyService.wait(this.toastOptions);
+    this.toastyService.error(this.toastOptions);
+    this.toastyService.warning(this.toastOptions);
   }
 
   alertsHtml: any = [
