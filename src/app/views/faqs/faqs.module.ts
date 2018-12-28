@@ -8,6 +8,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
+import {ToastyModule} from 'ng2-toasty';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,7 +19,8 @@ import { TableModule } from 'primeng/table';
     FormsModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    TableModule
+    TableModule,
+    ToastyModule
   ],
   declarations: [FaqsComponent]
 })
