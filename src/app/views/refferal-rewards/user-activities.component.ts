@@ -1,20 +1,24 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { ExcelService } from '../../services/excel.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var jsPDF: any;
+import { DatePipe } from '@angular/common';
 
 @Component({
   templateUrl: 'user-activities.component.html',
+  providers: [
+    DatePipe
+  ]
 })
 
 export class UserActivitiesComponent implements OnInit {
   userActivitiesData: any;
   cols: any = [];
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService) {}
-  
+  constructor(private spinner: NgxSpinnerService, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
+
   ngOnInit() {
     this.spinner.show();
     this.service.getUserActivitiesList().subscribe(response => {
@@ -31,8 +35,8 @@ export class UserActivitiesComponent implements OnInit {
       { field: 'activity_name', header: 'Name' },
       { field: 'activity_points', header: 'Points' },
       { field: 'activity_desc', header: 'Description' },
-      { field: 'activity_start_date', header: 'Start Date' },
-      { field: 'activity_end_date', header: 'End Date' },
+      { field: 'activity_start_date', header: 'Start Date', type: this.dp },
+      { field: 'activity_end_date', header: 'End Date', type: this.dp },
     ];
   }
 

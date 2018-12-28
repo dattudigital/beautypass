@@ -43,9 +43,7 @@ export class DashboardComponent implements OnInit {
       this.mainChartData1Test = this.transformJsonToCustomFormat(response.json().data);
       this.mainChartLabels = this.transformJsonToCustomFormat1(response.json().data);
       //this.mainChartData1.push(this.mainChartData1Test);
-      console.log("test12345" + this.mainChartData1Test);
-      console.log("test1234" + this.mainChartData1);
-      console.log("test123" + this.mainChartLabels);
+   
       //this.spinner.hide();
       // console.log(this.userData.length);
     });
@@ -56,7 +54,6 @@ export class DashboardComponent implements OnInit {
    // this.mainChartData1=this.mainChartData1Test;
    //console.log("test123" +this.mainChartData1);
     
-    console.log(this.mainChartData1);
      this.mainChartData1.push(1,1,2,2,1,1,1,2,2,2,4,3,1,1,3,3,2,1,2,2,2,1);
     // this.mainChartData1.push(this.random(50, 200));
     // this.mainChartData1.push(this.random(50, 200));
@@ -68,23 +65,18 @@ export class DashboardComponent implements OnInit {
     // this.mainChartData2.push(this.random(80, 100));
     // this.mainChartData2.push(this.random(80, 100));
     // this.mainChartData3.push(65);
-    console.log(this.mainChartData1);
-    //console.log(i);
-    console.log(this.mainChartData2);
-    //console.log(this.mainChartData3);
+
 
     //}
     // this.spinner.show();
     this.service.getUsersList().subscribe(response => {
       this.userData = response.json().data;
       this.userDataLength = this.userData[0].totaluser;
-      console.log(this.userDataLength);
       //this.spinner.hide();
       // console.log(this.userData.length);
     });
     this.service.getRecentUsersList().subscribe(response => {
       this.categorysData = response.json().data;
-      console.log(this.categorysData);
       //console.log(this.recentUserData.length);
     });
     this.service.getBeautyTipsList().subscribe(response => {
@@ -95,7 +87,6 @@ export class DashboardComponent implements OnInit {
     this.service.getUserActivitiesList().subscribe(response => {
       this.activitiesData = response.json().data;
       this.activitiesDataLength = this.activitiesData.length;
-      console.log(this.activitiesData.length);
     });
     this.service.getVideoTestmonials().subscribe(response => {
       this.videoData = response.json().data;
@@ -125,7 +116,6 @@ export class DashboardComponent implements OnInit {
     const response = [];
 
     input.forEach(item => {
-      console.log(item.count)
       response.push(
         item.count
 
