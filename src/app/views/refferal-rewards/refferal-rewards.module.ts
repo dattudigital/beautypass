@@ -17,7 +17,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { TableModule } from 'primeng/table';
 declare var jsPDF: any;
-
 @NgModule({
   imports: [
     CommonModule,

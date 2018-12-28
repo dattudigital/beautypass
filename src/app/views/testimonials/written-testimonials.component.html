@@ -1,27 +1,7 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
-
-<!-- <div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-danger" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Delete Testmonail</h4>
-        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure to Delete ?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
-        <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
-      </div>
-    </div>
-  </div>
-</div> -->
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
 
 <div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
@@ -83,183 +63,100 @@
               <strong>Edit Testimonial</strong>
               <button type="button" class="close" (click)="addorUpdateTestimonial.hide();">&times;</button>
             </div>
-            
+
             <div class="card-body">
               <form [formGroup]="testimonialForm">
-                <!-- <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">User Name</label>
+
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">User Name<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" name="fullname" class="form-control" placeholder="Text"
-                      [(ngModel)]="editData.fullname" disabled> -->
-                    <!-- <span class="help-block">This is a help text</span> -->
-                  <!-- </div>
-                </div> -->
-
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">User Name<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <input type="text" rows="5" maxlength="500" formControlName="Name" class="form-control"
-                        placeholder="User Name" [(ngModel)]="testimonialData.fullname" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" disabled>
-                      <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
-                        <div *ngIf="f.Name.errors.required" style="color:red">Name is required</div>
-                      </div>
+                    <input type="text" rows="5" maxlength="500" formControlName="Name" class="form-control" placeholder="User Name"
+                      [(ngModel)]="testimonialData.fullname" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }"
+                      disabled>
+                    <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                      <div *ngIf="f.Name.errors.required" style="color:red">Name is required</div>
                     </div>
                   </div>
+                </div>
 
-                <!-- <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Comments</label>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Comments<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <textarea type="text" maxlength="500" rows="5" name="comments" class="form-control" placeholder="Text"
-                      [(ngModel)]="editData.comments"></textarea>
-                  </div>
-                </div> -->
-
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Comments<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <textarea type="text" rows="5" maxlength="500" formControlName="Comment" class="form-control"
-                        placeholder="Comment" [(ngModel)]="testimonialData.comments" [ngClass]="{ 'is-invalid': submitted && f.Comment.errors }"></textarea>
-                      <div *ngIf="submitted && f.Comment.errors" class="invalid-feedback">
-                        <div *ngIf="f.Comment.errors.required" style="color:red">Comment is required</div>
-                      </div>
+                    <textarea type="text" rows="5" maxlength="500" formControlName="Comment" class="form-control"
+                      placeholder="Comment" [(ngModel)]="testimonialData.comments" [ngClass]="{ 'is-invalid': submitted && f.Comment.errors }"></textarea>
+                    <div *ngIf="submitted && f.Comment.errors" class="invalid-feedback">
+                      <div *ngIf="f.Comment.errors.required" style="color:red">Comment is required</div>
                     </div>
                   </div>
-<!-- 
+                </div>
+
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Recomment</label>
+                  <label class="col-md-3 col-form-label" for="text-input">Recomment<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <textarea type="text" maxlength="500" rows="5" name="recomment" class="form-control" placeholder="Text"
-                      [(ngModel)]="editData.recomment"></textarea>
-                  </div>
-                </div> -->
-
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Recomment<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <textarea type="text" rows="5" maxlength="500" formControlName="Recomment" class="form-control"
-                        placeholder="Recomment" [(ngModel)]="testimonialData.recomment" [ngClass]="{ 'is-invalid': submitted && f.Recomment.errors }"></textarea>
-                      <div *ngIf="submitted && f.Recomment.errors" class="invalid-feedback">
-                        <div *ngIf="f.Recomment.errors.required" style="color:red">Recomment is required</div>
-                      </div>
+                    <textarea type="text" rows="5" maxlength="500" formControlName="Recomment" class="form-control"
+                      placeholder="Recomment" [(ngModel)]="testimonialData.recomment" [ngClass]="{ 'is-invalid': submitted && f.Recomment.errors }"></textarea>
+                    <div *ngIf="submitted && f.Recomment.errors" class="invalid-feedback">
+                      <div *ngIf="f.Recomment.errors.required" style="color:red">Recomment is required</div>
                     </div>
                   </div>
+                </div>
 
-                <!-- <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Rating_1<b style="color:red">*</b></label>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Rating 1<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="number" maxlength="1" name="rating_1" class="form-control" placeholder="Value"
-                      [(ngModel)]="editData.rating_1" #rating_1="ngModel" [ngClass]="{ 'is-invalid': f.submitted && rating_1.invalid }"
-                      required>
-                    <div *ngIf="f.submitted && rating_1.invalid" class="invalid-feedback">
-                      <div *ngIf="rating_1.errors.required">Rating Value is required</div>
+                    <input type="number" maxlength="1" formControlName="Rating1" class="form-control" placeholder="Rating 1"
+                      [(ngModel)]="testimonialData.rating_1" [ngClass]="{ 'is-invalid': submitted && f.Rating1.errors }">
+                    <div *ngIf="submitted && f.Rating1.errors" class="invalid-feedback">
+                      <div *ngIf="f.Rating1.errors.required" style="color:red">Recomment is required</div>
                     </div>
                   </div>
-                </div> -->
-                
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Rating 1<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <input type="number" maxlength="1" formControlName="Rating1" class="form-control"
-                        placeholder="Rating 1" [(ngModel)]="testimonialData.rating_1" [ngClass]="{ 'is-invalid': submitted && f.Rating1.errors }">
-                      <div *ngIf="submitted && f.Rating1.errors" class="invalid-feedback">
-                        <div *ngIf="f.Rating1.errors.required" style="color:red">Recomment is required</div>
-                      </div>
-                    </div>
-                  </div>
+                </div>
 
-                <!-- <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Rating_2<b style="color:red">*</b></label>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Rating 2<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="number" maxlength="1" name="rating_2" class="form-control" placeholder="Value"
-                      [(ngModel)]="editData.rating_2" #rating_2="ngModel" [ngClass]="{ 'is-invalid': f.submitted && rating_2.invalid }"
-                      required>
-                    <div *ngIf="f.submitted && rating_2.invalid" class="invalid-feedback">
-                      <div *ngIf="rating_2.errors.required">Rating Value is required</div>
+                    <input type="number" maxlength="1" formControlName="Rating2" class="form-control" placeholder="Rating 2"
+                      [(ngModel)]="testimonialData.rating_2" [ngClass]="{ 'is-invalid': submitted && f.Rating2.errors }">
+                    <div *ngIf="submitted && f.Rating2.errors" class="invalid-feedback">
+                      <div *ngIf="f.Rating2.errors.required" style="color:red">Recomment is required</div>
                     </div>
                   </div>
-                </div> -->
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Rating 2<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <input type="number" maxlength="1" formControlName="Rating2" class="form-control"
-                        placeholder="Rating 2" [(ngModel)]="testimonialData.rating_2" [ngClass]="{ 'is-invalid': submitted && f.Rating2.errors }">
-                      <div *ngIf="submitted && f.Rating2.errors" class="invalid-feedback">
-                        <div *ngIf="f.Rating2.errors.required" style="color:red">Recomment is required</div>
-                      </div>
-                    </div>
-                  </div>
+                </div>
 
-                <!-- <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Rating_3<b style="color:red">*</b></label>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Rating 3<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="number" maxlength="1" name="rating_3" class="form-control" placeholder="Value"
-                      [(ngModel)]="editData.rating_3" #rating_3="ngModel" [ngClass]="{ 'is-invalid': f.submitted && rating_3.invalid }"
-                      required>
-                    <div *ngIf="f.submitted && rating_3.invalid" class="invalid-feedback">
-                      <div *ngIf="rating_3.errors.required">Rating Value is required</div>
+                    <input type="number" maxlength="1" formControlName="Rating3" class="form-control" placeholder="Rating 3"
+                      [(ngModel)]="testimonialData.rating_3" [ngClass]="{ 'is-invalid': submitted && f.Rating3.errors }">
+                    <div *ngIf="submitted && f.Rating3.errors" class="invalid-feedback">
+                      <div *ngIf="f.Rating3.errors.required" style="color:red">Rating 3 is required</div>
                     </div>
                   </div>
-                </div> -->
+                </div>
 
                 <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Rating 3<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <input type="number" maxlength="1" formControlName="Rating3" class="form-control"
-                        placeholder="Rating 3" [(ngModel)]="testimonialData.rating_3" [ngClass]="{ 'is-invalid': submitted && f.Rating3.errors }">
-                      <div *ngIf="submitted && f.Rating3.errors" class="invalid-feedback">
-                        <div *ngIf="f.Rating3.errors.required" style="color:red">Rating 3 is required</div>
-                      </div>
-                    </div>
-                  </div>
-<!-- 
-                <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Rating_4<b style="color:red">*</b></label>
+                  <label class="col-md-3 col-form-label" for="text-input">Rating 4<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="number" maxlength="1" name="rating_4" class="form-control" placeholder="Value"
-                      [(ngModel)]="editData.rating_4" #rating_4="ngModel" [ngClass]="{ 'is-invalid': f.submitted && rating_4.invalid }"
-                      required>
-                    <div *ngIf="f.submitted && rating_4.invalid" class="invalid-feedback">
-                      <div *ngIf="rating_4.errors.required">Rating Value is required</div>
+                    <input type="number" maxlength="1" formControlName="Rating4" class="form-control" placeholder="Rating 4"
+                      [(ngModel)]="testimonialData.rating_4" [ngClass]="{ 'is-invalid': submitted && f.Rating4.errors }">
+                    <div *ngIf="submitted && f.Rating4.errors" class="invalid-feedback">
+                      <div *ngIf="f.Rating4.errors.required" style="color:red">Rating 4 is required</div>
                     </div>
                   </div>
-                </div> -->
+                </div>
 
-                
                 <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Rating 4<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <input type="number" maxlength="1" formControlName="Rating4" class="form-control"
-                        placeholder="Rating 4" [(ngModel)]="testimonialData.rating_4" [ngClass]="{ 'is-invalid': submitted && f.Rating4.errors }">
-                      <div *ngIf="submitted && f.Rating4.errors" class="invalid-feedback">
-                        <div *ngIf="f.Rating4.errors.required" style="color:red">Rating 4 is required</div>
-                      </div>
-                    </div>
-                  </div>
-
-                <!-- <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Rating_5<b style="color:red">*</b></label>
+                  <label class="col-md-3 col-form-label" for="text-input">Rating 5<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="number" maxlength="1" name="rating_5" class="form-control" placeholder="Value"
-                      [(ngModel)]="editData.rating_5" #rating_5="ngModel" [ngClass]="{ 'is-invalid': f.submitted && rating_5.invalid }"
-                      required>
-                    <div *ngIf="f.submitted && rating_5.invalid" class="invalid-feedback">
-                      <div *ngIf="rating_5.errors.required">Rating Value is required</div>
+                    <input type="number" maxlength="1" formControlName="Rating5" class="form-control" placeholder="Rating 4"
+                      [(ngModel)]="testimonialData.rating_5" [ngClass]="{ 'is-invalid': submitted && f.Rating5.errors }">
+                    <div *ngIf="submitted && f.Rating5.errors" class="invalid-feedback">
+                      <div *ngIf="f.Rating5.errors.required" style="color:red">Rating 5 is required</div>
                     </div>
                   </div>
-                </div> -->
+                </div>
 
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Rating 5<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <input type="number" maxlength="1" formControlName="Rating5" class="form-control"
-                        placeholder="Rating 4" [(ngModel)]="testimonialData.rating_5" [ngClass]="{ 'is-invalid': submitted && f.Rating5.errors }">
-                      <div *ngIf="submitted && f.Rating5.errors" class="invalid-feedback">
-                        <div *ngIf="f.Rating5.errors.required" style="color:red">Rating 5 is required</div>
-                      </div>
-                    </div>
-                  </div>
-
-                <button class="btn btn-primary" style="margin-left:26%" (click)="updateTestimonial()" >Save changes</button>
+                <button class="btn btn-primary" style="margin-left:26%" (click)="updateTestimonial()">Save changes</button>
                 <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdateTestimonial.hide()">Close</button>
               </form>
             </div>
@@ -270,11 +167,6 @@
   </div><!-- /.modal-content -->
 </div><!-- /.modal -->
 
-<div *ngFor="let alert of alertsDismiss">
-  <b>
-    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
-  </b>
-</div>
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-lg-12">
@@ -301,7 +193,6 @@
                 <th>Update</th>
                 <th>Delete</th>
               </tr>
-
             </ng-template>
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
@@ -310,53 +201,13 @@
                 </td>
                 <td href="#" data-toggle="modal" (click)="addorUpdateTestimonial.show();editTestimonials(data,i)"><i
                     class="fa fa-edit" style="color:orange"></i></td>
-                <td href="#" data-toggle="modal" (click)="dangerModal.show();DeleteTestimonial(data,i)"><i class="fa fa-trash"
+                <td href="#" data-toggle="modal" (click)="dangerModal.show();deleteTestimonial(data,i)"><i class="fa fa-trash"
                     style="color:red"></i></td>
               </tr>
             </ng-template>
           </p-table>
-          <!-- <table class="table table-bordered table-striped table-sm">
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>Comments</th>
-                <th>Recomment</th>
-                <th>Rating_1</th>
-                <th>Rating_2</th>
-                <th>Rating_3</th>
-                <th>Rating_4</th>
-                <th>Rating_5</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of categorysData | paginate: { itemsPerPage: 10, currentPage: p }">
-                <td>{{item.fullname}}</td>
-                <td>{{item.comments}}</td>
-                <td>{{item.recomment}}</td>
-                <td>{{item.rating_1}}</td>
-                <td>{{item.rating_2}}</td>
-                <td>{{item.rating_3}}</td>
-                <td>{{item.rating_4}}</td>
-                <td>{{item.rating_5}}</td>
-                <td> <button class="btn-primary" data-toggle="modal" (click)="largeModal.show();editPromotion(item,i)"><i class="fa fa-edit"></i></button></td>
-                <td> <button class="btn-danger"  data-toggle="modal"(click)="dangerModal.show();DeletePromotion(item,i)"><i class="fa fa-trash"></i></button></td>
-              </tr>
-              <tr *ngIf="!categorysData || categorysData.length ==0">
-                No Records Found
-              </tr>
-            </tbody>
-          </table> -->
-          <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
-          <!-- <div class="col-xs-12 col-12">
-            <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize" class="pagination-sm"
-                        previousText="&lsaquo;" nextText="&rsaquo;" [boundaryLinks]="true"></pagination>
-          </div> -->
         </div>
       </div>
     </div>
-    <!--/.col-->
   </div>
-
 </div>

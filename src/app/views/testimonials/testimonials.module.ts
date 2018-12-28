@@ -14,6 +14,8 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { TableModule } from 'primeng/table';
+import {ToastyModule} from 'ng2-toasty';
+
 
 @NgModule({
   imports: [
@@ -26,6 +28,7 @@ import { TableModule } from 'primeng/table';
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
     ModalModule.forRoot(),
+    ToastyModule.forRoot(),
     TableModule,
     ReactiveFormsModule
   ],
