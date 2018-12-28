@@ -1,25 +1,11 @@
-import { Component, SecurityContext, ViewEncapsulation, OnInit } from '@angular/core';
-import { AlertConfig } from 'ngx-bootstrap/alert';
+import { Component, OnInit } from '@angular/core';
 import { UsersListService } from '../../services/users-list.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
-export function getAlertConfig(): AlertConfig {
-  return Object.assign(new AlertConfig(), { type: 'success' });
-}
-
 @Component({
   templateUrl: 'users.component.html',
-  encapsulation: ViewEncapsulation.None,
-  styles: [
-    `
-  .alert-md-local {
-    background-color: #009688;
-    border-color: #00695C;
-    color: #fff;
-  }
-  `
-  ]
 })
+
 export class UsersComponent implements OnInit {
   userData: any;
   cols: any[];
@@ -45,4 +31,5 @@ export class UsersComponent implements OnInit {
       { field: 'mindbody_id', header: 'Mind Body Id' },
     ];
   }
+
 }
