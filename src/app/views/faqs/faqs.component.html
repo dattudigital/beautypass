@@ -19,30 +19,38 @@
           <i class="fa fa-align-justify"></i> FAQ's List
         </div>
         <div class="card-body">
-          <table class="table table-bordered table-striped table-sm">
-            <thead>
+
+          <p-table #dt [columns]="cols" [value]="faqData" [paginator]="true" [rows]="4">
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                  style="width:auto">
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
               <tr>
-                <th>Question</th>
-                <th>Answer</th>
+                <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of faqData | paginate: { itemsPerPage: 10, currentPage: p }">
-                <td>{{item.faq_question}}</td>
-                <td>{{item.faq_answer}}</td>
-                <td> <button class="btn-primary" data-toggle="modal" (click)="addorUpdateFaqs.show();editFaqs(item,i)"><i
-                      class="fa fa-edit"></i></button></td>
-                <td> <button class="btn-danger" data-toggle="modal" (click)="dangerModal.show();DeleteFaqs(item,i)"><i
-                      class="fa fa-trash"></i></button></td>
+            </ng-template>
+            <ng-template pTemplate="body" let-i="rowIndex" let-data>
+              <tr>
+                <td *ngFor="let col of cols">
+                  {{data[col.field]}}
+                </td>
+                <td href="#" data-toggle="modal" (click)="addorUpdateFaqs.show();editFaqs(item,i)"><i class="fa fa-edit"
+                    style="color:orange;font-size: 20px;text-align:center"></i></td>
+                <td href="#" data-toggle="modal" (click)="deleteFaq.show();DeleteFaqs(item,i)"><i class="fa fa-trash"
+                    style="color:red;font-size: 20px"></i></td>
               </tr>
-              <tr *ngIf="!faqData || faqData.length ==0">
-                No Records Found
-              </tr>
-            </tbody>
-          </table>
-          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </ng-template>
+          </p-table>
         </div>
       </div>
     </div>
@@ -119,13 +127,13 @@
   </b>
 </div>
 
-<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div bsModal #deleteFaq="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:#EC8D8D">
         <h4 class="modal-title">Delete FAQ's</h4>
-        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+        <button type="button" class="close" (click)="deleteFaq.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -149,8 +157,8 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
-        <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
+        <button type="button" class="btn btn-secondary" (click)="deleteFaq.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteFaq.hide();deleteAlert();">Delete</button>
       </div>
     </div>
   </div>

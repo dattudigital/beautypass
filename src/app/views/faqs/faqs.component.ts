@@ -1,37 +1,16 @@
-import { Component, ChangeDetectorRef, SecurityContext, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { AlertConfig } from 'ngx-bootstrap/alert';
+import { Component, ChangeDetectorRef, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FaqsService } from '../../services/faqs.service';
 declare var $: any;
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-export function getAlertConfig(): AlertConfig {
-  return Object.assign(new AlertConfig(), { type: 'success' });
-}
+
 
 @Component({
   templateUrl: 'faqs.component.html',
-  encapsulation: ViewEncapsulation.None,
-  styles: [
-    `
-  .alert-md-local {
-    background-color: #009688;
-    border-color: #00695C;
-    color: #fff;
-  }
-  `
-  ],
-  providers: [{ provide: AlertConfig, useFactory: getAlertConfig }]
 })
 
 export class FaqsComponent implements OnInit {
-  alerts: any[] = [{
-    type: 'success',
-    msg: `Testmonial Details Updated Successfully`,
-    timeout: 5000
-  }];
   faqData: any;
   editData: any = [];
   deleteData: any = [];
@@ -44,14 +23,9 @@ export class FaqsComponent implements OnInit {
     'faq_status': ''
   }
   submitted = false;
+  cols: any = [];
 
-
-  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private router: Router, private service: FaqsService, sanitizer: DomSanitizer) {
-    this.alertsHtml = this.alertsHtml.map((alert: any) => ({
-      type: alert.type,
-      msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
-    }));
-  }
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: FaqsService) { }
 
   ngAfterViewChecked() {
     //your code to update the model
@@ -70,34 +44,23 @@ export class FaqsComponent implements OnInit {
       }
     });
 
+    this.cols = [
+      { field: 'faq_question', header: 'Question' },
+      { field: 'faq_answer', header: 'Answer' },
+    ]
+
     this.faqsForm = this.formBuilder.group({
       Question: ['', Validators.required],
       Answer: ['', Validators.required]
     });
   }
 
-
-  alertsHtml: any = [
-    {
-      type: 'success',
-      msg: `<strong>Well done!</strong> You successfully read this important alert message.`
-    },
-    {
-      type: 'info',
-      msg: `<strong>Heads up!</strong> This alert needs your attention, but it's not super important.`
-    },
-    {
-      type: 'danger',
-      msg: `<strong>Warning!</strong> Better check yourself, you're not looking too good.`
-    }
-  ];
-
   removeFields() {
     this.submitted = false;
-    this.faqs.faq_id = '',
-      this.faqs.faq_question = '',
-      this.faqs.faq_answer = '',
-      this.faqs.faq_status = ''
+    this.faqs.faq_id = '';
+    this.faqs.faq_question = '';
+    this.faqs.faq_answer = '';
+    this.faqs.faq_status = '';
   }
 
   get f() { return this.faqsForm.controls; }
@@ -126,7 +89,7 @@ export class FaqsComponent implements OnInit {
     let modelClose = document.getElementById("CloseButton");
     this.service.addOrUpdateFaq(data).subscribe(res => {
       modelClose.click();
-      if(res.json().status == true){
+      if (res.json().status == true) {
         this.faqData.push(res.json().data)
       }
     });

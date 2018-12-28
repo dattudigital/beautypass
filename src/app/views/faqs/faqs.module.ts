@@ -7,7 +7,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { TableModule } from 'primeng/table';
 @NgModule({
   imports: [
     CommonModule,
@@ -17,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AlertModule.forRoot(),
     FormsModule,
     NgxPaginationModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TableModule
   ],
   declarations: [FaqsComponent]
 })
