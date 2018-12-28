@@ -2,7 +2,7 @@
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
 
-<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<!-- <div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-danger" role="document">
     <div class="modal-content">
@@ -14,6 +14,69 @@
       </div>
       <div class="modal-body">
         <p>Are you sure to Delete ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#EC8D8D">
+        <h4 class="modal-title">Delete FAQ's</h4>
+        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to Delete ?</p>
+      </div>
+      <div class="container">
+        <!-- <table class="table table-bordered table-striped table-sm" style="padding:10px;">
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Answer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{deleteRecord.faq_question}}</td>
+              <td>{{deleteRecord.faq_answer}}</td>
+            </tr>
+          </tbody>
+        </table> -->
+        <p-table #dt [columns]="cols" [value]="deleteRecord" [paginator]="true" [rows]="4">
+          <ng-template pTemplate="caption">
+            <div style="text-align: right">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                style="width:auto">
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                  ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+            </tr>
+
+          </ng-template>
+          <ng-template pTemplate="body" let-i="rowIndex" let-data>
+            <tr>
+              <td *ngFor="let col of cols">
+                {{data[col.field]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
@@ -50,7 +113,7 @@
                     <label class="col-md-3 col-form-label" for="text-input">User Name<b style="color:red">*</b></label>
                     <div class="col-md-9">
                       <input type="text" rows="5" maxlength="500" formControlName="Name" class="form-control"
-                        placeholder="User Name" [(ngModel)]="testimonialData.fullname" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+                        placeholder="User Name" [(ngModel)]="testimonialData.fullname" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" disabled>
                       <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
                         <div *ngIf="f.Name.errors.required" style="color:red">Name is required</div>
                       </div>
@@ -180,7 +243,7 @@
                     <label class="col-md-3 col-form-label" for="text-input">Rating 4<b style="color:red">*</b></label>
                     <div class="col-md-9">
                       <input type="number" maxlength="1" formControlName="Rating4" class="form-control"
-                        placeholder="Rating 4" [(ngModel)]="testimonialData.rating_3" [ngClass]="{ 'is-invalid': submitted && f.Rating4.errors }">
+                        placeholder="Rating 4" [(ngModel)]="testimonialData.rating_4" [ngClass]="{ 'is-invalid': submitted && f.Rating4.errors }">
                       <div *ngIf="submitted && f.Rating4.errors" class="invalid-feedback">
                         <div *ngIf="f.Rating4.errors.required" style="color:red">Rating 4 is required</div>
                       </div>
@@ -203,22 +266,21 @@
                     <label class="col-md-3 col-form-label" for="text-input">Rating 5<b style="color:red">*</b></label>
                     <div class="col-md-9">
                       <input type="number" maxlength="1" formControlName="Rating5" class="form-control"
-                        placeholder="Rating 4" [(ngModel)]="testimonialData.rating_3" [ngClass]="{ 'is-invalid': submitted && f.Rating5.errors }">
+                        placeholder="Rating 4" [(ngModel)]="testimonialData.rating_5" [ngClass]="{ 'is-invalid': submitted && f.Rating5.errors }">
                       <div *ngIf="submitted && f.Rating5.errors" class="invalid-feedback">
                         <div *ngIf="f.Rating5.errors.required" style="color:red">Rating 5 is required</div>
                       </div>
                     </div>
                   </div>
 
-                <button class="btn btn-primary" style="margin-left:26%">Save changes</button>
+                <button class="btn btn-primary" style="margin-left:26%" (click)="updateTestimonial()" >Save changes</button>
+                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdateTestimonial.hide()">Close</button>
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdateTestimonial.hide()">Close</button>
-    <!-- <button type="button" class="btn btn-primary" (click)="updatePromotion(editData);largeModal.hide();add();" >Save changes</button> -->
   </div><!-- /.modal-content -->
 </div><!-- /.modal -->
 
@@ -260,9 +322,9 @@
                 <td *ngFor="let col of cols">
                   {{data[col.field]}}
                 </td>
-                <td href="#" data-toggle="modal" (click)="addorUpdateTestimonial.show();editPromotion(testmonials,i)"><i
+                <td href="#" data-toggle="modal" (click)="addorUpdateTestimonial.show();editTestimonials(testmonials,i)"><i
                     class="fa fa-edit" style="color:orange"></i></td>
-                <td href="#" data-toggle="modal" (click)="dangerModal.show();DeletePromotion(testmonials,i)"><i class="fa fa-trash"
+                <td href="#" data-toggle="modal" (click)="dangerModal.show();DeleteTestimonial(testmonials,i)"><i class="fa fa-trash"
                     style="color:red"></i></td>
               </tr>
             </ng-template>

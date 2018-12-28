@@ -6,6 +6,8 @@ import { LoginService } from '../../services/login.service';
 import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
+import { ToastyService, ToastyConfig, ToastyComponent, ToastOptions, ToastData } from 'ng2-toasty';
+
 export function getAlertConfig(): AlertConfig {
   return Object.assign(new AlertConfig(), { type: 'success' });
 }
@@ -32,6 +34,13 @@ export class EmployeesComponent implements OnInit {
     msg: `Testmonial Details Updated Successfully`,
     timeout: 5000
   }];
+ toastOptions: ToastOptions = {
+    title: "My title",
+    msg: "The message",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
   data = [];
   employeeDetails: any;
   deleteData: any = [];
@@ -49,7 +58,7 @@ export class EmployeesComponent implements OnInit {
     "employee_id": null
   }
 
-  constructor(private spinner: NgxSpinnerService, private service: LoginService, private router: Router, sanitizer: DomSanitizer) {
+  constructor(private spinner: NgxSpinnerService, private service: LoginService, private router: Router, sanitizer: DomSanitizer,private toastyService: ToastyService) {
     this.alertsHtml = this.alertsHtml.map((alert: any) => ({
       type: alert.type,
       msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
@@ -70,6 +79,15 @@ export class EmployeesComponent implements OnInit {
         console.log(this.userData[0].employee_id);
       }
     });
+  }
+
+  addToast() {    
+    // Add see all possible types in one shot     
+    this.toastyService.info(this.toastOptions);
+    this.toastyService.success(this.toastOptions);
+    this.toastyService.wait(this.toastOptions);
+    this.toastyService.error(this.toastOptions);
+    this.toastyService.warning(this.toastOptions);
   }
 
   alertsHtml: any = [
