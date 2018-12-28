@@ -1,5 +1,4 @@
 import { Component,OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { ExcelService } from '../../services/excel.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -13,7 +12,7 @@ export class UserActivitiesComponent implements OnInit {
   userActivitiesData: any;
   cols: any = [];
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService) {}
+  constructor(private spinner: NgxSpinnerService,  private excelService: ExcelService, private service: RefferalRewardsService) {}
   
   ngOnInit() {
     this.spinner.show();
@@ -21,7 +20,6 @@ export class UserActivitiesComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.userActivitiesData = response.json().data;
-        console.log(this.userActivitiesData)
       } else {
         this.userActivitiesData = [];
       }
@@ -48,7 +46,6 @@ export class UserActivitiesComponent implements OnInit {
       { title: "Start Date", dataKey: "activity_start_date" },
       { title: "End Date", dataKey: "activity_end_date" }
     ];
-
     var rows = this.userActivitiesData;
     var doc = new jsPDF('');
     doc.autoTable(columns, rows, {
