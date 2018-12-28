@@ -15,6 +15,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { TableModule } from 'primeng/table';
+declare var jsPDF: any;
 
 @NgModule({
   imports: [
@@ -23,17 +25,20 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     TypeaheadModule,
     ReactiveFormsModule,
     AlertModule,
+    TableModule,
     RefferalRewardsRoutingModule,
     NgxPaginationModule,
     NgxSpinnerModule,
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
     ModalModule.forRoot()
+    
   ],
   declarations: [
     UserActivitiesComponent,
     UserHistoryComponent,
     PerksComponent
-  ]
+  ],
+  
 })
 export class RefferalRewardsModule { }

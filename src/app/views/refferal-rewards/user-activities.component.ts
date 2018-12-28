@@ -1,59 +1,67 @@
-import { Component, SecurityContext, ViewEncapsulation,OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { ExcelService } from '../../services/excel.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var jsPDF: any;
 
-
 @Component({
   templateUrl: 'user-activities.component.html',
 })
-export class UserActivitiesComponent implements OnInit {
 
-  totalItems: number;
-  categorysData: any;
-  editData: any = [];
-  bigCurrentPage: number = 1;
-  deleteData: { activity_id: any; activity_name: any; activity_points: any; activity_desc: any; activity_status: number; };
-  constructor(private spinner: NgxSpinnerService,private router: Router,private excelService:ExcelService ,private service: RefferalRewardsService ,sanitizer: DomSanitizer) {
-   
-   }
-   ngOnInit() {
+export class UserActivitiesComponent implements OnInit {
+  userActivitiesData: any;
+  cols: any = [];
+
+  constructor(private spinner: NgxSpinnerService, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService) {}
+  
+  ngOnInit() {
     this.spinner.show();
     this.service.getUserActivitiesList().subscribe(response => {
-      this.categorysData = response.json().data;
-      console.log(this.categorysData);
       this.spinner.hide();
+      if (response.json().status == true) {
+        this.userActivitiesData = response.json().data;
+        console.log(this.userActivitiesData)
+      } else {
+        this.userActivitiesData = [];
+      }
     });
-  
+
+    this.cols = [
+      { field: 'activity_name', header: 'Name' },
+      { field: 'activity_points', header: 'Points' },
+      { field: 'activity_desc', header: 'Description' },
+      { field: 'activity_start_date', header: 'Start Date' },
+      { field: 'activity_end_date', header: 'End Date' },
+    ];
   }
-  exportAsXLSX():void {
-    this.excelService.exportAsExcelFile(this.categorysData, 'Activity-Reports');
+
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.userActivitiesData, 'Activity-Reports');
   }
+
   pdfDownload() {
     var columns = [
-      { title: "activity_name", dataKey: "activity_name" },
-      { title: "activity_points", dataKey: "activity_points" },
-      { title: "activity_desc", dataKey: "activity_desc" },
-      { title: "activity_start_date", dataKey: "activity_start_date" },
-      { title: "activity_end_date", dataKey: "activity_end_date" }
-      
+      { title: "Name", dataKey: "activity_name" },
+      { title: "Points", dataKey: "activity_points" },
+      { title: "Description", dataKey: "activity_desc" },
+      { title: "Start Date", dataKey: "activity_start_date" },
+      { title: "End Date", dataKey: "activity_end_date" }
     ];
-  
-    var rows = this.categorysData;
+
+    var rows = this.userActivitiesData;
     var doc = new jsPDF('');
     doc.autoTable(columns, rows, {
       styles: { fillColor: [100, 255, 255] },
       columnStyles: {
-        id: { fillColor:[255,0,0] }
+        id: { fillColor: [255, 0, 0] }
       },
       margin: { top: 50 },
       addPageContent: function () {
-        doc.text("Activity-Reports",  30,30);      
+        doc.text("Activity-Reports", 30, 30);
       }
     });
     doc.save('Activity-Reports.pdf');
   }
+
 }

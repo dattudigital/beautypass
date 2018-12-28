@@ -7,6 +7,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule} from 'ngx-bootstrap/alert';
 import { FormsModule } from '@angular/forms';
+import {ToastyModule} from 'ng2-toasty';
 
 @NgModule({
   imports: [   
@@ -14,7 +15,8 @@ import { FormsModule } from '@angular/forms';
     EmployeesRoutingModule,
     NgxSpinnerModule,
     ModalModule.forRoot(),
-    AlertModule.forRoot(),
+    AlertModule.forRoot(),  
+    ToastyModule.forRoot(),
     FormsModule,
     NgxPaginationModule   
   ],
