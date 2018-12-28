@@ -21,7 +21,7 @@ declare var jsPDF: any;
   imports: [
     CommonModule,
     FormsModule,
-    TypeaheadModule,
+    TypeaheadModule.forRoot(),
     ReactiveFormsModule,
     AlertModule,
     TableModule,
