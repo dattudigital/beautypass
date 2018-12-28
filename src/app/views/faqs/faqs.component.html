@@ -1,6 +1,7 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
 
 <div class="card-body">
   <div class="row">
@@ -19,7 +20,6 @@
           <i class="fa fa-align-justify"></i> FAQ's List
         </div>
         <div class="card-body">
-
           <p-table #dt [columns]="cols" [value]="faqData" [paginator]="true" [rows]="4">
             <ng-template pTemplate="caption">
               <div style="text-align: right">
@@ -44,9 +44,9 @@
                 <td *ngFor="let col of cols">
                   {{data[col.field]}}
                 </td>
-                <td href="#" data-toggle="modal" (click)="addorUpdateFaqs.show();editFaqs(item,i)"><i class="fa fa-edit"
+                <td href="#" data-toggle="modal" (click)="addorUpdateFaqs.show();editFaqs(data,i)"><i class="fa fa-edit"
                     style="color:orange;font-size: 20px;text-align:center"></i></td>
-                <td href="#" data-toggle="modal" (click)="deleteFaq.show();DeleteFaqs(item,i)"><i class="fa fa-trash"
+                <td href="#" data-toggle="modal" (click)="deleteFaq.show();deleteFaqs(data,i)"><i class="fa fa-trash"
                     style="color:red;font-size: 20px"></i></td>
               </tr>
             </ng-template>
@@ -121,11 +121,6 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div *ngFor="let alert of alertsDismiss">
-  <b>
-    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
-  </b>
-</div>
 
 <div bsModal #deleteFaq="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
@@ -150,8 +145,8 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{deleteRecordFaq.faq_question}}</td>
-              <td>{{deleteRecordFaq.faq_answer}}</td>
+              <td>{{deleteRecord.faq_question}}</td>
+              <td>{{deleteRecord.faq_answer}}</td>
             </tr>
           </tbody>
         </table>

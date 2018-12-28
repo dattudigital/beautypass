@@ -1,20 +1,37 @@
 import { Component, ChangeDetectorRef, OnInit, } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FaqsService } from '../../services/faqs.service';
 declare var $: any;
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 @Component({
   templateUrl: 'faqs.component.html',
 })
 
 export class FaqsComponent implements OnInit {
+  toastOptionsSuccess: ToastOptions = {
+    title: "Success",
+    msg: "Successfully Done",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsError: ToastOptions = {
+    title: "Error",
+    msg: "Something is Wrong",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsWarn: ToastOptions = {
+    title: "Not Found",
+    msg: "No Data",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
   faqData: any;
-  editData: any = [];
-  deleteData: any = [];
-  deleteRecordFaq = '';
   faqsForm: FormGroup;
   faqs: any = {
     'faq_id': null,
@@ -24,8 +41,9 @@ export class FaqsComponent implements OnInit {
   }
   submitted = false;
   cols: any = [];
+  deleteRecord = '';
 
-  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: FaqsService) { }
+  constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: FaqsService) { }
 
   ngAfterViewChecked() {
     //your code to update the model
@@ -70,13 +88,9 @@ export class FaqsComponent implements OnInit {
     if (this.faqsForm.invalid) {
       return;
     }
-
     if (!this.faqs.faq_id) {
       this.faqs.faq_status = '1'
-    } else {
-      this.faqs.faq_status = '0'
     }
-    console.log(this.faqs.faq_id)
     if (!this.faqs.faq_id) {
       this.faqs.faq_id = null;
     }
@@ -90,56 +104,40 @@ export class FaqsComponent implements OnInit {
     this.service.addOrUpdateFaq(data).subscribe(res => {
       modelClose.click();
       if (res.json().status == true) {
-        this.faqData.push(res.json().data)
+        if (!this.faqs.faq_id) {
+          this.faqData.push(res.json().data)
+        } else {
+          if(this.faqs.faq_status == '0'){
+            this.faqData.splice( this.faqs["index"], 1);
+          } else {
+            this.faqs = res.json().data;          
+          }          
+        }
+        this.toastyService.success(this.toastOptionsSuccess);
+      } else {
+        this.toastyService.error(this.toastOptionsError);
       }
     });
   }
 
-  editFaqs(data, index) {
-    data.index = index;
+  editFaqs(data,index) {
     this.faqs = data;
+    this.faqs["index"] =index;
   }
 
-  DeleteFaqs(val) {
-    this.deleteRecordFaq = val
-    var data = {
-      faq_id: val.faq_id,
-      faq_status: 0
-    }
-    this.deleteData = data;
+  deleteFaqs(val, index) {
+    this.deleteRecord = val;
+    this.deleteRecord["index"] = index
   }
 
   deleteAlert() {
-    this.service.addOrUpdateFaq(this.deleteData).subscribe();
-    this.delete();
-    this.faqData = [];
-    this.service.getList().subscribe(response => {
-      this.faqData = response.json().data;
-    });
-  }
-
-  alertsDismiss: any = [];
-  add(): void {
-    this.alertsDismiss.push({
-      type: 'info',
-      msg: `Updated Sucessfully!`,
-      timeout: 5000
-    });
-  }
-
-  addCreate(): void {
-    this.alertsDismiss.push({
-      type: 'info',
-      msg: `Created Sucessfully!`,
-      timeout: 5000
-    });
-  }
-
-  delete(): void {
-    this.alertsDismiss.push({
-      type: 'danger',
-      msg: `Deleted Sucessfully!`,
-      timeout: 5000
+    this.service.addOrUpdateFaq({ faq_id: this.deleteRecord["faq_id"], faq_status: 0 }).subscribe(res => {
+      if (res.json().status == true) {
+        this.faqData.splice(this.deleteRecord["index"], 1);
+        this.toastyService.success(this.toastOptionsSuccess);
+      } else {
+        this.toastyService.error(this.toastOptionsError);
+      }
     });
   }
 
