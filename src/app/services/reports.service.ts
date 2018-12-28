@@ -8,7 +8,8 @@ import { environment } from '../../environments/environment';
 export class ReportsService {
 
   constructor(private http: Http) { }
-  public getVoucherReports() {
-    return this.http.get(environment.host + 'voucher-overview-reports');
+  
+  public getVoucherReports(url:any) {
+    return this.http.get(environment.host + 'voucher-overview-reports'+url);
   }
 }
