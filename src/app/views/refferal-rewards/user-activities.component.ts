@@ -25,7 +25,6 @@ export class UserActivitiesComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.userActivitiesData = response.json().data;
-        console.log(this.userActivitiesData)
       } else {
         this.userActivitiesData = [];
       }
@@ -52,7 +51,6 @@ export class UserActivitiesComponent implements OnInit {
       { title: "Start Date", dataKey: "activity_start_date" },
       { title: "End Date", dataKey: "activity_end_date" }
     ];
-
     var rows = this.userActivitiesData;
     var doc = new jsPDF('');
     doc.autoTable(columns, rows, {

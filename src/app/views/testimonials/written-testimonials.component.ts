@@ -1,18 +1,40 @@
 import { Component, SecurityContext, ViewEncapsulation, OnInit } from '@angular/core';
-import { AlertConfig } from 'ngx-bootstrap/alert';
 import { Router } from '@angular/router';
 import { TestmonialsService } from '../../services/TestmonialsService';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastyService, ToastyConfig, ToastyComponent, ToastOptions, ToastData } from 'ng2-toasty';
 
 // such override allows to keep some initial values
 
 @Component({
   templateUrl: 'written-testimonials.component.html',
-  styles: [ ]
+  styles: []
 })
 
 export class WrittenTestimonialsComponent implements OnInit {
+
+  toastOptionsSuccess: ToastOptions = {
+    title: "Success",
+    msg: "Successfully Done",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsError: ToastOptions = {
+    title: "Error",
+    msg: "Something is Wrong",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsWarn: ToastOptions = {
+    title: "Not Found",
+    msg: "No Data",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
 
   testmonials: any[];
   cols: any[];
@@ -27,12 +49,11 @@ export class WrittenTestimonialsComponent implements OnInit {
     'rating_5': ''
   }
   editData: any = [];
-  deleteData: any = []; 
   userData: any;
   deleteRecord = '';
   testimonialForm: FormGroup;
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder) {}
+  constructor(private spinner: NgxSpinnerService, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder ,private toastyService: ToastyService) { }
   backToDashBoard() {
     this.router.navigate(['reports'])
   }
@@ -67,11 +88,10 @@ export class WrittenTestimonialsComponent implements OnInit {
       Rating4: ['', Validators.required],
       Rating5: ['', Validators.required],
     });
-
   }
+
   editTestimonials(data) {
     this.testimonialData = data;
-    console.log(this.testimonialData)
   }
 
   updateTestimonial() {
@@ -89,28 +109,29 @@ export class WrittenTestimonialsComponent implements OnInit {
     }
     let modelClose = document.getElementById("CloseButton");
     this.service.editWrittenTestmonials(data).subscribe(res => {
-      console.log(res.json().data)
       modelClose.click();
       if (res.json().status == true) {
-        this.testimonialData=data
+        this.toastyService.success(this.toastOptionsSuccess);
+        this.testimonialData = data
+      }else{
+        this.toastyService.error(this.toastOptionsError);
       }
     });
   }
-  
-  DeleteTestimonial(val) {
-    console.log(val)
+
+  deleteTestimonial(val,index) {
     this.deleteRecord = val
-    var data = {
-      testimonial_id: val.testimonial_id,
-      status: 0,
-    }
-    this.deleteData = data;
+    this.deleteRecord["index"] = index
   }
-  
+
   deleteAlert() {
-    this.service.editWrittenTestmonials(this.deleteData).subscribe();
-    this.service.getWrittenTestmonials().subscribe(response => {
-      this.testmonials = response.json().data;
+    this.service.editWrittenTestmonials({testimonial_id: this.deleteRecord["testimonial_id"],status: 0}).subscribe(res =>{
+      if (res.json().status == true) {
+        this.testmonials.splice(this.deleteRecord["index"], 1)
+        this.toastyService.success(this.toastOptionsSuccess);
+      }else{
+        this.toastyService.error(this.toastOptionsError);
+      }
     });
   }
 }
