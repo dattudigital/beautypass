@@ -57,6 +57,8 @@
     "primeicons": "^1.0.0",
     "primeng": "^7.0.3",
     "rxjs": "^6.3.3",
+    "jspdf": "^1.4.1",
+    "jspdf-autotable": "^2.3.5",
     "simple-line-icons": "^2.4.1",
     "ts-helpers": "^1.1.2",
     "tsickle": "^0.34.0",
