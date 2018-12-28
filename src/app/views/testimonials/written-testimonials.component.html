@@ -28,7 +28,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:#EC8D8D">
-        <h4 class="modal-title">Delete FAQ's</h4>
+        <h4 class="modal-title">Delete Testimonials</h4>
         <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -37,46 +37,32 @@
         <p>Are you sure to Delete ?</p>
       </div>
       <div class="container">
-        <!-- <table class="table table-bordered table-striped table-sm" style="padding:10px;">
+        <table class="table table-bordered table-striped table-sm" style="padding:10px;">
           <thead>
             <tr>
-              <th>Question</th>
-              <th>Answer</th>
+              <th>Name</th>
+              <th>Comment</th>
+              <th>Recomment</th>
+              <th>Rating 1</th>
+              <th>Rating 2</th>
+              <th>Rating 3</th>
+              <th>Rating 4</th>
+              <th>Rating 5</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>{{deleteRecord.faq_question}}</td>
-              <td>{{deleteRecord.faq_answer}}</td>
+              <td>{{deleteRecord.fullname}}</td>
+              <td>{{deleteRecord.comments}}</td>
+              <td>{{deleteRecord.recomment}}</td>
+              <td>{{deleteRecord.rating_1}}</td>
+              <td>{{deleteRecord.rating_2}}</td>
+              <td>{{deleteRecord.rating_3}}</td>
+              <td>{{deleteRecord.rating_4}}</td>
+              <td>{{deleteRecord.rating_5}}</td>
             </tr>
           </tbody>
-        </table> -->
-        <p-table #dt [columns]="cols" [value]="deleteRecord" [paginator]="true" [rows]="4">
-          <ng-template pTemplate="caption">
-            <div style="text-align: right">
-              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-              <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                style="width:auto">
-            </div>
-          </ng-template>
-          <ng-template pTemplate="header">
-            <tr>
-              <th *ngFor="let col of cols" [pSortableColumn]="col.field">
-                {{col.header}}
-                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
-                  ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-              </th>
-            </tr>
-
-          </ng-template>
-          <ng-template pTemplate="body" let-i="rowIndex" let-data>
-            <tr>
-              <td *ngFor="let col of cols">
-                {{data[col.field]}}
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
+        </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
@@ -322,9 +308,9 @@
                 <td *ngFor="let col of cols">
                   {{data[col.field]}}
                 </td>
-                <td href="#" data-toggle="modal" (click)="addorUpdateTestimonial.show();editTestimonials(testmonials,i)"><i
+                <td href="#" data-toggle="modal" (click)="addorUpdateTestimonial.show();editTestimonials(data,i)"><i
                     class="fa fa-edit" style="color:orange"></i></td>
-                <td href="#" data-toggle="modal" (click)="dangerModal.show();DeleteTestimonial(testmonials,i)"><i class="fa fa-trash"
+                <td href="#" data-toggle="modal" (click)="dangerModal.show();DeleteTestimonial(data,i)"><i class="fa fa-trash"
                     style="color:red"></i></td>
               </tr>
             </ng-template>

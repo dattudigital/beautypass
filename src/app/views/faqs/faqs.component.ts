@@ -35,7 +35,7 @@ export class FaqsComponent implements OnInit {
   faqData: any;
   editData: any = [];
   deleteData: any = [];
-  deleteRecord = '';
+  deleteRecordFaq = '';
   faqsForm: FormGroup;
   faqs: any = {
     'faq_id': null,
@@ -138,7 +138,7 @@ export class FaqsComponent implements OnInit {
   }
 
   DeleteFaqs(val) {
-    this.deleteRecord = val
+    this.deleteRecordFaq = val
     var data = {
       faq_id: val.faq_id,
       faq_status: 0
