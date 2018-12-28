@@ -52,9 +52,9 @@ export class UserHistoryComponent {
       msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
     }));
   }
+  
   ngOnInit() {
-    //this.spinner.show();
-
+    //this.spinner.show()
 
   }
   onSelect(event: TypeaheadMatch): void {

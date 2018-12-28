@@ -4,6 +4,8 @@ import { UserActivitiesComponent } from './user-activities.component';
 import { UserHistoryComponent } from './user-history.component';
 import { PerksComponent } from './perks.component';
 
+
+
 const routes: Routes = [
   {
     path: '',

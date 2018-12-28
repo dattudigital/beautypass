@@ -17,6 +17,7 @@ export class UserActivitiesComponent implements OnInit {
   userActivitiesData: any;
   cols: any = [];
 
+  
   constructor(private spinner: NgxSpinnerService, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
 
   ngOnInit() {
