@@ -22,6 +22,7 @@ export function getAlertConfig(): AlertConfig {
 })
 export class UsersComponent implements OnInit {
   userData: any;
+  cols: any[];
 
   constructor(private spinner: NgxSpinnerService, private service: UsersListService) { }
 
@@ -35,5 +36,13 @@ export class UsersComponent implements OnInit {
         this.userData = [];
       }
     });
+
+    this.cols = [
+      { field: 'fullname', header: 'User Name' },
+      { field: 'email_id', header: 'Email ID' },
+      { field: 'mobile', header: 'Mobile' },
+      { field: 'gender', header: 'Gender' },
+      { field: 'mindbody_id', header: 'Mind Body Id' },
+    ];
   }
 }

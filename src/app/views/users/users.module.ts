@@ -5,19 +5,20 @@ import { UsersComponent } from './users.component';
 import { UsersRoutingModule } from './users-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { AlertModule} from 'ngx-bootstrap/alert';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import { FormsModule } from '@angular/forms';
-
+import { TableModule } from 'primeng/table';
 @NgModule({
-  imports: [   
+  imports: [
     CommonModule,
     UsersRoutingModule,
     FormsModule,
     AlertModule,
     ModalModule,
     NgxSpinnerModule,
-    NgxPaginationModule   
+    NgxPaginationModule,
+    TableModule
   ],
-  declarations: [ UsersComponent ]
+  declarations: [UsersComponent]
 })
 export class UsersModule { }
