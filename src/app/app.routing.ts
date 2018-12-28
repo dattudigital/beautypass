@@ -30,15 +30,7 @@ export const routes: Routes = [
     data: {
       title: 'Home'
     },
-    children: [
-      // {
-      //   path: 'buttons',
-      //   loadChildren: './views/buttons/buttons.module#ButtonsModule'
-      // },
-      // {
-      //   path: 'charts',
-      //   loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
-      // },
+    children: [      
       {
         path: 'dashboard',
         loadChildren: './views/dashboard/dashboard.module#DashboardModule'
@@ -80,10 +72,6 @@ export const routes: Routes = [
         path: 'refferal-rewards',
         loadChildren: './views/refferal-rewards/refferal-rewards.module#RefferalRewardsModule'
       }
-      // {
-      //   path: 'notifications',
-      //   loadChildren: './views/notifications/notifications.module#NotificationsModule'
-      // }
     ]
   }
 ];
