@@ -6,9 +6,9 @@ import { EmployeesRoutingModule } from './employees-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule} from 'ngx-bootstrap/alert';
-import { FormsModule } from '@angular/forms';
+import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import {ToastyModule} from 'ng2-toasty';
-
+import { TableModule } from 'primeng/table';
 @NgModule({
   imports: [   
     CommonModule,
@@ -16,9 +16,11 @@ import {ToastyModule} from 'ng2-toasty';
     NgxSpinnerModule,
     ModalModule.forRoot(),
     AlertModule.forRoot(),  
-    ToastyModule.forRoot(),
+    ToastyModule,
     FormsModule,
-    NgxPaginationModule   
+    NgxPaginationModule  ,
+    TableModule ,
+    ReactiveFormsModule
   ],
   declarations: [ EmployeesComponent ]
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -50,7 +50,12 @@ export class MindbodyCouponsComponent implements OnInit {
   submitted = false;
   cols: any = [];
 
-  constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+
+  ngAfterViewChecked() {
+    //your code to update the model
+    this.cdr.detectChanges();
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -82,12 +87,20 @@ export class MindbodyCouponsComponent implements OnInit {
   redirectToBulk() {
     this.router.navigate(['mindbody-coupons/bulk'])
   }
+  temp: '';
 
   editCoupons(data, index) {
     this.couponsDetails = data;
+    this.temp = data;
     console.log(this.couponsDetails);
     this.couponsDetails["index"] = index;
   }
+
+  cancelClick() {
+    console.log(this.temp);
+    console.log(this.couponsData)
+  }
+
 
   get f() { return this.couponsForm.controls; }
 
