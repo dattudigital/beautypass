@@ -1,101 +1,8 @@
-<ngx-spinner
-bdColor="rgba(51, 51, 51, 0.8)"
-size="medium"
-color="#fff"
-type="ball-scale-multiple">
-<p style="font-size: 20px; color: white">Loading...</p>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
-<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-danger" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Delete Testmonail</h4>
-          <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure to Delete ?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
-          <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
-        </div>
-      </div>
-    </div>
-  </div>
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title"></h4>
-        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <strong>Edit Testmonails</strong> 
-              </div>
-              <div class="card-body">
-                <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
-                  <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">User Name</label>
-                    <div class="col-md-9">
-                      <input type="text" maxlength="50"  name="fullname" class="form-control" placeholder="Text" [(ngModel)]="editData.fullname" disabled>
-                      <!-- <span class="help-block">This is a help text</span> -->
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Description</label>
-                    <div class="col-md-9">
-                      <textarea type="text" maxlength="500" rows="5"  name="description" class="form-control" placeholder="Text" [(ngModel)]="editData.description"></textarea>
-                      <!-- <span class="help-block">This is a help text</span> -->
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Likes	<b style="color:red">*</b></label>
-                    <div class="col-md-9">
-                      <input type="number" maxlength="50"  name="likes" class="form-control" placeholder="Text" [(ngModel)]="editData.likes"
-                      #likes="ngModel" [ngClass]="{ 'is-invalid': f.submitted && likes.invalid }"
-                      required>
-                      <div *ngIf="f.submitted && likes.invalid" class="invalid-feedback">
-                        <div *ngIf="likes.errors.required">Likes is required</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="text-input">Video Link</label>
-                    <div class="col-md-9">
-                      <input type="text" maxlength="50"  name="video" class="form-control" placeholder="Text" [(ngModel)]="editData.video"
-                      #video="ngModel" [ngClass]="{ 'is-invalid': f.submitted && video.invalid }"
-                       disabled>
-                      <div *ngIf="f.submitted && video.invalid" class="invalid-feedback">
-                        <div *ngIf="video.errors.required">Video Link is required</div>
-                      </div>
-                    </div>
-                  </div>
-                  <button  class="btn btn-primary" style="margin-left:26%">Save changes</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="CloseButton" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-       
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div *ngFor="let alert of alertsDismiss">
-    <b><alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert></b> 
-   </div>
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-lg-12">
@@ -104,35 +11,149 @@ type="ball-scale-multiple">
           <i class="fa fa-align-justify"></i> Video Testmonails
         </div>
         <div class="card-body">
-          <table class="table table-bordered table-striped table-sm">
-            <thead>
+          <p-table #dt [columns]="cols" [value]="videoTestimonials" [paginator]="true" [rows]="4">
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                  style="width:auto">
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
               <tr>
-                <th>Username</th>
-                <th>Description</th>
-                <th>Likes</th>
-                <th>Video Link</th>
-                <th>Edit</th>
+                <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th>Update</th>
                 <th>Delete</th>
               </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of categorysData | paginate: { itemsPerPage: 7, currentPage: p }">
-                <td>{{item.fullname}}</td>
-                <td>{{item.description}}</td>
-                <td>{{item.likes}}</td>
-                <td style="cursor:pointer;color: blue"><i><a (click)="openNewWindow(item,i)" >Click Here to </a></i>View {{item.fullname}} Testmonial</td>
-                <td> <button class="btn-primary" data-toggle="modal" (click)="largeModal.show();editPromotion(item,i)"><i class="fa fa-edit"></i></button></td>
-                <td> <button class="btn-danger"  data-toggle="modal"(click)="dangerModal.show();DeletePromotion(item,i)"><i class="fa fa-trash"></i></button></td>
+            </ng-template>
+            <ng-template pTemplate="body" let-i="rowIndex" let-data>
+              <tr>
+                <td *ngFor="let col of cols">
+                  {{data[col.field]}}
+                </td>
+                <td href="#" data-toggle="modal" (click)="addorUpdateTestimonial.show();editVideoTestimonials(data,i)"><i
+                    class="fa fa-edit" style="color:orange"></i></td>
+                <td href="#" data-toggle="modal" (click)="dangerModal.show();deleteVideoTestimonial(data,i)"><i class="fa fa-trash"
+                    style="color:red"></i></td>
               </tr>
-              <tr *ngIf="!categorysData || categorysData.length ==0">
-                  No Records Found
-                </tr>
-            </tbody>
-          </table>
-          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </ng-template>
+          </p-table>
         </div>
       </div>
     </div>
-    <!--/.col-->
   </div>
+</div>
+
+<div bsModal #addorUpdateTestimonial="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card" style="margin-bottom: 0;">
+            <div class="card-header">
+              <strong>Edit Testimonial</strong>
+              <button type="button" class="close" (click)="addorUpdateTestimonial.hide();">&times;</button>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="videoTestimonialForm">
+
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">User Name<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" rows="5" maxlength="500" formControlName="Name" class="form-control" placeholder="User Name"
+                      [(ngModel)]="videoTestimonialData.fullname" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+                    <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                      <div *ngIf="f.Name.errors.required" style="color:red">Name is required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Description<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <textarea type="text" rows="5" maxlength="500" formControlName="Description" class="form-control"
+                      placeholder="Description" [(ngModel)]="videoTestimonialData.description" [ngClass]="{ 'is-invalid': submitted && f.Description.errors }"></textarea>
+                    <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
+                      <div *ngIf="f.Description.errors.required" style="color:red">Description is required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Video<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" rows="5" maxlength="500" formControlName="Video" class="form-control"
+                      placeholder="Video" [(ngModel)]="videoTestimonialData.video" [ngClass]="{ 'is-invalid': submitted && f.Video.errors }">
+                    <div *ngIf="submitted && f.Video.errors" class="invalid-feedback">
+                      <div *ngIf="f.Video.errors.required" style="color:red">Video is required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Likes<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="number" maxlength="1" formControlName="Likes" class="form-control" placeholder="Likes"
+                      [(ngModel)]="videoTestimonialData.likes" [ngClass]="{ 'is-invalid': submitted && f.Likes.errors }">
+                    <div *ngIf="submitted && f.Likes.errors" class="invalid-feedback">
+                      <div *ngIf="f.Likes.errors.required" style="color:red">Likes is required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary" style="margin-left:26%" (click)="updateTestimonial()">Save changes</button>
+                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdateTestimonial.hide()">Close</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#EC8D8D">
+        <h4 class="modal-title">Delete Testimonials</h4>
+        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to Delete ?</p>
+      </div>
+      <div class="container">
+        <table class="table table-bordered table-striped table-sm" style="padding:10px;">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Description</th>
+              <th>Likes</th>
+              <th>Video</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{deleteRecord.fullname}}</td>
+              <td>{{deleteRecord.description}}</td>
+              <td>{{deleteRecord.likes}}</td>
+              <td>{{deleteRecord.video}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
+      </div>
+    </div>
   </div>
+</div>
