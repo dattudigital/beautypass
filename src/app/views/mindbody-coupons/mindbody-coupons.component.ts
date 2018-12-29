@@ -88,12 +88,10 @@ export class MindbodyCouponsComponent implements OnInit {
   redirectToBulk() {
     this.router.navigate(['mindbody-coupons/bulk'])
   }
-  temp: '';
 
   editCoupons(data, index) {
     this.copiedRow = Object.assign({}, data);
     this.couponsDetails = data;
-    this.temp = data;
     this.couponsDetails["index"] = index;
   }
 
@@ -111,7 +109,6 @@ export class MindbodyCouponsComponent implements OnInit {
     if (this.couponsForm.invalid) {
       return;
     }
-    let element = document.getElementById("CloseButton");
     var data = {
       coupons_id: this.couponsDetails.coupons_id,
       coupons_for: this.couponsDetails.coupons_for,
@@ -119,14 +116,17 @@ export class MindbodyCouponsComponent implements OnInit {
       coupons_status: this.couponsDetails.coupons_status,
       createdempid: this.userData[0].employee_id
     }
+    let modelClose = document.getElementById("CloseButton");
     this.service.addoreditMindBodyCoupons(data).subscribe(res => {
+      modelClose.click();
       if (res.json().status == true) {
         if (this.couponsDetails.coupons_status == '0') {
           this.couponsData.splice(this.couponsDetails["index"], 1);
+          this.toastyService.success(this.toastOptionsSuccess);
         }
       }
     });
-    element.click();
+
   }
 
   deleteCoupons(val, index) {

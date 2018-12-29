@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,ChangeDetectorRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestmonialsService } from '../../services/TestmonialsService';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -48,14 +48,20 @@ export class WrittenTestimonialsComponent implements OnInit {
     'rating_4': '',
     'rating_5': ''
   }
-  editData: any = [];
   userData: any;
   deleteRecord = '';
   testimonialForm: FormGroup;
+  submitted = false;
+  copiedRow: '';
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private toastyService: ToastyService) { }
+  constructor(private spinner: NgxSpinnerService,private cdr: ChangeDetectorRef, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private toastyService: ToastyService) { }
   backToDashBoard() {
     this.router.navigate(['reports'])
+  }
+
+  ngAfterViewChecked() {
+    //your code to update the model
+    this.cdr.detectChanges();
   }
 
   ngOnInit() {
@@ -68,7 +74,6 @@ export class WrittenTestimonialsComponent implements OnInit {
         this.testmonials = [];
       }
       this.userData = JSON.parse(localStorage.getItem('loginDetails'));
-      console.log(this.userData[0].employee_id);
 
     });
 
@@ -95,11 +100,24 @@ export class WrittenTestimonialsComponent implements OnInit {
     });
   }
 
-  editTestimonials(data) {
+  get f() { return this.testimonialForm.controls; }
+
+  editTestimonials(data, index) {
+    this.copiedRow = Object.assign({}, data);
     this.testimonialData = data;
+    this.testimonialData["index"] = index;
   }
 
-  updateTestimonial() {
+  backupData() {
+    let _index = this.testimonialData["index"];
+    this.testmonials[_index] = this.copiedRow;
+  }
+
+  updateTestimonials() {
+    this.submitted = true;
+    if (this.testimonialForm.invalid) {
+      return;
+    }
     var data = {
       testimonial_id: this.testimonialData.testimonial_id,
       comments: this.testimonialData.comments,
@@ -116,8 +134,10 @@ export class WrittenTestimonialsComponent implements OnInit {
     this.service.editWrittenTestmonials(data).subscribe(res => {
       modelClose.click();
       if (res.json().status == true) {
-        this.toastyService.success(this.toastOptionsSuccess);
-        this.testimonialData = data
+        if (this.testimonialData.coupons_status == '0') {
+          this.testmonials.splice(this.testimonialData["index"], 1);
+          this.toastyService.success(this.toastOptionsSuccess);
+        }
       } else {
         this.toastyService.error(this.toastOptionsError);
       }
@@ -139,4 +159,5 @@ export class WrittenTestimonialsComponent implements OnInit {
       }
     });
   }
+
 }
