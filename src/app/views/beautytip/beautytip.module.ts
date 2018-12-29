@@ -7,6 +7,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { ToastyModule } from 'ng2-toasty';
 
 @NgModule({
   imports: [
@@ -15,9 +17,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NgxSpinnerModule,
     ModalModule.forRoot(),
     AlertModule.forRoot(),
+    ToastyModule.forRoot(),
     FormsModule,
     NgxPaginationModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TableModule
   ],
   declarations: [BeautyTipsComponent]
 })
