@@ -1,37 +1,40 @@
-import { Component, SecurityContext, ViewEncapsulation, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { AlertConfig } from 'ngx-bootstrap/alert';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-// such override allows to keep some initial values
-
-export function getAlertConfig(): AlertConfig {
-  return Object.assign(new AlertConfig(), { type: 'success' });
-}
+import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 @Component({
   templateUrl: 'mindbody-coupons.component.html',
-  encapsulation: ViewEncapsulation.None,
-  styles: [
-    `
-  .alert-md-local {
-    background-color: #009688;
-    border-color: #00695C;
-    color: #fff;
-  }
-  `
+  providers: [
+    DatePipe
   ]
 })
 
 export class MindbodyCouponsComponent implements OnInit {
-  alerts: any[] = [{
-    type: 'success',
-    msg: `Testmonial Details Updated Successfully`,
-    timeout: 5000
-  }];
+  toastOptionsSuccess: ToastOptions = {
+    title: "Success",
+    msg: "Successfully Done",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsError: ToastOptions = {
+    title: "Error",
+    msg: "Something is Wrong",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsWarn: ToastOptions = {
+    title: "Not Found",
+    msg: "No Data",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
   couponsDetails: any = {
     'coupons_id': '',
     'coupons_number': '',
@@ -41,19 +44,13 @@ export class MindbodyCouponsComponent implements OnInit {
     'updatedempid': ''
   }
   couponsData: any;
-  editData: any = [];
-  deleteData: any = [];
   deleteRecord: ''
   userData: any;
   couponsForm: FormGroup;
   submitted = false;
+  cols: any = [];
 
-  constructor(private spinner: NgxSpinnerService, private formBuilder: FormBuilder, private router: Router, private service: RefferalRewardsService, sanitizer: DomSanitizer) {
-    this.alertsHtml = this.alertsHtml.map((alert: any) => ({
-      type: alert.type,
-      msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
-    }));
-  }
+  constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -61,9 +58,10 @@ export class MindbodyCouponsComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.couponsData = response.json().data;
+      } else {
+        this.couponsData = [];
       }
       this.userData = JSON.parse(localStorage.getItem('loginDetails'));
-      console.log(this.userData[0].employee_id);
     });
 
     this.couponsForm = this.formBuilder.group({
@@ -71,90 +69,65 @@ export class MindbodyCouponsComponent implements OnInit {
       Cost: ['', Validators.required]
     });
 
+    this.cols = [
+      { field: 'coupons_number', header: 'Coupon Number' },
+      { field: 'coupons_for', header: 'Cost' },
+      { field: 'coupons_status', header: 'Status' },
+      { field: 'coupons_type', header: 'Type' },
+      { field: 'coupons_startdate', header: 'Start Date', type: this.dp },
+      { field: 'coupons_enddate', header: 'End Date', type: this.dp },
+    ];
   }
 
   redirectToBulk() {
     this.router.navigate(['mindbody-coupons/bulk'])
   }
 
-  alertsHtml: any = [
-    {
-      type: 'success',
-      msg: `<strong>Well done!</strong> You successfully read this important alert message.`
-    },
-    {
-      type: 'info',
-      msg: `<strong>Heads up!</strong> This alert needs your attention, but it's not super important.`
-    },
-    {
-      type: 'danger',
-      msg: `<strong>Warning!</strong> Better check yourself, you're not looking too good.`
-    }
-  ];
-
   editCoupons(data, index) {
-    this.submitted = false;
-    data.index = index;
-    console.log(data.index);
-    this.editData = data;
-    console.log(this.editData)
+    this.couponsDetails = data;
+    console.log(this.couponsDetails);
+    this.couponsDetails["index"] = index;
   }
 
   get f() { return this.couponsForm.controls; }
 
-  onSubmit() {
-    this.updateCoupons(this.editData);
-  }
 
-  updateCoupons(val) {
+  updateCoupons() {
     this.submitted = true;
     if (this.couponsForm.invalid) {
       return;
     }
     let element = document.getElementById("CloseButton");
-    console.log(val)
     var data = {
-      coupons_id: val.coupons_id,
-      coupons_for: val.coupons_for,
-      coupons_number: val.coupons_number,
-      coupons_status: val.coupons_status,
+      coupons_id: this.couponsDetails.coupons_id,
+      coupons_for: this.couponsDetails.coupons_for,
+      coupons_number: this.couponsDetails.coupons_number,
+      coupons_status: this.couponsDetails.coupons_status,
       createdempid: this.userData[0].employee_id
     }
-    this.service.addoreditMindBodyCoupons(data).subscribe();
+    this.service.addoreditMindBodyCoupons(data).subscribe(res => {
+      if (res.json().status == true) {
+        if (this.couponsDetails.coupons_status == '0') {
+          this.couponsData.splice(this.couponsDetails["index"], 1);
+        }
+      }
+    });
     element.click();
   }
 
-
-  deleteCoupons(val) {
+  deleteCoupons(val, index) {
     this.deleteRecord = val;
-    console.log(this.deleteRecord)
-    var data = {
-      coupons_id: val.coupons_id,
-      coupons_status: 0
-    }
-    this.deleteData = data;
+    this.deleteRecord["index"] = index
   }
 
   deleteAlert() {
-    this.service.addoreditMindBodyCoupons(this.deleteData).subscribe();
-    this.couponsData = [];
-    this.service.getMindBodyCoupons().subscribe(response => {
-      this.couponsData = response.json().data;
+    this.service.addoreditMindBodyCoupons({ coupons_id: this.deleteRecord["coupons_id"], coupons_status: 0 }).subscribe(res => {
+      if (res.json().status == true) {
+        this.couponsData.splice(this.deleteRecord["index"], 1);
+        this.toastyService.success(this.toastOptionsSuccess);
+      } else {
+        this.toastyService.error(this.toastOptionsError);
+      }
     });
   }
-  //   alertsDismiss: any = [];
-  //   add(): void {
-  //     this.alertsDismiss.push({
-  //       type: 'info',
-  //       msg: `Updated Sucessfully!`,
-  //       timeout: 5000
-  //     });
-  //   }
-  //   delete(): void {
-  //     this.alertsDismiss.push({
-  //       type: 'danger',
-  //       msg: `Deleted Sucessfully!`,
-  //       timeout: 5000
-  //     });
-  //   }
 }

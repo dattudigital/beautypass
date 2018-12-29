@@ -16,7 +16,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { TableModule } from 'primeng/table';
 declare var jsPDF: any;
-
+import {ToastyModule} from 'ng2-toasty';
 @NgModule({
   imports: [
     CommonModule,
@@ -30,8 +30,8 @@ declare var jsPDF: any;
     NgxSpinnerModule,
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
-    ModalModule.forRoot()
-    
+    ModalModule.forRoot(),
+    ToastyModule
   ],
   declarations: [
     UserActivitiesComponent,
