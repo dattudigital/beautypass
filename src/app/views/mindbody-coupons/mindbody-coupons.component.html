@@ -11,6 +11,8 @@
   </div>
 </div>
 
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+
 <div bsModal #deleteCoupon="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -56,7 +58,6 @@
   </div>
 </div>
 
-
 <div bsModal #editCoupon="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -73,25 +74,35 @@
                   <label class="col-md-3 col-form-label" for="text-input">Coupon Number<b style="color:red">*</b></label>
                   <div class="col-md-9">
                     <input type="text" maxlength="50" formControlName="Number" class="form-control" placeholder="MindBody Number"
-                      [(ngModel)]="editData.coupons_number" [ngClass]="{ 'is-invalid': submitted && f.Number.errors }">
+                      [(ngModel)]="couponsDetails.coupons_number" [ngClass]="{ 'is-invalid': submitted && f.Number.errors }">
                     <div *ngIf="submitted && f.Number.errors" class="invalid-feedback">
                       <div *ngIf="f.Number.errors.required" style="color:red">Coupon Number is required</div>
                     </div>
                   </div>
                 </div>
-
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Cost<b style="color:red">*</b></label>
                   <div class="col-md-9">
                     <input type="text" maxlength="10" formControlName="Cost" class="form-control" placeholder="cost"
-                      [(ngModel)]="editData.coupons_for" [ngClass]="{ 'is-invalid': submitted && f.Cost.errors }">
+                      [(ngModel)]="couponsDetails.coupons_for" [ngClass]="{ 'is-invalid': submitted && f.Cost.errors }">
                     <div *ngIf="submitted && f.Cost.errors" class="invalid-feedback">
                       <div *ngIf="f.Cost.errors.required" style="color:red">Cost is required</div>
                     </div>
                   </div>
                 </div>
+
                 <div class="form-group row">
-                  <button class="btn btn-primary" style="margin-left:26%" (click)="onSubmit()">Update</button>
+                  <label class="col-md-3 col-form-label" for="text-input">Status</label>
+                  <div class="col-md-8">
+                    <select class="form-control" name="vehicletype1" [(ngModel)]="couponsDetails.coupons_status"
+                      [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
+                      <option value="1">Active</option>
+                      <option value="0">In active</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <button class="btn btn-primary" style="margin-left:26%" (click)="updateCoupons()">Update</button>
                   &nbsp;&nbsp;
                   <button type="button" id="CloseButton" class="btn btn-secondary" (click)="editCoupon.hide();">Close</button>
                 </div>
@@ -104,12 +115,6 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div *ngFor="let alert of alertsDismiss">
-  <b>
-    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
-  </b>
-</div>
-
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-lg-12">
@@ -118,42 +123,37 @@
           <i class="fa fa-align-justify"></i> Mind Body Coupons
         </div>
         <div class="card-body">
-          <table class="table table-bordered table-striped table-sm">
-            <thead>
+          <p-table #dt [columns]="cols" [value]="couponsData" [paginator]="true" [rows]="4">
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                  style="width:auto">
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
               <tr>
-                <th>Coupon Number</th>
-                <th>Cost</th>
-                <th>Status</th>
-                <th>Type</th>
-                <th>Start Date</th>
-                <th>End Date</th>
+                <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of couponsData | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
-                <td>{{item.coupons_number}}</td>
-                <td>{{item.coupons_for}}</td>
-                <td>{{item.coupons_status}}</td>
-                <td>{{item.coupons_type}}</td>
-                <td>{{item.coupons_startdate}}</td>
-                <td>{{item.coupons_enddate}}</td>
-                <td> <button class="btn-primary" data-toggle="modal" (click)="editCoupon.show();editCoupons(item,i)"><i
-                      class="fa fa-edit"></i></button></td>
-                <td> <button class="btn-danger" data-toggle="modal" (click)="deleteCoupon.show();deleteCoupons(item,i)"><i
-                      class="fa fa-trash"></i></button></td>
+            </ng-template>
+            <ng-template pTemplate="body" let-i="rowIndex" let-data>
+              <tr>
+                <td *ngFor="let col of cols">
+                  {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }}
+                </td>
+                <td href="#" data-toggle="modal" (click)="editCoupon.show();editCoupons(data,i)"><i class="fa fa-edit"
+                    style="color:orange;font-size: 20px;text-align:center"></i></td>
+                <td href="#" data-toggle="modal" (click)="deleteCoupon.show();deleteCoupons(data,i)"><i class="fa fa-trash"
+                    style="color:red;font-size: 20px"></i></td>
               </tr>
-              <tr *ngIf="!couponsData || couponsData.length ==0">
-                No Records Found
-              </tr>
-            </tbody>
-          </table>
-          <pagination-controls (pageChange)="p = $event"></pagination-controls>
-          <!-- <div class="col-xs-12 col-12">
-            <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize" class="pagination-sm"
-                        previousText="&lsaquo;" nextText="&rsaquo;" [boundaryLinks]="true"></pagination>
-          </div> -->
+            </ng-template>
+          </p-table>
         </div>
       </div>
     </div>
