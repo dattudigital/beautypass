@@ -32,6 +32,7 @@ export class FaqsComponent implements OnInit {
     theme: 'default'
   };
   faqData: any;
+  copiedRow: any;
   faqsForm: FormGroup;
   faqs: any = {
     'faq_id': null,
@@ -107,11 +108,11 @@ export class FaqsComponent implements OnInit {
         if (!this.faqs.faq_id) {
           this.faqData.push(res.json().data)
         } else {
-          if(this.faqs.faq_status == '0'){
-            this.faqData.splice( this.faqs["index"], 1);
+          if (this.faqs.faq_status == '0') {
+            this.faqData.splice(this.faqs["index"], 1);
           } else {
-            this.faqs = res.json().data;          
-          }          
+            this.faqs = res.json().data;
+          }
         }
         this.toastyService.success(this.toastOptionsSuccess);
       } else {
@@ -120,11 +121,15 @@ export class FaqsComponent implements OnInit {
     });
   }
 
-  editFaqs(data,index) {
+  editFaqs(data, index) {
+    this.copiedRow = Object.assign({}, data);
     this.faqs = data;
-    this.faqs["index"] =index;
+    this.faqs["index"] = index;
   }
-
+  backupData() {
+    let _index =  this.faqs["index"];
+    this.faqData[_index] = this.copiedRow;
+  }
   deleteFaqs(val, index) {
     this.deleteRecord = val;
     this.deleteRecord["index"] = index
