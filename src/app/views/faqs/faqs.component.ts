@@ -57,7 +57,6 @@ export class FaqsComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.faqData = response.json().data;
-        console.log(this.faqData);
       } else {
         this.faqData = [];
       }
@@ -111,7 +110,7 @@ export class FaqsComponent implements OnInit {
           if (this.faqs.faq_status == '0') {
             this.faqData.splice(this.faqs["index"], 1);
           } else {
-            this.faqs = res.json().data;
+            this.faqData[this.faqs["index"]] = res.json().data;
           }
         }
         this.toastyService.success(this.toastOptionsSuccess);
@@ -127,7 +126,7 @@ export class FaqsComponent implements OnInit {
     this.faqs["index"] = index;
   }
   backupData() {
-    let _index =  this.faqs["index"];
+    let _index = this.faqs["index"];
     this.faqData[_index] = this.copiedRow;
   }
   deleteFaqs(val, index) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -53,7 +53,11 @@ export class EmployeesComponent implements OnInit {
   deleteRecord: '';
   copiedRow: '';
 
-  constructor(private spinner: NgxSpinnerService, private formBuilder: FormBuilder, private service: LoginService, private router: Router, private toastyService: ToastyService) { }
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: LoginService, private router: Router, private toastyService: ToastyService) { }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -68,7 +72,6 @@ export class EmployeesComponent implements OnInit {
 
     if (localStorage.loginDetails) {
       this.userData = JSON.parse(localStorage.getItem('loginDetails'));
-      console.log(this.userData[0].employee_id);
     }
 
     this.employeeForm = this.formBuilder.group({
@@ -132,7 +135,6 @@ export class EmployeesComponent implements OnInit {
       emp_role: this.employeeData.emp_role,
       emp_status: this.employeeData.emp_status
     }
-    console.log(data);
     let modelClose = document.getElementById("CloseButton");
     this.service.addOrUpdateEmployee(data).subscribe(res => {
       modelClose.click();
@@ -143,7 +145,7 @@ export class EmployeesComponent implements OnInit {
           if (this.employeeData.emp_status == '0') {
             this.employeeDetails.splice(this.employeeData["index"], 1);
           } else {
-            this.employeeData = res.json().data;
+            this.employeeDetails[this.employeeData["index"]] = res.json().data;
           }
         }
         this.toastyService.success(this.toastOptionsSuccess);
@@ -156,7 +158,6 @@ export class EmployeesComponent implements OnInit {
   editEmployee(data, index) {
     this.copiedRow = Object.assign({}, data);
     this.employeeData = data;
-    console.log(this.employeeData);
     this.employeeData["index"] = index;
   }
 

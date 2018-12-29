@@ -49,6 +49,7 @@ export class MindbodyCouponsComponent implements OnInit {
   couponsForm: FormGroup;
   submitted = false;
   cols: any = [];
+  copiedRow: '';
 
   constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
@@ -90,15 +91,15 @@ export class MindbodyCouponsComponent implements OnInit {
   temp: '';
 
   editCoupons(data, index) {
+    this.copiedRow = Object.assign({}, data);
     this.couponsDetails = data;
     this.temp = data;
-    console.log(this.couponsDetails);
     this.couponsDetails["index"] = index;
   }
 
-  cancelClick() {
-    console.log(this.temp);
-    console.log(this.couponsData)
+  backupData() {
+    let _index = this.couponsDetails["index"];
+    this.couponsData[_index] = this.copiedRow;
   }
 
 

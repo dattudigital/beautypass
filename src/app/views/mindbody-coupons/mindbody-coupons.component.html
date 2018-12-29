@@ -67,6 +67,8 @@
           <div class="card" style="margin-bottom: 0;">
             <div class="card-header">
               <strong>Edit MindBody Coupons</strong>
+              <button type="button" class="close" (click)="editCoupon.hide(); backupData()">&times;</button>
+
             </div>
             <div class="card-body">
               <form [formGroup]="couponsForm">
@@ -104,7 +106,7 @@
                 <div class="form-group row">
                   <button class="btn btn-primary" style="margin-left:26%" (click)="updateCoupons()">Update</button>
                   &nbsp;&nbsp;
-                  <button type="button" id="CloseButton" class="btn btn-secondary" (click)="editCoupon.hide();cancelClick()">Close</button>
+                  <button type="button" id="CloseButton" class="btn btn-secondary" (click)="editCoupon.hide(); backupData()">Close</button>
                 </div>
               </form>
             </div>
