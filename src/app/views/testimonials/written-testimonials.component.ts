@@ -1,9 +1,9 @@
-import { Component, SecurityContext, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestmonialsService } from '../../services/TestmonialsService';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastyService, ToastyConfig, ToastyComponent, ToastOptions, ToastData } from 'ng2-toasty';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 // such override allows to keep some initial values
 
@@ -53,7 +53,7 @@ export class WrittenTestimonialsComponent implements OnInit {
   deleteRecord = '';
   testimonialForm: FormGroup;
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder ,private toastyService: ToastyService) { }
+  constructor(private spinner: NgxSpinnerService, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private toastyService: ToastyService) { }
   backToDashBoard() {
     this.router.navigate(['reports'])
   }
@@ -61,10 +61,15 @@ export class WrittenTestimonialsComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.service.getWrittenTestmonials().subscribe(response => {
-      this.testmonials = response.json().data;
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.testmonials = response.json().data;
+      } else {
+        this.testmonials = [];
+      }
       this.userData = JSON.parse(localStorage.getItem('loginDetails'));
       console.log(this.userData[0].employee_id);
-      this.spinner.hide();
+
     });
 
     this.cols = [
@@ -113,23 +118,23 @@ export class WrittenTestimonialsComponent implements OnInit {
       if (res.json().status == true) {
         this.toastyService.success(this.toastOptionsSuccess);
         this.testimonialData = data
-      }else{
+      } else {
         this.toastyService.error(this.toastOptionsError);
       }
     });
   }
 
-  deleteTestimonial(val,index) {
+  deleteTestimonial(val, index) {
     this.deleteRecord = val
     this.deleteRecord["index"] = index
   }
 
   deleteAlert() {
-    this.service.editWrittenTestmonials({testimonial_id: this.deleteRecord["testimonial_id"],status: 0}).subscribe(res =>{
+    this.service.editWrittenTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         this.testmonials.splice(this.deleteRecord["index"], 1)
         this.toastyService.success(this.toastOptionsSuccess);
-      }else{
+      } else {
         this.toastyService.error(this.toastOptionsError);
       }
     });

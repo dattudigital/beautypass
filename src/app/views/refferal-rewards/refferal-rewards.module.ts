@@ -9,7 +9,6 @@ import { UserActivitiesComponent } from './user-activities.component';
 import { UserHistoryComponent } from './user-history.component';
 import { PerksComponent } from './perks.component';
 import { RefferalRewardsRoutingModule } from './refferal-rewards-routing.module';
-
 import { TypeaheadModule } from "ngx-bootstrap";
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,7 +21,7 @@ declare var jsPDF: any;
   imports: [
     CommonModule,
     FormsModule,
-    TypeaheadModule,
+    TypeaheadModule.forRoot(),
     ReactiveFormsModule,
     AlertModule,
     TableModule,
