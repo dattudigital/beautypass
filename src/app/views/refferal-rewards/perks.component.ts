@@ -1,52 +1,67 @@
-import { Component, ChangeDetectorRef, SecurityContext, ViewEncapsulation, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { AlertConfig } from 'ngx-bootstrap/alert';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-// such override allows to keep some initial values
-
-export function getAlertConfig(): AlertConfig {
-  return Object.assign(new AlertConfig(), { type: 'success' });
-}
-
+import { DatePipe } from '@angular/common';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 @Component({
   templateUrl: 'perks.component.html',
-  encapsulation: ViewEncapsulation.None,
-  styles: [
-    `
-  .alert-md-local {
-    background-color: #009688;
-    border-color: #00695C;
-    color: #fff;
-  }
-  `
-  ],
-  providers: [{ provide: AlertConfig, useFactory: getAlertConfig }]
+  providers: [
+    DatePipe
+  ]
 })
+
 export class PerksComponent implements OnInit {
-
+  toastOptionsSuccess: ToastOptions = {
+    title: "Success",
+    msg: "Successfully Done",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsError: ToastOptions = {
+    title: "Error",
+    msg: "Something is Wrong",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsWarn: ToastOptions = {
+    title: "Not Found",
+    msg: "No Data",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
   perksForm: FormGroup;
-  Perk: any;
+  perk: any = [];
   perksData: any = [];
-  currentPageIndex: number = 1;
   submitted = false;
-  deleteData: { rewardpoint_id: any; rewardpoint_status: number; };
+  cols: any = [];
+  deleteRecord: '';
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private service: RefferalRewardsService, sanitizer: DomSanitizer, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) {
-
-  }
+  constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private dp: DatePipe, private service: RefferalRewardsService, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.spinner.show();
     this.service.getPerksList().subscribe(response => {
-      this.Perk = response.json().data;
-      console.log(this.Perk);
       this.spinner.hide();
+      if (response.json().status == true) {
+        this.perk = response.json().data;
+      } else {
+        this.perk = [];
+      }
     });
+
+    this.cols = [
+      { field: 'rewardpoint_name', header: 'Reward Point Name' },
+      { field: 'rewardpoint_amount', header: 'Amount' },
+      { field: 'rewardpoint_start_date', header: 'Start Date', type: this.dp },
+      { field: 'rewardpoint_end_date', header: 'End Date', type: this.dp },
+    ];
+
+
     this.perksForm = this.formBuilder.group({
       rewardName: ['', Validators.required],
       amount: ['', Validators.required]
@@ -61,11 +76,7 @@ export class PerksComponent implements OnInit {
     this.perksData.rewardpoint_status = '';
   }
 
-  editPerk(data, index) {
-    data.index = index;
-    this.perksData = data;
-    console.log(this.perksData)
-  }
+  get f() { return this.perksForm.controls; }
 
   addOrUpdatePerk() {
     this.submitted = true;
@@ -96,64 +107,39 @@ export class PerksComponent implements OnInit {
       modelClose.click();
       if (res.json().status == true) {
         if (!this.perksData.rewardpoint_id) {
-          this.Perk.push(res.json().data)
+          this.perk.push(res.json().data)
         } else {
-          let rowIndex = ((this.currentPageIndex - 1) * 10) + (this.perksData.index);
-          console.log(this.Perk);
-          console.log(this.perksData);
           if (this.perksData.rewardpoint_status == '0') {
-            this.Perk.splice(rowIndex, 1)
+            this.perk.splice(this.perksData["index"], 1);
           } else {
-            this.Perk[rowIndex].rewardpoint_amount = res.json().data.rewardpoint_amount;
-            this.Perk[rowIndex].rewardpoint_name = res.json().data.rewardpoint_name;
+            this.perksData = res.json().data;
           }
         }
+        this.toastyService.success(this.toastOptionsSuccess);
+      } else {
+        this.toastyService.error(this.toastOptionsError);
       }
     })
   }
 
-  get f() { return this.perksForm.controls; }
-
-  deletePerk(val) {
-    console.log(val)
-    var data = {
-      rewardpoint_id: this.perksData.rewardpoint_id,
-      rewardpoint_status: 0
-    }
-    this.deleteData = data;
-    this.spinner.show();
-    let deleteButton = document.getElementById("deleteCloseButton");
-    console.log(this.currentPageIndex)
-    console.log(this.perksData)
-    let rowIndex = ((this.currentPageIndex - 1) * 10) + (this.perksData.index);
-    console.log(rowIndex)
-    this.service.addOrEditPerksList(data).subscribe(res => {
-      this.Perk.splice(rowIndex, 1)
-      deleteButton.click();
-      this.spinner.hide();
-    })
+  editPerk(data, index) {
+    this.perksData = data;
+    this.perksData["index"] = index;
   }
 
-  alertsDismiss: any = [];
-  add(): void {
-    this.alertsDismiss.push({
-      type: 'info',
-      msg: `Updated Sucessfully!`,
-      timeout: 5000
-    });
+  deletePerk(val, index) {
+    this.deleteRecord = val;
+    this.deleteRecord["index"] = index
   }
-  addCreate(): void {
-    this.alertsDismiss.push({
-      type: 'info',
-      msg: `Created Sucessfully!`,
-      timeout: 5000
-    });
-  }
-  delete(): void {
-    this.alertsDismiss.push({
-      type: 'danger',
-      msg: `Deleted Sucessfully!`,
-      timeout: 5000
+
+  deleteAlert() {
+    this.service.addOrEditPerksList({ rewardpoint_id: this.deleteRecord["rewardpoint_id"], rewardpoint_status: 0 }).subscribe(res => {
+      if (res.json().status == true) {
+        this.perk.splice(this.deleteRecord["index"], 1);
+        this.toastyService.success(this.toastOptionsSuccess);
+      } else {
+        this.toastyService.error(this.toastOptionsError);
+      }
     });
   }
 }
