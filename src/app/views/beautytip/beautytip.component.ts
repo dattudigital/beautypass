@@ -1,7 +1,5 @@
 import { Component, SecurityContext, ViewEncapsulation, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { AlertConfig } from 'ngx-bootstrap/alert';
-import { Router } from '@angular/router';
 import { BeautyTipsService } from '../../services/beauty-tips.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
@@ -11,62 +9,45 @@ export function getAlertConfig(): AlertConfig {
 }
 
 @Component({
-  templateUrl: 'beautytip.component.html',
-  encapsulation: ViewEncapsulation.None,
-  styles: [
-    `
-  .alert-md-local {
-    background-color: #009688;
-    border-color: #00695C;
-    color: #fff;
-  }
-  `
-  ],
-  providers: [{ provide: AlertConfig, useFactory: getAlertConfig }]
+  templateUrl: 'beautytip.component.html'
 })
 
 export class BeautyTipsComponent implements OnInit {
-  alerts: any[] = [{
-    type: 'success',
-    msg: `BeautyTips Updated Successfully`,
-    timeout: 5000
-  }];
 
   beautytips: any = {
     'tip_id': '',
     'tip_title': '',
     'tip_description': '',
     'tip_img': '',
+    'tip_video': '',
     'profile_name': '',
     'rec_status': ''
   }
 
-
+  isShowOriginalImg: boolean = false;
   totalItems: number;
   categorysData: any;
   editData: any = [];
   bigCurrentPage: number = 1;
+  url: any;
   currentImage: any = '';
-  bankuploadedFiles: any;
-  myFiles: string[] = [];
-  bankstmtImage: number = 0;
-  data = [];
+  // bankuploadedFiles: any;
+  // myFiles: string[] = [];
+  // bankstmtImage: number = 0;
+  // data = [];
   uploadedFiles: any[] = [];
   userImageName = '';
   userimagePreview: any;
   userImage: string;
-  hideModal = false;
+  // hideModal = false;  
   deleteData: { tip_id: any; tip_title: any; tip_description: any; profile_name: any; rec_status: number; };
-  alertMessageValue: boolean;
-  validBtn: boolean;
-  userData: any;
-  model: any = {};
+  // alertMessageValue: boolean;
+  // validBtn: boolean;
+  // userData: any;
+  // model: any = {};
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private service: BeautyTipsService, sanitizer: DomSanitizer ) {
-    this.alertsHtml = this.alertsHtml.map((alert: any) => ({
-      type: alert.type,
-      msg: sanitizer.sanitize(SecurityContext.HTML, alert.msg)
-    }));
+  constructor(private spinner: NgxSpinnerService, private service: BeautyTipsService) {
+
   }
 
   ngOnInit() {
@@ -116,43 +97,27 @@ export class BeautyTipsComponent implements OnInit {
 
   editBeautyTip(data, index) {
     this.beautytips = data;
+    console.log(this.beautytips)
     console.log(this.beautytips.tip_img)
-    this.userimagePreview = this.beautytips.tip_img
+    // this.userimagePreview = this.beautytips.tip_img
   }
 
   removeFields() {
     this.beautytips.tip_id = '';
     this.beautytips.tip_title = '';
     this.beautytips.tip_description = '';
-    this.beautytips.tip_img = ''
-  }
-
-  // onSubmit() {
-  //   console.log(this.editData.tip_title);
-  //   this.updatePromotion(this.editData);
-  // }
-
-  alertsHtml: any = [
-    {
-      type: 'success',
-      msg: `<strong>Well done!</strong> You successfully read this important alert message.`
-    },
-    {
-      type: 'info',
-      msg: `<strong>Heads up!</strong> This alert needs your attention, but it's not super important.`
-    },
-    {
-      type: 'danger',
-      msg: `<strong>Warning!</strong> Better check yourself, you're not looking too good.`
-    }
-  ];
-  clearData() {
-    this.editData = [];
+    this.beautytips.tip_img = '';
     this.userimagePreview = '';
-    this.userImageName = '';
-    this.userImage = '';
   }
+
+  // clearData() {
+  //   this.editData = [];
+  //   this.userimagePreview = '';
+  //   this.userImageName = '';
+  //   this.userImage = '';
+  // }
   editPromotion(data, index) {
+    this.userimagePreview = '';
     this.editData = data;
     console.log(this.editData)
   }
@@ -203,50 +168,22 @@ export class BeautyTipsComponent implements OnInit {
   //   });
 
   // }
-  alertsDismiss: any = [];
-  add(): void {
-    this.alertsDismiss.push({
-      type: 'info',
-      msg: `Updated Sucessfully!`,
-      timeout: 5000
-    });
-  }
-  addCreate(): void {
-    this.alertsDismiss.push({
-      type: 'info',
-      msg: `Created Sucessfully!`,
-      timeout: 5000
-    });
-  }
-  delete(): void {
-    this.alertsDismiss.push({
-      type: 'danger',
-      msg: `Deleted Sucessfully!`,
-      timeout: 5000
-    });
-  }
 
-  getFileDetails(event, text1) {
-    this.currentImage = text1;
-    console.log(this.currentImage);
+  getFileDetails(event) {
     var files = event.target.files;
     var file = files[0];
 
-    for (var i = 0; i < files.length; i++) {
-      this.uploadedFiles = files.name;
-      console.log(this.uploadedFiles);
-    }
     if (files && file) {
       var reader = new FileReader();
       reader.onload = this._handleReaderLoaded.bind(this);
       reader.readAsBinaryString(file);
     }
 
-    if (event.target.files && event.target.files[0] && this.currentImage === 'p') {
+    if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
-      this.beautytips.profile_name = file.name;
-      console.log(this.beautytips.profile_name);
+      this.userImageName = file.name;
+      console.log(this.userImageName);
       reader.onload = (event) => {
         this.userimagePreview = event.target;
       }
@@ -254,22 +191,11 @@ export class BeautyTipsComponent implements OnInit {
   }
   //image base64 format
   _handleReaderLoaded(readerEvt) {
-    if (this.currentImage === 'p') {
-      var binaryString = readerEvt.target.result;
-      this.beautytips.image = btoa(binaryString);
-      console.log("final" + this.beautytips.image)
-    }
+    var binaryString = readerEvt.target.result;
+    this.userImage = btoa(binaryString);
     this.currentImage = ''
-  }
-
-  requiredValue() {
-    if (this.editData.tip_title == "") {
-      this.alertMessageValue = true;
-      this.validBtn = true
-    }
-    else {
-      this.alertMessageValue = false;
-      this.validBtn = false;
+    if (this.beautytips.tip_id) {
+      this.isShowOriginalImg = true;
     }
   }
 }
