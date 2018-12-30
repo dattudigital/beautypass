@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -49,8 +49,14 @@ export class MindbodyCouponsComponent implements OnInit {
   couponsForm: FormGroup;
   submitted = false;
   cols: any = [];
+  copiedRow: '';
 
-  constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+
+  ngAfterViewChecked() {
+    //your code to update the model
+    this.cdr.detectChanges();
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -84,10 +90,16 @@ export class MindbodyCouponsComponent implements OnInit {
   }
 
   editCoupons(data, index) {
+    this.copiedRow = Object.assign({}, data);
     this.couponsDetails = data;
-    console.log(this.couponsDetails);
     this.couponsDetails["index"] = index;
   }
+
+  backupData() {
+    let _index = this.couponsDetails["index"];
+    this.couponsData[_index] = this.copiedRow;
+  }
+
 
   get f() { return this.couponsForm.controls; }
 
@@ -97,7 +109,6 @@ export class MindbodyCouponsComponent implements OnInit {
     if (this.couponsForm.invalid) {
       return;
     }
-    let element = document.getElementById("CloseButton");
     var data = {
       coupons_id: this.couponsDetails.coupons_id,
       coupons_for: this.couponsDetails.coupons_for,
@@ -105,14 +116,17 @@ export class MindbodyCouponsComponent implements OnInit {
       coupons_status: this.couponsDetails.coupons_status,
       createdempid: this.userData[0].employee_id
     }
+    let modelClose = document.getElementById("CloseButton");
     this.service.addoreditMindBodyCoupons(data).subscribe(res => {
+      modelClose.click();
       if (res.json().status == true) {
         if (this.couponsDetails.coupons_status == '0') {
           this.couponsData.splice(this.couponsDetails["index"], 1);
+          this.toastyService.success(this.toastOptionsSuccess);
         }
       }
     });
-    element.click();
+
   }
 
   deleteCoupons(val, index) {
