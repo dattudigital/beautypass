@@ -137,6 +137,8 @@ export class WrittenTestimonialsComponent implements OnInit {
         if (this.testimonialData.coupons_status == '0') {
           this.testmonials.splice(this.testimonialData["index"], 1);
           this.toastyService.success(this.toastOptionsSuccess);
+        }else{
+          
         }
       } else {
         this.toastyService.error(this.toastOptionsError);

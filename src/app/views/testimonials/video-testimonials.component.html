@@ -36,9 +36,9 @@
                   {{data[col.field]}}
                 </td>
                 <td href="#" data-toggle="modal" (click)="addorUpdateTestimonial.show();editVideoTestimonials(data,i)"><i
-                    class="fa fa-edit" style="color:orange"></i></td>
+                    class="fa fa-edit" style="color:orange;font-size: 20px;text-align:center"></i></td>
                 <td href="#" data-toggle="modal" (click)="dangerModal.show();deleteVideoTestimonial(data,i)"><i class="fa fa-trash"
-                    style="color:red"></i></td>
+                    style="color:red;font-size: 20px;text-align:center"></i></td>
               </tr>
             </ng-template>
           </p-table>
@@ -57,7 +57,7 @@
           <div class="card" style="margin-bottom: 0;">
             <div class="card-header">
               <strong>Edit Testimonial</strong>
-              <button type="button" class="close" (click)="addorUpdateTestimonial.hide();">&times;</button>
+              <button type="button" class="close" (click)="addorUpdateTestimonial.hide(); backupData()">&times;</button>
             </div>
             <div class="card-body">
               <form [formGroup]="videoTestimonialForm">
@@ -106,16 +106,17 @@
                   </div>
                 </div>
 
-                <button class="btn btn-primary" style="margin-left:26%" (click)="updateTestimonial()">Save changes</button>
-                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdateTestimonial.hide()">Close</button>
+                <button class="btn btn-primary" style="margin-left:26%" (click)="updateTestimonial()">Update</button>
+                &nbsp;&nbsp;
+                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdateTestimonial.hide();backupData()">Close</button>
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div><!-- /.modal-content -->
-</div><!-- /.modal -->
+  </div>
+</div>
 
 <div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
