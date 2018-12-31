@@ -2,10 +2,13 @@
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
 
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+
 <div class="card-body">
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
-      <button (click)="largeModalCreate.show();removeFields()" class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Create
+      <button (click)="addOrUpdateBeautyTip.show();removeFields()" class="btn btn-primary" style="float: right;"><i
+          class="fa fa-lightbulb-o"></i>&nbsp;Create
         Tip</button>
     </div>
   </div>
@@ -24,6 +27,26 @@
       <div class="modal-body">
         <p>Are you sure to Delete ?</p>
       </div>
+      <div class="container">
+        <table class="table table-bordered table-striped table-sm" style="padding:10px;">
+          <thead>
+            <tr>
+              <th>Tip Title</th>
+              <th>Description</th>
+              <th>Image</th>
+              <th>Video</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="deleteRecord">
+              <td>{{deleteRecord.tip_title}}</td>
+              <td>{{deleteRecord.tip_description}}</td>
+              <td><img [src]="deleteRecord.tip_img" height="50"> </td>
+              <td>{{deleteRecord.tip_video}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
         <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
@@ -32,7 +55,7 @@
   </div>
 </div>
 
-<div bsModal #largeModalCreate="bs-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div bsModal #addOrUpdateBeautyTip="bs-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -42,32 +65,37 @@
             <div class="card-header">
               <strong *ngIf="!beautytips.tip_id">Add Beautytip</strong>
               <strong *ngIf="beautytips.tip_id">Edit Beautytip</strong>
-              <button type="button" class="close" (click)="largeModalCreate.hide();">&times;</button>
+              <button type="button" class="close" (click)="addOrUpdateBeautyTip.hide();backupData()">&times;</button>
             </div>
             <div class="card-body">
-              <form name="form">
+              <form name="form" [formGroup]="beautyForm">
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Tip Name <b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" name="tip_title" class="form-control" placeholder="Enter Beautytip Title"
-                      [(ngModel)]="beautytips.tip_title" />
+                    <input type="text" maxlength="50" formControlName="tipName" class="form-control" placeholder="Enter Beautytip Title"
+                      [(ngModel)]="beautytips.tip_title" [ngClass]="{ 'is-invalid': submitted && f.tipName.errors }" />
+                    <div *ngIf="submitted && f.tipName.errors" class="invalid-feedback">
+                      <div *ngIf="f.tipName.errors.required" style="color:red">Tip Name is required</div>
+                    </div>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Description</label>
                   <div class="col-md-9">
-                    <textarea type="text" maxlength="500" rows="5" name="tip_description" class="form-control"
-                      placeholder="Enter Beautytip Description" [(ngModel)]="beautytips.tip_description"></textarea>
+                    <textarea type="text" maxlength="500" rows="5" class="form-control" formControlName="description"
+                      placeholder="Enter Beautytip Description" [(ngModel)]="beautytips.tip_description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                    <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                      <div *ngIf="f.description.errors.required" style="color:red">Tip Name is required</div>
+                    </div>
                   </div>
                 </div>
-
                 <div class="form-group row" *ngIf="!beautytips.tip_id">
-                  <label class="col-md-3 col-form-label" for="text-input">Image</label> here
+                  <label class="col-md-3 col-form-label" for="text-input">Image</label>
                   <div class="col-md-9">
                     <img *ngIf="userimagePreview" [src]="userimagePreview.result" height="50">
                   </div>
                 </div>
-                <div  *ngIf="beautytips.tip_id">
+                <div *ngIf="beautytips.tip_id">
                   test{{isShowOriginalImg}}
                   <div class="form-group row" *ngIf="!isShowOriginalImg">
                     <label class="col-md-3 col-form-label" for="text-input">Image first</label>
@@ -87,25 +115,29 @@
                   <div class="col-md-9">
                     <input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')" />
                   </div>
-                </div> 
+                </div>
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Video Url</label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" name="tip_video" class="form-control" placeholder="Enter Video Url"
-                      [(ngModel)]="beautytips.tip_video" />
+                    <input type="text" maxlength="50" class="form-control" formControlName="videoUrl" placeholder="Enter Video Url"
+                      [(ngModel)]="beautytips.tip_video" [ngClass]="{ 'is-invalid': submitted && f.videoUrl.errors }" />
+                    <div *ngIf="submitted && f.videoUrl.errors" class="invalid-feedback">
+                      <div *ngIf="f.videoUrl.errors.required" style="color:red">VideoUrl is required</div>
+                    </div>
                   </div>
                 </div>
                 <div *ngIf="beautytips.tip_id">
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Status</label>
                     <div class="col-md-8">
-                      <select class="form-control" name="vehicletype1" [(ngModel)]="beautytips.rec_status">
+                      <select class="form-control" name="vehicletype1" [(ngModel)]="beautytips.rec_status" [(ngModel)]="showMoreControls"
+                        [ngModelOptions]="{standalone: true}">
                         <option value="1">Active</option>
                         <option value="0">In active</option>
                       </select>
                     </div>
                   </div>
-                </div>                
+                </div>
                 <span *ngIf="!beautytips.tip_id">
                   <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateBeautyTips()">ADD</button>
                 </span>
@@ -113,7 +145,7 @@
                   <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateBeautyTips()">Update</button>
                 </span>
                 &nbsp;&nbsp;
-                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="largeModalCreate.hide();">Close</button>
+                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addOrUpdateBeautyTip.hide();backupData()">Close</button>
               </form>
             </div>
           </div>
@@ -143,29 +175,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of categorysData | paginate: { itemsPerPage: 10, currentPage: p }">
-                <td>{{item.tip_title}}</td>
-                <td>{{item.tip_description}}</td>
-                <td> <img [src]="item.tip_img" height="50"></td>
-                <td>{{item.tip_video}}</td>
-                <td> <button class="btn-primary" data-toggle="modal" (click)="largeModalCreate.show();editBeautyTip(item,i)"><i
+              <tr *ngFor="let data of tipsData | paginate: { itemsPerPage: 3, currentPage: currentPage };let i=index;">
+                <td>{{data.tip_title}}</td>
+                <td>{{data.tip_description}}</td>
+                <td> <img [src]="data.tip_img" height="50"></td>
+                <td>{{data.tip_video}}</td>
+                <td> <button class="btn-primary" data-toggle="modal" (click)="addOrUpdateBeautyTip.show();editBeautyTip(data,i)"><i
                       class="fa fa-edit"></i></button></td>
-                <td> <button class="btn-danger" data-toggle="modal" (click)="dangerModal.show();DeletePromotion(item,i)"><i
+                <td> <button class="btn-danger" data-toggle="modal" (click)="dangerModal.show();deleteBeautyTips(data,i)"><i
                       class="fa fa-trash"></i></button></td>
-              </tr>
-              <tr *ngIf="!categorysData || categorysData.length ==0">
-                No Records Found
               </tr>
             </tbody>
           </table>
-          <pagination-controls (pageChange)="p = $event"></pagination-controls>
-          <!-- <div class="col-xs-12 col-12">
-                  <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize" class="pagination-sm"
-                              previousText="&lsaquo;" nextText="&rsaquo;" [boundaryLinks]="true"></pagination>
-                </div> -->
+          <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
         </div>
       </div>
     </div>
-    <!--/.col-->
   </div>
 </div>

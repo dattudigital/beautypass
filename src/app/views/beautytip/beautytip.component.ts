@@ -1,21 +1,40 @@
-import { Component, SecurityContext, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { AlertConfig } from 'ngx-bootstrap/alert';
 import { BeautyTipsService } from '../../services/beauty-tips.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
-
-export function getAlertConfig(): AlertConfig {
-  return Object.assign(new AlertConfig(), { type: 'success' });
-}
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 @Component({
   templateUrl: 'beautytip.component.html'
 })
 
 export class BeautyTipsComponent implements OnInit {
+  toastOptionsSuccess: ToastOptions = {
+    title: "Success",
+    msg: "Successfully Done",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsError: ToastOptions = {
+    title: "Error",
+    msg: "Something is Wrong",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsWarn: ToastOptions = {
+    title: "Not Found",
+    msg: "No Data",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
 
   beautytips: any = {
-    'tip_id': '',
+    'tip_id': null,
     'tip_title': '',
     'tip_description': '',
     'tip_img': '',
@@ -23,31 +42,22 @@ export class BeautyTipsComponent implements OnInit {
     'profile_name': '',
     'rec_status': ''
   }
-
+  beautyForm: FormGroup;
+  submitted = false;
+  tipsData: any;
+  copiedRow = '';
   isShowOriginalImg: boolean = false;
+  deleteRecord: '';
+  currentPage: any = 1;
   totalItems: number;
-  categorysData: any;
-  editData: any = [];
-  bigCurrentPage: number = 1;
-  url: any;
-  currentImage: any = '';
-  // bankuploadedFiles: any;
-  // myFiles: string[] = [];
-  // bankstmtImage: number = 0;
-  // data = [];
-  uploadedFiles: any[] = [];
-  userImageName = '';
   userimagePreview: any;
   userImage: string;
-  // hideModal = false;  
-  deleteData: { tip_id: any; tip_title: any; tip_description: any; profile_name: any; rec_status: number; };
-  // alertMessageValue: boolean;
-  // validBtn: boolean;
-  // userData: any;
-  // model: any = {};
 
-  constructor(private spinner: NgxSpinnerService, private service: BeautyTipsService) {
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private formBuilder: FormBuilder, private service: BeautyTipsService) { }
 
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   ngOnInit() {
@@ -55,31 +65,33 @@ export class BeautyTipsComponent implements OnInit {
     this.service.getBeautyTipsList().subscribe(response => {
       this.spinner.hide();
       if (response.json().status == true) {
-        this.categorysData = response.json().data;
-        console.log(this.categorysData);
+        this.tipsData = response.json().data;
       } else {
-        this.categorysData = [];
+        this.tipsData = [];
       }
     });
 
-    // if(localStorage.loginDetails){
-    //   this.userData=JSON.parse(localStorage.getItem('loginDetails'));
-    //   console.log(this.userData[0].employee_id);
-    // }
+    this.beautyForm = this.formBuilder.group({
+      tipName: ['', Validators.required],
+      description: ['', Validators.required],
+      videoUrl: ['', Validators.required]
+    });
   }
 
+  get f() { return this.beautyForm.controls; }
+
   addOrUpdateBeautyTips() {
+    this.submitted = true;
+    if (this.beautyForm.invalid) {
+      return;
+    }
+
     if (!this.beautytips.rec_status) {
       this.beautytips.rec_status = '1'
-    } else {
-      this.beautytips.rec_status = '0'
     }
-    console.log(this.beautytips.tip_id)
     if (!this.beautytips.tip_id) {
-      console.log('@@@@@@@@')
       this.beautytips.tip_id = null;
     }
-    console.log(this.beautytips.tip_id)
     var data = {
       tip_id: this.beautytips.tip_id,
       tip_title: this.beautytips.tip_title,
@@ -87,115 +99,93 @@ export class BeautyTipsComponent implements OnInit {
       tip_img: this.beautytips.tip_img,
       tip_category: 1,
       profile_name: this.beautytips.profile_name,
+      tip_video: this.beautytips.tip_video,
       rec_status: this.beautytips.rec_status
     }
-    console.log(data);
+    let modelClose = document.getElementById("CloseButton");
+    this.spinner.show();
     this.service.AddOrEditBeautyTip(data).subscribe(res => {
-      console.log(res.json())
+      this.spinner.hide();
+      modelClose.click();
+      if (res.json().status == true) {
+        if (!this.beautytips.tip_id) {
+          this.tipsData.push(res.json().data)
+        } else {
+          let _index = ((this.currentPage - 1) * 3) + this.beautytips["index"]
+          if (this.beautytips.rec_status == '0') {
+            this.tipsData.splice(_index, 1);
+          } else {
+            this.tipsData[_index] = res.json().data;
+          }
+        }
+        this.toastyService.success(this.toastOptionsSuccess);
+      } else {
+        this.toastyService.error(this.toastOptionsError);
+      }
     })
   }
 
   editBeautyTip(data, index) {
+    this.copiedRow = Object.assign({}, data);
     this.beautytips = data;
-    console.log(this.beautytips)
-    console.log(this.beautytips.tip_img)
-    // this.userimagePreview = this.beautytips.tip_img
+    this.beautytips["index"] = index;
   }
 
-  removeFields() {
-    this.beautytips.tip_id = '';
-    this.beautytips.tip_title = '';
-    this.beautytips.tip_description = '';
-    this.beautytips.tip_img = '';
-    this.userimagePreview = '';
+  backupData() {
+    let _index = this.beautytips["index"];
+    this.tipsData[_index] = this.copiedRow;
   }
 
-  // clearData() {
-  //   this.editData = [];
-  //   this.userimagePreview = '';
-  //   this.userImageName = '';
-  //   this.userImage = '';
-  // }
-  editPromotion(data, index) {
-    this.userimagePreview = '';
-    this.editData = data;
-    console.log(this.editData)
+  deleteBeautyTips(data, index) {
+    this.deleteRecord = data;
+    this.deleteRecord["index"] = index
   }
 
-  // updatePromotion(val) {
-  //   let element = document.getElementById("CloseButton");
-  //   console.log(val)
-  //   var data = {
-  //     tip_id: val.tip_id,
-  //     tip_title: val.tip_title,
-  //     tip_description: val.tip_description,
-  //     tip_img: this.userImage,
-  //     tip_category: 1,
-  //     profile_name: this.userImageName,
-  //     rec_status: val.rec_status
-  //   }
-  //   if (!data.tip_id) {
-  //     this.addCreate();
-  //   }
-  //   this.service.editBeautyTip(data).subscribe();
-
-  //   element.click();
-  //   this.categorysData = [];
-  //   this.service.getBeautyTipsList().subscribe(response => {
-  //     this.categorysData = response.json().data;
-  //     console.log(this.categorysData);
-  //     //this.addCreate();
-  //   });
-  // }
-  DeletePromotion(val) {
-    console.log(val)
-    var data = {
-      tip_id: val.tip_id,
-      tip_title: val.tip_title,
-      tip_description: val.tip_description,
-      profile_name: val.profile_name,
-      rec_status: 0
-    }
-    this.deleteData = data;
+  deleteAlert() {
+    this.spinner.show()
+    this.service.AddOrEditBeautyTip({ tip_id: this.deleteRecord["tip_id"], rec_status: 0 }).subscribe(res => {
+      this.spinner.hide();
+      if (res.json().status == true) {
+        let _index = ((this.currentPage - 1) * 3) + this.deleteRecord["index"]
+        this.tipsData.splice(_index, 1);
+        this.toastyService.success(this.toastOptionsSuccess);
+      } else {
+        this.toastyService.error(this.toastOptionsError);
+      }
+    });
   }
-  // deleteAlert() {
-  //   this.service.editBeautyTip(this.deleteData).subscribe();
-  //   this.delete();
-  //   this.categorysData = [];
-  //   this.service.getBeautyTipsList().subscribe(response => {
-  //     this.categorysData = response.json().data;
-  //     console.log(this.categorysData)
-  //   });
-
-  // }
 
   getFileDetails(event) {
     var files = event.target.files;
     var file = files[0];
-
     if (files && file) {
       var reader = new FileReader();
       reader.onload = this._handleReaderLoaded.bind(this);
       reader.readAsBinaryString(file);
     }
-
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
-      this.userImageName = file.name;
-      console.log(this.userImageName);
+      this.beautytips.profile_name = file.name;
       reader.onload = (event) => {
         this.userimagePreview = event.target;
       }
     }
   }
-  //image base64 format
   _handleReaderLoaded(readerEvt) {
     var binaryString = readerEvt.target.result;
-    this.userImage = btoa(binaryString);
-    this.currentImage = ''
+    this.beautytips.tip_img = btoa(binaryString);
+    this.isShowOriginalImg = true;
     if (this.beautytips.tip_id) {
       this.isShowOriginalImg = true;
     }
+  }
+  removeFields() {
+    this.beautytips.tip_id = '';
+    this.beautytips.tip_title = '';
+    this.beautytips.tip_description = '';
+    this.beautytips.tip_img = '';
+    this.beautytips.tip_video = '';
+    this.beautytips.rec_status = '';
   }
 }
