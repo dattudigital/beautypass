@@ -1,4 +1,4 @@
-import { Component,ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestmonialsService } from '../../services/TestmonialsService';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -54,7 +54,7 @@ export class WrittenTestimonialsComponent implements OnInit {
   submitted = false;
   copiedRow: '';
 
-  constructor(private spinner: NgxSpinnerService,private cdr: ChangeDetectorRef, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private toastyService: ToastyService) { }
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private toastyService: ToastyService) { }
   backToDashBoard() {
     this.router.navigate(['reports'])
   }
@@ -136,10 +136,11 @@ export class WrittenTestimonialsComponent implements OnInit {
       if (res.json().status == true) {
         if (this.testimonialData.coupons_status == '0') {
           this.testmonials.splice(this.testimonialData["index"], 1);
-          this.toastyService.success(this.toastOptionsSuccess);
-        }else{
-          
+        } else {
+          this.testmonials[this.testimonialData["index"]] = res.json().data;
+          this.testmonials[this.testimonialData["index"]].fullname = this.testimonialData.fullname;
         }
+        this.toastyService.success(this.toastOptionsSuccess);
       } else {
         this.toastyService.error(this.toastOptionsError);
       }

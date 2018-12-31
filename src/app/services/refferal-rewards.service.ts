@@ -25,8 +25,11 @@ export class RefferalRewardsService {
     return this.http.get(environment.host + 'mindbody-coupons');
   }
   public addoreditMindBodyCoupons(data:any) {
-    // return this.http.post(environment.host + 'mindbody-coupons',data); bulk-uplod
-    return this.http.post(environment.host + 'bulk-uplod',data);
+    return this.http.post(environment.host + 'mindbody-coupons',data); 
+  }
+  public addBulkMindBodyCoupons(data:any){
+     return this.http.post(environment.host + 'bulk-uplod',data);
+
   }
   public getUserlistForHistory(data:any) {
     return this.http.get(environment.host + 'user-search?name='+data);

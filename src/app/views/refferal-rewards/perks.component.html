@@ -22,7 +22,7 @@
             <div class="card-header">
               <strong *ngIf="!perksData.rewardpoint_id">Add Perks</strong>
               <strong *ngIf="perksData.rewardpoint_id">Edit Perks</strong>
-              <button type="button" class="close" (click)="addorUpdatePerks.hide();">&times;</button>
+              <button type="button" class="close" (click)="addorUpdatePerks.hide();backupData() ">&times;</button>
             </div>
             <div class="card-body">
               <form name="form" [formGroup]="perksForm">
@@ -65,7 +65,7 @@
                   <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdatePerk(perksData)">Update</button>
                 </span>
                 &nbsp;&nbsp;
-                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdatePerks.hide();">Close</button>
+                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdatePerks.hide();backupData() ">Close</button>
               </form>
             </div>
           </div>
@@ -126,7 +126,7 @@
     <div class="modal-content">
       <div class="modal-header" style="background-color:#EC8D8D">
         <h4 class="modal-title">Delete Reward</h4>
-        <button type="button" class="close" (click)="deletePerks.hide()" aria-label="Close">
+        <button type="button" class="close" (click)="deletePerks.hide();" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

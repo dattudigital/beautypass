@@ -40,7 +40,7 @@ export class PerksComponent implements OnInit {
   submitted = false;
   cols: any = [];
   deleteRecord: '';
-
+  copiedRow: '';
   constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private dp: DatePipe, private service: RefferalRewardsService, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
@@ -112,7 +112,7 @@ export class PerksComponent implements OnInit {
           if (this.perksData.rewardpoint_status == '0') {
             this.perk.splice(this.perksData["index"], 1);
           } else {
-            this.perksData = res.json().data;
+            this.perk[this.perksData["index"]] = res.json().data;
           }
         }
         this.toastyService.success(this.toastOptionsSuccess);
@@ -123,8 +123,15 @@ export class PerksComponent implements OnInit {
   }
 
   editPerk(data, index) {
+    this.copiedRow = Object.assign({}, data);
     this.perksData = data;
     this.perksData["index"] = index;
+  }
+
+
+  backupData() {
+    let _index = this.perksData["index"];
+    this.perk[_index] = this.copiedRow;
   }
 
   deletePerk(val, index) {

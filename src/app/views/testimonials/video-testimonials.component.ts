@@ -107,8 +107,11 @@ export class VideoTestimonialsComponent {
       if (res.json().status == true) {
         if (this.videoTestimonialData.rec_status == '0') {
           this.videoTestimonials.splice(this.videoTestimonialData["index"], 1);
-          this.toastyService.success(this.toastOptionsSuccess);
+        } else {
+          this.videoTestimonials[this.videoTestimonialData["index"]] = res.json().data;
+          this.videoTestimonials[this.videoTestimonialData["index"]].fullname = this.videoTestimonialData.fullname;
         }
+        this.toastyService.success(this.toastOptionsSuccess);
       } else {
         this.toastyService.error(this.toastOptionsError);
       }

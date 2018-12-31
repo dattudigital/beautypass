@@ -47,7 +47,7 @@ export class MindbodyCouponsBulkComponent {
       element.empid = this.empData[0].employee_id;
     });
     this.spinner.show();
-    this.service.addoreditMindBodyCoupons(this.list).subscribe(res => {
+    this.service.addBulkMindBodyCoupons(this.list).subscribe(res => {
       this.spinner.hide();
       this.router.navigate(['mindbody-coupons']);
     })

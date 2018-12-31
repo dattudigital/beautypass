@@ -122,11 +122,15 @@ export class MindbodyCouponsComponent implements OnInit {
       if (res.json().status == true) {
         if (this.couponsDetails.coupons_status == '0') {
           this.couponsData.splice(this.couponsDetails["index"], 1);
-          this.toastyService.success(this.toastOptionsSuccess);
+        } else {
+          this.couponsData[this.couponsDetails["index"]] = res.json().data;
         }
+        this.toastyService.success(this.toastOptionsSuccess);
+
+      } else {
+        this.toastyService.error(this.toastOptionsError);
       }
     });
-
   }
 
   deleteCoupons(val, index) {
