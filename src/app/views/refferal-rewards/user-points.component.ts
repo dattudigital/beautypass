@@ -2,11 +2,35 @@ import { Component, OnInit } from '@angular/core';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TypeaheadMatch } from 'ngx-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 @Component({
   templateUrl: 'user-points.component.html',
 })
 export class UserPointsComponent {
+  toastOptionsSuccess: ToastOptions = {
+    title: "Success",
+    msg: "Successfully Done",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsError: ToastOptions = {
+    title: "Error",
+    msg: "Something is Wrong",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+  toastOptionsWarn: ToastOptions = {
+    title: "Not Found",
+    msg: "No Data",
+    showClose: true,
+    timeout: 3000,
+    theme: 'default'
+  };
+
   userId: number;
   tableStatus = false;
   noDataFound = false;
@@ -16,19 +40,26 @@ export class UserPointsComponent {
   noResult = false;
   selectedOption: any;
   cols: any = [];
+  userid: '';
+  userPoints: '';
+  userRemark: '';
+  pointsForm: FormGroup;
+  submitted = false;
 
-  constructor(private spinner: NgxSpinnerService, private service: RefferalRewardsService) { }
+  constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'user_id', header: 'User ID' },
       { field: 'points', header: 'Points' },
-      { field: 'debit', header: 'Debit' },
       { field: 'reward_for', header: 'Reward For' },
-      { field: 'refer_by', header: 'Reffer By' },
-      { field: 'refer_by_name', header: 'Reffer By Name' },
-      { field: 'refer_desc', header: 'Reffer Description' },
     ];
+
+    this.pointsForm = this.formBuilder.group({
+      Id: ['', Validators.required],
+      Points: ['', Validators.required],
+      Remarks: ['', Validators.required],
+    })
 
   }
   onSelect(event: TypeaheadMatch): void {
@@ -60,11 +91,9 @@ export class UserPointsComponent {
 
   setUserId(branch_id: any): void {
     this.userId = branch_id;
-    console.log(branch_id)
     this.tableStatus = true;
     this.service.getUserRewardHistory(branch_id).subscribe(response => {
       this.userHistoryData = response.json().data;
-      console.log(this.userHistoryData)
       if (this.userHistoryData.length != 0) {
         this.tableStatus = true;
         this.noDataFound = false;
@@ -75,4 +104,37 @@ export class UserPointsComponent {
       }
     });
   }
+  getUserId(data) {
+    this.userid = data.user_id
+  }
+
+  removeFields() {
+    this.userPoints = '';
+    this.userRemark = '';
+  }
+
+  get f() { return this.pointsForm.controls; }
+
+  addPoint() {
+    this.submitted = true;
+    if (this.pointsForm.invalid) {
+      return;
+    }
+    var data: any = {
+      user_id: this.userid,
+      points: this.userPoints,
+      reward_for: this.userRemark
+    }
+    let modelClose = document.getElementById("CloseButton");
+
+    this.service.addUserPoints(data).subscribe(res => {
+      modelClose.click();
+      if (res.json().status == true) {
+        this.toastyService.success(this.toastOptionsSuccess);
+      } else {
+        this.toastyService.error(this.toastOptionsError);
+      }
+    })
+  }
+
 }

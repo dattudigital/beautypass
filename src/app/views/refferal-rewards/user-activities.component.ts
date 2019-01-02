@@ -207,6 +207,7 @@ export class UserActivitiesComponent implements OnInit {
   }
 
   removeFields() {
+    this.submitted = false;
     this.userActivity.activity_id = '';
     this.userActivity.activity_name = '';
     this.userActivity.activity_points = '';

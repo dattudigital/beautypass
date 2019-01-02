@@ -1,56 +1,115 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
-    <p style="font-size: 20px; color: white">Loading...</p>
-  </ngx-spinner>
-  
-  <div class="form-group row">
-    <label class="col-md-2 col-form-label" for="select2"><b>Select User test</b></label>
-    <div class="col-md-4">
-      <input type="text" class="form-control" placeholder="Enter User Name" name="username" maxlength="50" [(ngModel)]="selectedValue"
-        [(ngModel)]="existingDetail" (ngModelChange)='userSearch($event)' [typeahead]="userInfo" typeaheadOptionField="fullname"
-        (typeaheadOnSelect)="onSelect($event)">
-    </div>
-    <div style="color:red" *ngIf="noResult">No Results Found</div>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+
+<div class="form-group row">
+  <label class="col-md-2 col-form-label" for="select2"><b>Select User test</b></label>
+  <div class="col-md-4">
+    <input type="text" class="form-control" placeholder="Enter User Name" name="username" maxlength="50" [(ngModel)]="selectedValue"
+      [(ngModel)]="existingDetail" (ngModelChange)='userSearch($event)' [typeahead]="userInfo" typeaheadOptionField="fullname"
+      (typeaheadOnSelect)="onSelect($event)">
   </div>
-  
-  <div style="color:red" *ngIf="noDataFound">
-    <h1>No Data Found</h1>
-  </div>
-  
-  <div class="animated fadeIn" *ngIf="tableStatus">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-header">
-            <i class="fa fa-align-justify"></i> User History
-          </div>
-          <div class="card-body">
-            <p-table #dt [columns]="cols" [value]="userHistoryData" [paginator]="true" [rows]="4">
-              <ng-template pTemplate="caption">
-                <div style="text-align: right">
-                  <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                  <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                    style="width:auto">
-                </div>
-              </ng-template>
-              <ng-template pTemplate="header">
-                <tr>
-                  <th *ngFor="let col of cols" [pSortableColumn]="col.field">
-                    {{col.header}}
-                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
-                      ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-                  </th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-i="rowIndex" let-data>
-                <tr>
-                  <td *ngFor="let col of cols">
-                    {{data[col.field]}}
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </div>
+  <div style="color:red" *ngIf="noResult">No Results Found</div>
+</div>
+<div style="color:red" *ngIf="noDataFound">
+  <h1>No Data Found</h1>
+</div>
+
+<div class="animated fadeIn" *ngIf="tableStatus">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> User History
+        </div>
+        <div class="card-body">
+          <p-table #dt [columns]="cols" [value]="userHistoryData" [paginator]="true" [rows]="4">
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                  style="width:auto">
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th>Add Points</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i="rowIndex" let-data>
+              <tr>
+                <td *ngFor="let col of cols">
+                  {{data[col.field]}}
+                </td>
+                <td href="#" data-toggle="modal" (click)="addPoints.show();getUserId(data,i)"><i class="far fa-plus-square"
+                    style="color:orange;font-size: 20px;text-align:center"></i></td>
+              </tr>
+            </ng-template>
+          </p-table>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div bsModal #addPoints="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card" style="margin-bottom: 0;">
+            <div class="card-header">
+              <strong>Add Points</strong>
+              <button type="button" class="close" (click)="addPoints.hide();removeFields()">&times;</button>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="pointsForm">
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">User ID<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="Id" class="form-control" [(ngModel)]="userid"
+                      [ngClass]="{ 'is-invalid': submitted && f.Id.errors }" readonly>
+                    <div *ngIf="submitted && f.Id.errors" class="invalid-feedback">
+                      <div *ngIf="f.Id.errors.required" style="color:red">User Id is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Points<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="Points" class="form-control" [(ngModel)]="userPoints"
+                      [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
+                    <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
+                      <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Remarks<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <textarea type="text" maxlength="500" rows="5" class="form-control" formControlName="Remarks"
+                      placeholder="Enter Beautytip Description" [(ngModel)]="userRemark" [ngClass]="{ 'is-invalid': submitted && f.Remarks.errors }"></textarea>
+                    <div *ngIf="submitted && f.Remarks.errors" class="invalid-feedback">
+                      <div *ngIf="f.Remarks.errors.required" style="color:red">Remarks is required</div>
+                    </div>
+                  </div>
+                </div>
+                <button style="margin-left: 26%;" class="btn btn-primary" (click)="addPoint()">ADD</button>
+                &nbsp;&nbsp;
+                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addPoints.hide();removeFields()">Close</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

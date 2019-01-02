@@ -37,4 +37,8 @@ export class RefferalRewardsService {
   public getUserRewardHistory(id:number) {
     return this.http.get(environment.host + 'reward_histories/'+id);
   }
+
+  public addUserPoints(data:any){
+    return this.http.post(environment.host +'user-points',data)
+  }
 }

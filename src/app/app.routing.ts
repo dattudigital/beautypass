@@ -71,7 +71,13 @@ export const routes: Routes = [
       {
         path: 'refferal-rewards',
         loadChildren: './views/refferal-rewards/refferal-rewards.module#RefferalRewardsModule'
-      }
+      },
+
+      {
+        path: 'employee-history',
+        loadChildren: './views/employee-history/employee-history.module#EmployeeHistoryModule'
+      },
+
     ]
   }
 ];

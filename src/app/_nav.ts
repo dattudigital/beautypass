@@ -116,5 +116,10 @@ export const navItems = [
       //   icon: 'icon-note'
       // }
     ]
-  }
+  },
+  {
+    name: 'Log History ',
+    url: '/employee-history',
+    icon: 'icon-cursor'    
+  },
 ];
