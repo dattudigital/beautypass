@@ -64,11 +64,11 @@ export class VideoTestimonialsComponent {
       { field: 'fullname', header: 'Username' },
       { field: 'description', header: 'Description' },
       { field: 'likes', header: 'Likes' },
-      { field: 'video', header: 'Video' }
+      { field: 'video', header: 'Video' },
+      { field: 'empname', header: 'Updated Emp' }
     ];
 
     this.videoTestimonialForm = this.formBuilder.group({
-      Name: ['', Validators.required],
       Description: ['', Validators.required],
       Video: ['', Validators.required],
       Likes: ['', Validators.required],
@@ -99,7 +99,7 @@ export class VideoTestimonialsComponent {
       likes: this.videoTestimonialData.likes,
       video: this.videoTestimonialData.video,
       rec_status: this.videoTestimonialData.rec_status,
-      updatedempid: this.userData[0].employee_id
+      updatedempid: this.userData.employee_id
     }
     let modelClose = document.getElementById("CloseButton");
     this.service.editVideoTestmonials(data).subscribe(res => {
@@ -110,6 +110,7 @@ export class VideoTestimonialsComponent {
         } else {
           this.videoTestimonials[this.videoTestimonialData["index"]] = res.json().data;
           this.videoTestimonials[this.videoTestimonialData["index"]].fullname = this.videoTestimonialData.fullname;
+          this.videoTestimonials[this.videoTestimonialData["index"]].empname = this.userData.emp_firstname + " "+ this.userData.emp_lastname;
         }
         this.toastyService.success(this.toastOptionsSuccess);
       } else {

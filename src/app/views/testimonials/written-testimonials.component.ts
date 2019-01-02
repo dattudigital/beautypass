@@ -78,7 +78,7 @@ export class WrittenTestimonialsComponent implements OnInit {
     });
 
     this.cols = [
-      { field: 'fullname', header: 'Username' },
+      { field: 'fullname', header: 'User Name' },
       { field: 'comments', header: 'Comments' },
       { field: 'recomment', header: 'Recomment' },
       { field: 'rating_1', header: 'Rating 1' },
@@ -86,6 +86,7 @@ export class WrittenTestimonialsComponent implements OnInit {
       { field: 'rating_3', header: 'Rating 3' },
       { field: 'rating_4', header: 'Rating 4' },
       { field: 'rating_5', header: 'Rating 5' },
+      { field: 'empname', header: 'Updated Emp' }
     ];
 
     this.testimonialForm = this.formBuilder.group({
@@ -128,7 +129,7 @@ export class WrittenTestimonialsComponent implements OnInit {
       rating_4: this.testimonialData.rating_4,
       rating_5: this.testimonialData.rating_5,
       status: this.testimonialData.status,
-      updatedempid: this.userData[0].employee_id
+      updatedempid: this.userData.employee_id
     }
     let modelClose = document.getElementById("CloseButton");
     this.service.editWrittenTestmonials(data).subscribe(res => {
@@ -139,6 +140,7 @@ export class WrittenTestimonialsComponent implements OnInit {
         } else {
           this.testmonials[this.testimonialData["index"]] = res.json().data;
           this.testmonials[this.testimonialData["index"]].fullname = this.testimonialData.fullname;
+          this.testmonials[this.testimonialData["index"]].empname = this.userData.emp_firstname + " "+ this.userData.emp_lastname;
         }
         this.toastyService.success(this.toastOptionsSuccess);
       } else {
