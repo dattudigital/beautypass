@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UserActivitiesComponent } from './user-activities.component';
 import { UserHistoryComponent } from './user-history.component';
+import { UserPointsComponent } from './user-points.component';
 import { PerksComponent } from './perks.component';
 
 
@@ -27,6 +28,13 @@ const routes: Routes = [
       {
         path: 'user-history',
         component: UserHistoryComponent,
+        data: {
+          title: 'User History'
+        }
+      },
+      {
+        path: 'user-points',
+        component: UserPointsComponent,
         data: {
           title: 'User History'
         }

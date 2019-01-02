@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     this.service.loginSubmit(data).subscribe(response => {
       this.spinner.hide();
       if (response.json().status == true) {
-        localStorage.setItem('loginDetails', JSON.stringify(response.json().data));
+        localStorage.setItem('loginDetails', JSON.stringify(response.json().data[0]));
         this.router.navigate(['dashboard']);
       } else {
         this.errorMeassage = true;

@@ -7,6 +7,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AlertModule} from 'ngx-bootstrap/alert';
 import { UserActivitiesComponent } from './user-activities.component';
 import { UserHistoryComponent } from './user-history.component';
+import { UserPointsComponent } from './user-points.component';
 import { PerksComponent } from './perks.component';
 import { RefferalRewardsRoutingModule } from './refferal-rewards-routing.module';
 import { TypeaheadModule } from "ngx-bootstrap";
@@ -36,6 +37,7 @@ import {ToastyModule} from 'ng2-toasty';
   declarations: [
     UserActivitiesComponent,
     UserHistoryComponent,
+    UserPointsComponent,
     PerksComponent
   ],
   

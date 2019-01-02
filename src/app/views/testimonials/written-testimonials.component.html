@@ -113,12 +113,10 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">User Name<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" rows="5" maxlength="500" formControlName="Name" class="form-control" placeholder="User Name"
-                      [(ngModel)]="testimonialData.fullname" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }"
+                    <input type="text" rows="5" maxlength="500"  class="form-control" placeholder="User Name"
+                      [(ngModel)]="testimonialData.fullname" [ngModelOptions]="{standalone: true}"
                       disabled>
-                    <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
-                      <div *ngIf="f.Name.errors.required" style="color:red">Name is required</div>
-                    </div>
+                   
                   </div>
                 </div>
 
