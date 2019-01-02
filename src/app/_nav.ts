@@ -78,6 +78,11 @@ export const navItems = [
         icon: 'icon-cursor'
       },
       {
+        name: 'User Points',
+        url: '/refferal-rewards/user-points',
+        icon: 'icon-cursor'
+      },
+      {
         name: 'Perks',
         url: '/refferal-rewards/perks',
         icon: 'icon-cursor'
