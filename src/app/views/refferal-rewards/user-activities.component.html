@@ -2,6 +2,15 @@
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
 
+<div class="card-body">
+  <div class="row">
+    <div class="col-6 col-sm-4 col-md text-center">
+      <button type="button" (click)="removeFields();addOrEditActivity.show();" class="btn btn-primary" style="float: right;"><i
+          class="fa fa-lightbulb-o"></i>&nbsp;Add Activity</button>
+    </div>
+  </div>
+</div>
+
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-lg-12">
@@ -27,6 +36,8 @@
                   <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                 </th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
@@ -34,10 +45,150 @@
                 <td *ngFor="let col of cols">
                   {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }}
                 </td>
+                <td href="#" data-toggle="modal" (click)="addOrEditActivity.show();editUserActivity(data,i)"><i class="fa fa-edit"
+                    style="color:orange;font-size: 20px;text-align:center"></i></td>
+                <td href="#" data-toggle="modal" (click)="deleteActivity.show();deleteUserActivity(data,i)"><i class="fa fa-trash"
+                    style="color:red;font-size: 20px"></i></td>
               </tr>
             </ng-template>
           </p-table>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #addOrEditActivity="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card" style="margin-bottom: 0;">
+            <div class="card-header">
+              <strong *ngIf="!userActivity.activity_id">Add User Activity</strong>
+              <strong *ngIf="userActivity.activity_id">Edit User Activity</strong>
+              <button type="button" class="close" (click)="addOrEditActivity.hide(); backupData()">&times;</button>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="activityForm">
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Name<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="Name" class="form-control" placeholder="User Activity Name"
+                      [(ngModel)]="userActivity.activity_name" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+                    <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                      <div *ngIf="f.Name.errors.required" style="color:red">Activity name is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Points<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="10" formControlName="Points" class="form-control" placeholder="Activity Points"
+                      [(ngModel)]="userActivity.activity_points" [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
+                    <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
+                      <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Description<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="100" formControlName="Description" class="form-control" placeholder="Activity Points"
+                      [(ngModel)]="userActivity.activity_desc" [ngClass]="{ 'is-invalid': submitted && f.Description.errors }">
+                    <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
+                      <div *ngIf="f.Description.errors.required" style="color:red">Description is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Start Date<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="date" maxlength="10" formControlName="StartDate" class="form-control" placeholder="Activity StartDate"
+                      [(ngModel)]="userActivity.activity_start_date" [ngClass]="{ 'is-invalid': submitted && f.StartDate.errors }">
+                    <div *ngIf="submitted && f.StartDate.errors" class="invalid-feedback">
+                      <div *ngIf="f.StartDate.errors.required" style="color:red">StartDate is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">End Date<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="date" maxlength="10" formControlName="EndDate" class="form-control" placeholder="Activity EndDate"
+                      [(ngModel)]="userActivity.activity_end_date" [ngClass]="{ 'is-invalid': submitted && f.EndDate.errors }">
+                    <div *ngIf="submitted && f.EndDate.errors" class="invalid-feedback">
+                      <div *ngIf="f.EndDate.errors.required" style="color:red">EndDate is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="userActivity.activity_id">
+                  <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="text-input">Status</label>
+                    <div class="col-md-8">
+                      <select class="form-control" name="vehicletype1" [(ngModel)]="userActivity.activity_status" [(ngModel)]="showMoreControls"
+                        [ngModelOptions]="{standalone: true}">
+                        <option value="1">Active</option>
+                        <option value="0">In active</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <span *ngIf="!userActivity.activity_id">
+                    <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateUserActivity()">ADD</button>
+                  </span>
+                  <span *ngIf="userActivity.activity_id">
+                    <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateUserActivity()">Update</button>
+                  </span>
+                  &nbsp;&nbsp;
+                  <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addOrEditActivity.hide(); backupData()">Close</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #deleteActivity="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#EC8D8D">
+        <h4 class="modal-title">Delete FAQ's</h4>
+        <button type="button" class="close" (click)="deleteActivity.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to Delete ?</p>
+      </div>
+      <div class="container">
+        <table class="table table-bordered table-striped table-sm" style="padding:10px;">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Points</th>
+              <th>Description</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="deleteRecord">
+              <td>{{deleteRecord.activity_name}}</td>
+              <td>{{deleteRecord.activity_points}}</td>
+              <td>{{deleteRecord.activity_desc}}</td>
+              <td>{{deleteRecord.activity_start_date | mediumDate}}</td>
+              <td>{{deleteRecord.activity_end_date | mediumDate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="deleteActivity.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteActivity.hide();deleteAlert();">Delete</button>
       </div>
     </div>
   </div>
