@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
 import { Router } from '@angular/router';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { ExcelService } from '../../services/excel.service';
@@ -57,7 +57,11 @@ export class UserActivitiesComponent implements OnInit {
   copiedRow: '';
   deleteRecord: '';
 
-  constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private formBuilder: FormBuilder, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
+  constructor(private spinner: NgxSpinnerService,private cdr: ChangeDetectorRef, private toastyService: ToastyService, private formBuilder: FormBuilder, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -126,6 +130,7 @@ export class UserActivitiesComponent implements OnInit {
     }
     if (!this.userActivity.activity_id) {
       this.userActivity.activity_status = '1'
+      
     }
     if (!this.userActivity.activity_id) {
       this.userActivity.activity_id = null
@@ -137,10 +142,14 @@ export class UserActivitiesComponent implements OnInit {
       activity_desc: this.userActivity.activity_desc,
       activity_start_date: this.userActivity.activity_start_date,
       activity_end_date: this.userActivity.activity_end_date,
-      createdemp_id: this.userData[0].employee_id,
-      updatedempid: this.userData[0].employee_id,
       activity_status: this.userActivity.activity_status
     }
+    if (!this.userActivity.activity_id) {
+      data.createdemp_id = this.userData.employee_id;
+    } else {
+      data.updatedempid = this.userData.employee_id;
+    }
+    console.log(data)
     let modelClose = document.getElementById("CloseButton");
     this.service._addOrEditRefferalActivities(data).subscribe(res => {
       modelClose.click();

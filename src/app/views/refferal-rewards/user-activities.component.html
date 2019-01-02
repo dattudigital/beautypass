@@ -95,7 +95,7 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Description<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="100" formControlName="Description" class="form-control" placeholder="Activity Points"
+                    <input type="text" maxlength="100" formControlName="Description" class="form-control" placeholder="Activity Description"
                       [(ngModel)]="userActivity.activity_desc" [ngClass]="{ 'is-invalid': submitted && f.Description.errors }">
                     <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
                       <div *ngIf="f.Description.errors.required" style="color:red">Description is required</div>
@@ -180,8 +180,8 @@
               <td>{{deleteRecord.activity_name}}</td>
               <td>{{deleteRecord.activity_points}}</td>
               <td>{{deleteRecord.activity_desc}}</td>
-              <td>{{deleteRecord.activity_start_date | mediumDate}}</td>
-              <td>{{deleteRecord.activity_end_date | mediumDate}}</td>
+              <td>{{deleteRecord.activity_start_date}}</td>
+              <td>{{deleteRecord.activity_end_date }}</td>
             </tr>
           </tbody>
         </table>
