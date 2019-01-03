@@ -30,8 +30,8 @@ export class DashboardService {
   public getUserlistForHistory() {
     return this.http.get(environment.host + 'get_users_list');
   }
-  public getUserRewardHistory(id:number) {
-    return this.http.get(environment.host + 'reward_histories/' +id);
+  public getUserRewardHistory(id: number) {
+    return this.http.get(environment.host + 'reward_histories/' + id);
   }
   public editWrittenTestmonials(data: any) {
     return this.http.post(environment.host + 'written-testimonials', data);
@@ -54,6 +54,8 @@ export class DashboardService {
   public getGraphdata() {
     return this.http.get(environment.host + 'graphs');
   }
+  public getallCountForDashboard() {
+    return this.http.get(environment.host + 'web-dashboard');
+  }
 
- 
 }

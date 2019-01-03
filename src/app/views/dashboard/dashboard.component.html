@@ -5,12 +5,12 @@ color="#fff"
 type="ball-scale-multiple">
 <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
-<div class="animated fadeIn" (mouseover)="testFun()">
+<div class="animated fadeIn">
   <div class="row">
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-primary" routerLink="/users-list">
         <div class="card-body pb-0">
-          <div class="text-value">{{this.userDataLength}}</div>
+          <div class="text-value" *ngIf="completeDashboardData">{{this.completeDashboardData.totaluser }}</div>
           <div>Total Users</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -21,7 +21,7 @@ type="ball-scale-multiple">
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-info" routerLink="/testmonials/video">
         <div class="card-body pb-0">
-          <div class="text-value">{{this.videoDatalength}}</div>
+          <div class="text-value" *ngIf="completeDashboardData">{{completeDashboardData.videototal}}</div>
           <div>Total Video Testmonials</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -32,7 +32,7 @@ type="ball-scale-multiple">
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-warning"  routerLink="/testmonials/written">
         <div class="card-body pb-0">
-          <div class="text-value">{{this.writtenDataLength}}</div>
+          <div class="text-value" *ngIf="completeDashboardData" >{{completeDashboardData.writtentotal}}</div>
           <div>Total Written Testmonials</div>
         </div>
         <div class="chart-wrapper mt-3" style="height:70px;">
@@ -41,10 +41,9 @@ type="ball-scale-multiple">
       </div>
     </div>
     <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-danger"  routerLink="/refferal-rewards/user-activities">
-        
+      <div class="card text-white bg-danger"  routerLink="/refferal-rewards/user-activities">        
         <div class="card-body pb-0">
-          <div class="text-value">{{this.activitiesDataLength}}</div>
+          <div class="text-value" *ngIf="completeDashboardData">{{completeDashboardData.refferaltotal}}</div>
           <div>Total User Activities</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -55,49 +54,31 @@ type="ball-scale-multiple">
   </div>
   <div class="row">
     <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-primary" routerLink="/theme/beauty-tips">
+      <div class="card text-white bg-primary" routerLink="/beauty-tips">
         <div class="card-body pb-0">
-          <div class="text-value">{{this.tipsDataLength}}</div>
+          <div class="text-value" *ngIf="completeDashboardData">{{completeDashboardData.totalbeautytip}}</div>
           <div>Total Beauty Tips</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
           <i class="fa fa-lightbulb-o fa-lg mt-4 fa-3x"></i>
-
         </div>
       </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-info" routerLink="/refferal-rewards/user-history">
-        <div class="card-body pb-0">
-
-          <div class="text-value">{{this.activitiesDataLength}}</div>
-          <div>Total Refferal Activities</div>
-        </div>
-        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-          <i class="fa fa-vcard-o fa-lg mt-4 fa-3x"></i>
-
-        </div>
-      </div>
-    </div>
+    </div>   
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-warning"  routerLink="/refferal-rewards/perks">
         <div class="card-body pb-0">
-
-          <div class="text-value">{{this.perksDataLength}}</div>
-          <div>Total Coupons / Perks </div>
+          <div class="text-value" *ngIf="completeDashboardData">{{completeDashboardData.perktotal}}</div>
+          <div>Total Perks </div>
         </div>
         <div class="chart-wrapper mt-3" style="height:70px;">
           <i class="fa fa-envelope-open-o fa-lg mt-4 fa-3x" style="margin-left: 15px;"></i>
-
-
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-danger"  routerLink="/mind-body-coupons">
+      <div class="card text-white bg-danger"  routerLink="/mindbody-coupons">
         <div class="card-body pb-0">
-
-          <div class="text-value">{{this.mindBodyDatalength}}</div>
+          <div class="text-value" *ngIf="completeDashboardData">{{completeDashboardData.totalcoupon}}</div>
           <div>Total Mind Body Coupons</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -109,7 +90,7 @@ type="ball-scale-multiple">
     <div class="col-sm-6 col-lg-3">
         <div class="card text-white bg-warning"  routerLink="/testmonials/written-edit">
           <div class="card-body pb-0">
-            <div class="text-value">{{this.writtenDataLength}}</div>
+            <div class="text-value" *ngIf="completeDashboardData">{{completeDashboardData.writtentotal}}</div>
             <div>Total Testmonials Rating < 3 </div>
           </div>
           <div class="chart-wrapper mt-3" style="height:70px;">
@@ -137,7 +118,7 @@ type="ball-scale-multiple">
           [colors]="mainChartColours" [legend]="mainChartLegend" [chartType]="mainChartType"></canvas>
       </div>
     </div>
-    <div class="card-footer">
+    <!-- <div class="card-footer">
       <div class="row text-center">
         <div class="col-sm-12 col-md mb-sm-2 mb-0">
           <div class="text-muted">Visits</div>
@@ -180,10 +161,10 @@ type="ball-scale-multiple">
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
@@ -207,8 +188,7 @@ type="ball-scale-multiple">
                     <strong class="h4">22,643</strong>
                   </div>
                 </div>
-              </div>
-              <!--/.row-->
+              </div>          
               <hr class="mt-0">
               <div class="progress-group mb-4">
                 <div class="progress-group-prepend">
@@ -308,17 +288,13 @@ type="ball-scale-multiple">
                   </div>
                 </div>
               </div>
-
-
             </div>
-          </div>
-         
-
+          </div>         
         </div>
       </div>
     </div>
   </div>
-  
+   -->
   
   <div class="row">
     <div class="col-md-12">
@@ -327,9 +303,7 @@ type="ball-scale-multiple">
           Recent Users
         </div>
         <div class="card-body">
-
           <br/>
-
           <table class="table table-bordered table-striped table-sm">
             <thead>
               <tr>
@@ -339,14 +313,14 @@ type="ball-scale-multiple">
               <th>Gender</th>
               </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let item of categorysData ">
-                <td>{{item.fullname}}</td>
-                <td>{{item.email_id}}</td>
-                <td>{{item.mobile}}</td>
-                <td>{{item.gender}}</td>
+            <tbody *ngIf="completeDashboardData">
+              <tr *ngFor="let recentUsers of completeDashboardData.userlist ">
+                <td>{{recentUsers.fullname}}</td>
+                <td>{{recentUsers.email_id}}</td>
+                <td>{{recentUsers.mobile}}</td>
+                <td>{{recentUsers.gender}}</td>
               </tr>
-              <tr *ngIf="!categorysData || categorysData.length ==0">
+              <tr *ngIf="!completeDashboardData.userlist || completeDashboardData.userlist.length ==0">
                 No Records Found
               </tr>
             </tbody>
@@ -355,12 +329,4 @@ type="ball-scale-multiple">
       </div>
     </div>
   </div>
-  <!--/.row-->
 </div>
-<!-- <ngx-spinner
-bdColor="rgba(51, 51, 51, 0.8)"
-size="medium"
-color="#fff"
-type="ball-scale-multiple">
-<p style="font-size: 20px; color: white">Loading...</p>
-</ngx-spinner> -->
