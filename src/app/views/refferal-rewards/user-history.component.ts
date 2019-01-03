@@ -23,11 +23,7 @@ export class UserHistoryComponent {
     this.cols = [
       { field: 'user_id', header: 'User ID' },
       { field: 'points', header: 'Points' },
-      { field: 'debit', header: 'Debit' },
       { field: 'reward_for', header: 'Reward For' },
-      { field: 'refer_by', header: 'Reffer By' },
-      { field: 'refer_by_name', header: 'Reffer By Name' },
-      { field: 'refer_desc', header: 'Reffer Description' },
     ];
 
   }
