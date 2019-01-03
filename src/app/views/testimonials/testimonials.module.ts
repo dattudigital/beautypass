@@ -15,7 +15,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { TableModule } from 'primeng/table';
 import {ToastyModule} from 'ng2-toasty';
-
+import { AuthGuard } from '../../common-session/session.check'
 
 @NgModule({
   imports: [
@@ -35,6 +35,7 @@ import {ToastyModule} from 'ng2-toasty';
   declarations: [
     WrittenTestimonialsComponent,
     VideoTestimonialsComponent
-  ]
+  ],
+  providers:[AuthGuard]
 })
 export class TestimonialsModule { }

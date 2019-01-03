@@ -9,6 +9,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ToastyModule } from 'ng2-toasty';
+import { AuthGuard } from '../../common-session/session.check'
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ToastyModule } from 'ng2-toasty';
     ReactiveFormsModule,
     TableModule
   ],
-  declarations: [BeautyTipsComponent]
+  declarations: [BeautyTipsComponent],
+  providers:[AuthGuard]
 })
 export class BeautytipModule { }

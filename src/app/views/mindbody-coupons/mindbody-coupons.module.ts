@@ -10,6 +10,8 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ToastyModule } from 'ng2-toasty';
+import { AuthGuard } from '../../common-session/session.check'
+
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { ToastyModule } from 'ng2-toasty';
   declarations: [
     MindbodyCouponsComponent,
     MindbodyCouponsBulkComponent
-  ]
+  ],
+  providers:[AuthGuard]
 })
 export class MindbodyCouponsModule { }
 //UsersModule

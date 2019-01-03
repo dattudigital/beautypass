@@ -8,6 +8,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
+import { AuthGuard } from '../../common-session/session.check'
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,6 +21,7 @@ import { TableModule } from 'primeng/table';
     NgxPaginationModule,
     TableModule
   ],
-  declarations: [UsersComponent]
+  declarations: [UsersComponent],
+  providers:[AuthGuard]
 })
 export class UsersModule { }

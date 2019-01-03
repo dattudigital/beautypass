@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { VoucherComponent } from './voucher.component';
+import { AuthGuard } from '../../common-session/session.check'
 
 const routes: Routes = [
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
         component: VoucherComponent,
         data: {
           title: 'voucher'
-        }
+        },
+        canActivate: [AuthGuard]
       }
     ]
   }

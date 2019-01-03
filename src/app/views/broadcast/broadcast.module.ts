@@ -13,6 +13,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AuthGuard } from '../../common-session/session.check'
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   declarations: [
     broadcastPackageSmsComponent,
     broadcastSmsComponent
-  ]
+  ],
+  providers:[AuthGuard]
 })
 export class BroadcastModule { }

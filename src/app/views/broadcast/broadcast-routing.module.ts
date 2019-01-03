@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { broadcastSmsComponent } from './broadcast-sms.component';
 import { broadcastPackageSmsComponent } from './broadcast-package-sms.component';
+import { AuthGuard } from '../../common-session/session.check'
 
 const routes: Routes = [
   {
@@ -19,14 +20,16 @@ const routes: Routes = [
         component: broadcastSmsComponent,
         data: {
           title: 'broadcast-all'
-        }
+        },
+        canActivate: [AuthGuard]
       },
       {
         path: 'broadcast-packages',
         component: broadcastPackageSmsComponent,
         data: {
           title: 'Broadcast Packages'
-        }
+        },
+        canActivate: [AuthGuard]
       }
     ]
   }

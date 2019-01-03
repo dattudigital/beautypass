@@ -18,6 +18,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { TableModule } from 'primeng/table';
 declare var jsPDF: any;
 import {ToastyModule} from 'ng2-toasty';
+import { AuthGuard } from '../../common-session/session.check'
+
 @NgModule({
   imports: [
     CommonModule,
@@ -40,6 +42,6 @@ import {ToastyModule} from 'ng2-toasty';
     UserPointsComponent,
     PerksComponent
   ],
-  
+  providers:[AuthGuard]
 })
 export class RefferalRewardsModule { }

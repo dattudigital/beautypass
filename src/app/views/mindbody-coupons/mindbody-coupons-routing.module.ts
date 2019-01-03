@@ -1,18 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { MindbodyCouponsComponent } from './mindbody-coupons.component';
 import { MindbodyCouponsBulkComponent } from './mindbody-coupon-bulk.component';
-
-console.log("locading**************")
-// const routes: Routes = [
-//   {
-//     path: '', component: MindbodyCouponsComponent,
-//     data: {
-//       title: 'Mindbody'
-//     }
-//   }
-// ];
+import { AuthGuard } from '../../common-session/session.check'
 
 const routes: Routes = [
   {
@@ -30,14 +20,16 @@ const routes: Routes = [
         component: MindbodyCouponsComponent,
         data: {
           title: 'MindbodyCouponsComponent'
-        }
+        },
+        canActivate: [AuthGuard]
       },
       {
         path: 'mindbody-coupons/bulk',
         component: MindbodyCouponsBulkComponent,
         data: {
           title: 'Bulk Upload'
-        }
+        },
+        canActivate: [AuthGuard]
       }
     ]
   }

@@ -9,6 +9,8 @@ import { AlertModule} from 'ngx-bootstrap/alert';
 import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import {ToastyModule} from 'ng2-toasty';
 import { TableModule } from 'primeng/table';
+import { AuthGuard } from '../../common-session/session.check'
+
 @NgModule({
   imports: [   
     CommonModule,
@@ -22,6 +24,7 @@ import { TableModule } from 'primeng/table';
     TableModule ,
     ReactiveFormsModule
   ],
-  declarations: [ EmployeesComponent ]
+  declarations: [ EmployeesComponent ],
+  providers:[AuthGuard]
 })
 export class EmployeesModule { }

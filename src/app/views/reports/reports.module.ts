@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { TableModule } from 'primeng/table';
+import { AuthGuard } from '../../common-session/session.check'
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { TableModule } from 'primeng/table';
   ],
   declarations: [
     VoucherComponent
-  ]
+  ],
+  providers:[AuthGuard]
 })
 export class ReportsModule { }
