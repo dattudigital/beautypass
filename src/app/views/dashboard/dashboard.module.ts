@@ -6,6 +6,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { CommonModule } from '@angular/common';
+import { AuthGuard } from '../../common-session/session.check'
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { CommonModule } from '@angular/common';
     BsDropdownModule,
     NgxSpinnerModule
   ],
-  declarations: [ DashboardComponent ]
+  declarations: [ DashboardComponent ],
+  providers:[AuthGuard]
 })
 export class DashboardModule { }

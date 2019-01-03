@@ -22,6 +22,11 @@ export class DefaultLayoutComponent implements OnDestroy {
     });
   }
 
+  logout(){
+    // delete $sessionStorage
+    window.localStorage.clear();
+  }
+
   ngOnDestroy(): void {
     this.changes.disconnect();
   }
