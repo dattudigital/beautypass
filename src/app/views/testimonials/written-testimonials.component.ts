@@ -79,8 +79,6 @@ export class WrittenTestimonialsComponent implements OnInit {
 
     this.cols = [
       { field: 'fullname', header: 'User Name' },
-      { field: 'comments', header: 'Comments' },
-      { field: 'recomment', header: 'Recomment' },
       { field: 'rating_1', header: 'Rating 1' },
       { field: 'rating_2', header: 'Rating 2' },
       { field: 'rating_3', header: 'Rating 3' },

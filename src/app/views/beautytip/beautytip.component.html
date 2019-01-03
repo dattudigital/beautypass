@@ -70,6 +70,19 @@
             <div class="card-body">
               <form name="form" [formGroup]="beautyForm">
                 <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="select1">Select Category<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <select id="select1" name="select1" class="form-control" formControlName="tipType" [(ngModel)]="beautytips.tip_type"
+                      [ngClass]="{ 'is-invalid': submitted && f.tipType.errors }">
+                      <option value="1">Beauty Tip</option>
+                      <option value="2">Hot Deals</option>
+                    </select>
+                    <div *ngIf="submitted && f.tipType.errors" class="invalid-feedback">
+                      <div *ngIf="f.tipType.errors.required" style="color:red">Please select category</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Tip Name <b style="color:red">*</b></label>
                   <div class="col-md-9">
                     <input type="text" maxlength="50" formControlName="tipName" class="form-control" placeholder="Enter Beautytip Title"
@@ -169,6 +182,7 @@
                 <th>Tip Title</th>
                 <th>Description</th>
                 <th>Image</th>
+                <th>Type</th>
                 <th>Video</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -179,6 +193,7 @@
                 <td>{{data.tip_title}}</td>
                 <td>{{data.tip_description}}</td>
                 <td> <img [src]="data.tip_img" height="50"></td>
+                <td>{{data.tip_type}}</td>
                 <td>{{data.tip_video}}</td>
                 <td> <button class="btn-primary" data-toggle="modal" (click)="addOrUpdateBeautyTip.show();editBeautyTip(data,i)"><i
                       class="fa fa-edit"></i></button></td>

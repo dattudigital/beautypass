@@ -5,11 +5,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
-
+import {CouponsPipe} from '../../pipe/coupons.pipe';
 @Component({
   templateUrl: 'mindbody-coupons.component.html',
   providers: [
-    DatePipe
+    DatePipe,
+    CouponsPipe
   ]
 })
 
@@ -51,7 +52,7 @@ export class MindbodyCouponsComponent implements OnInit {
   cols: any = [];
   copiedRow: '';
 
-  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+  constructor(private spinner: NgxSpinnerService,private couponPipe:CouponsPipe, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
   ngAfterViewChecked() {
     //your code to update the model
@@ -63,7 +64,7 @@ export class MindbodyCouponsComponent implements OnInit {
     this.service.getMindBodyCoupons().subscribe(response => {
       this.spinner.hide();
       if (response.json().status == true) {
-        this.couponsData = response.json().data;
+        this.couponsData = this.couponPipe.transform(response.json().data);
       } else {
         this.couponsData = [];
       }
@@ -79,9 +80,6 @@ export class MindbodyCouponsComponent implements OnInit {
       { field: 'coupons_number', header: 'Coupon Number' },
       { field: 'coupons_for', header: 'Cost' },
       { field: 'coupons_status', header: 'Status' },
-      { field: 'coupons_type', header: 'Type' },
-      { field: 'coupons_startdate', header: 'Start Date', type: this.dp },
-      { field: 'coupons_enddate', header: 'End Date', type: this.dp },
     ];
   }
 

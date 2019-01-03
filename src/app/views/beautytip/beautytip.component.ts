@@ -5,9 +5,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
-
+import{BeautyTipPipe} from '../../pipe/beauty-tip.pipe';
 @Component({
-  templateUrl: 'beautytip.component.html'
+  templateUrl: 'beautytip.component.html',
+  providers: [
+    BeautyTipPipe
+  ]
 })
 
 export class BeautyTipsComponent implements OnInit {
@@ -39,6 +42,7 @@ export class BeautyTipsComponent implements OnInit {
     'tip_description': '',
     'tip_img': '',
     'tip_video': '',
+    'tip_type': '',
     'profile_name': '',
     'rec_status': ''
   }
@@ -53,7 +57,7 @@ export class BeautyTipsComponent implements OnInit {
   userimagePreview: any;
   userImage: string;
 
-  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private formBuilder: FormBuilder, private service: BeautyTipsService) { }
+  constructor(private spinner: NgxSpinnerService,private beautyTipPipe:BeautyTipPipe, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private formBuilder: FormBuilder, private service: BeautyTipsService) { }
 
 
   ngAfterViewChecked() {
@@ -65,7 +69,7 @@ export class BeautyTipsComponent implements OnInit {
     this.service.getBeautyTipsList().subscribe(response => {
       this.spinner.hide();
       if (response.json().status == true) {
-        this.tipsData = response.json().data;
+        this.tipsData = this.beautyTipPipe.transform(response.json().data);
       } else {
         this.tipsData = [];
       }
@@ -74,7 +78,8 @@ export class BeautyTipsComponent implements OnInit {
     this.beautyForm = this.formBuilder.group({
       tipName: ['', Validators.required],
       description: ['', Validators.required],
-      videoUrl: ['', Validators.required]
+      videoUrl: ['', Validators.required],
+      tipType: ['', Validators.required]
     });
   }
 
@@ -100,8 +105,10 @@ export class BeautyTipsComponent implements OnInit {
       tip_category: 1,
       profile_name: this.beautytips.profile_name,
       tip_video: this.beautytips.tip_video,
+      tip_type: this.beautytips.tip_type,
       rec_status: this.beautytips.rec_status
     }
+    console.log(data);
     let modelClose = document.getElementById("CloseButton");
     this.spinner.show();
     this.service.AddOrEditBeautyTip(data).subscribe(res => {

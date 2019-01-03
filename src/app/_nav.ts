@@ -117,9 +117,9 @@ export const navItems = [
       // }
     ]
   },
-  {
-    name: 'Log History ',
-    url: '/employee-history',
-    icon: 'icon-cursor'    
-  },
+  // {
+  //   name: 'Log History ',
+  //   url: '/employee-history',
+  //   icon: 'icon-cursor'    
+  // },
 ];
