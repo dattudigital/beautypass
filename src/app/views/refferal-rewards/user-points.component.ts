@@ -69,8 +69,7 @@ export class UserPointsComponent {
   }
 
   userSearch(val) {
-    this.tableStatus = false;
-    this.noDataFound = false;
+     this.noDataFound = false;
     if (val.length > 2) {
       this.service.getUserlistForHistory(val).subscribe(res => {
         let temp = [];
@@ -84,6 +83,7 @@ export class UserPointsComponent {
         }
       })
     } else {
+      this.tableStatus = false;
       this.noResult = false;
       this.userInfo = [];
     }

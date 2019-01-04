@@ -34,8 +34,6 @@ export class UserHistoryComponent {
   }
 
   userSearch(val) {
-    this.tableStatus = false;
-    this.noDataFound = false;
     if (val.length > 2) {
       this.service.getUserlistForHistory(val).subscribe(res => {
         let temp = [];
@@ -49,6 +47,7 @@ export class UserHistoryComponent {
         }
       })
     } else {
+      this.tableStatus = false;
       this.noResult = false;
       this.userInfo = [];
     }
