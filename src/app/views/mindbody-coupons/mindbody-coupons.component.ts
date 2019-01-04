@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
-import {CouponsPipe} from '../../pipe/coupons.pipe';
+import { CouponsPipe } from '../../pipe/coupons.pipe';
 @Component({
   templateUrl: 'mindbody-coupons.component.html',
   providers: [
@@ -52,7 +52,7 @@ export class MindbodyCouponsComponent implements OnInit {
   cols: any = [];
   copiedRow: '';
 
-  constructor(private spinner: NgxSpinnerService,private couponPipe:CouponsPipe, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+  constructor(private spinner: NgxSpinnerService, private couponPipe: CouponsPipe, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
   ngAfterViewChecked() {
     //your code to update the model
@@ -88,6 +88,9 @@ export class MindbodyCouponsComponent implements OnInit {
   }
 
   editCoupons(data, index) {
+    if (data.coupons_status) {
+      data.coupons_status = '1';
+    }
     this.copiedRow = Object.assign({}, data);
     this.couponsDetails = data;
     this.couponsDetails["index"] = index;
@@ -98,21 +101,24 @@ export class MindbodyCouponsComponent implements OnInit {
     this.couponsData[_index] = this.copiedRow;
   }
 
-
   get f() { return this.couponsForm.controls; }
-
 
   updateCoupons() {
     this.submitted = true;
     if (this.couponsForm.invalid) {
       return;
     }
-    var data = {
+
+    var data: any = {
       coupons_id: this.couponsDetails.coupons_id,
       coupons_for: this.couponsDetails.coupons_for,
       coupons_number: this.couponsDetails.coupons_number,
-      coupons_status: this.couponsDetails.coupons_status,
-      createdempid: this.userData[0].employee_id
+      coupons_status: this.couponsDetails.coupons_status
+    }
+    if (!this.couponsDetails.coupons_id) {
+      data.createdempid = this.userData.employee_id;
+    } else {
+      data.updatedempid = this.userData.employee_id;
     }
     let modelClose = document.getElementById("CloseButton");
     this.service.addoreditMindBodyCoupons(data).subscribe(res => {
@@ -122,6 +128,9 @@ export class MindbodyCouponsComponent implements OnInit {
           this.couponsData.splice(this.couponsDetails["index"], 1);
         } else {
           this.couponsData[this.couponsDetails["index"]] = res.json().data;
+          if (this.couponsData[this.couponsDetails["index"]].coupons_status) {
+            this.couponsData[this.couponsDetails["index"]].coupons_status = 'active'
+          }
         }
         this.toastyService.success(this.toastOptionsSuccess);
 

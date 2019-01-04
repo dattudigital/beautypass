@@ -15,7 +15,9 @@ export class MindbodyCouponsBulkComponent {
   file: File;
 
   constructor(private service: RefferalRewardsService, private spinner: NgxSpinnerService, private router: Router) {
-    this.empData = JSON.parse(localStorage.getItem('loginDetails'));
+    if (localStorage.loginDetails) {
+      this.empData = JSON.parse(localStorage.getItem('loginDetails'));
+    }
   }
 
   incomingfile(event) {
