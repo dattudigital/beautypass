@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { VoucherComponent } from './voucher.component';
-import { AuthGuard } from '../../common-session/session.check'
+import { AuthGuard } from '../../common-session/session.check';
+import {PerksReportComponent} from './perks-report.component';
+import {PointsReportComponent} from './points-report.componnet';
 
 const routes: Routes = [
   {
@@ -21,7 +23,24 @@ const routes: Routes = [
           title: 'voucher'
         },
         canActivate: [AuthGuard]
-      }
+      },
+      {
+        path: 'perks',
+        component: PerksReportComponent,
+        data: {
+          title: 'perks'
+        },
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'points',
+        component: PointsReportComponent,
+        data: {
+          title: 'points'
+        },
+        canActivate: [AuthGuard]
+      },
+
     ]
   }
 ];

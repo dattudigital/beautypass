@@ -2,32 +2,32 @@ export const navItems = [
   {
     name: 'Dashboard',
     url: '/dashboard',
-    icon: 'icon-home'    
+    icon: 'icon-home'
   },
   {
     name: 'Users',
     url: '/users',
-    icon: 'icon-people'   
-  },  
+    icon: 'icon-people'
+  },
   {
     name: 'coupons',
     url: '/mindbody-coupons',
     icon: 'icon-envelope-open'
-  },  
+  },
   {
     name: 'Employees',
     url: '/employees',
-    icon: 'icon-speedometer'    
+    icon: 'icon-speedometer'
   },
   {
     name: 'Faqs',
     url: '/faqs',
-    icon: 'icon-plus'    
+    icon: 'icon-plus'
   },
   {
     name: 'Beauty Tips',
     url: '/beauty-tips',
-    icon: 'icon-user-female'   
+    icon: 'icon-user-female'
   },
   {
     name: 'Testmonials',
@@ -50,7 +50,7 @@ export const navItems = [
     name: 'Broadcast',
     url: '/admin',
     icon: 'icon-people',
-     children: [
+    children: [
       {
         name: 'Sms To All',
         url: '/admin/broadcast-all',
@@ -97,6 +97,16 @@ export const navItems = [
       {
         name: 'Voucher Reports',
         url: '/reports/voucher',
+        icon: 'icon-note'
+      },
+      {
+        name: 'Perks Reports',
+        url: '/reports/perks',
+        icon: 'icon-note'
+      },
+      {
+        name: 'Points Reports',
+        url: '/reports/points',
         icon: 'icon-note'
       }
       // ,
