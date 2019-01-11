@@ -105,6 +105,15 @@
                     </div>
                   </div>
                 </div>
+                <div *ngIf="userActivity.activity_id">
+                  <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="text-input">Code</label>
+                    <div class="col-md-9">
+                      <input type="text" maxlength="10" class="form-control" placeholder="Activity code" [(ngModel)]="userActivity.activity_code"
+                        [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
+                    </div>
+                  </div>
+                </div>
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Start Date<b style="color:red">*</b></label>
                   <div class="col-md-9">
@@ -129,8 +138,8 @@
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Status</label>
                     <div class="col-md-8">
-                      <select class="form-control" name="vehicletype1" [(ngModel)]="userActivity.activity_status" [(ngModel)]="showMoreControls"
-                        [ngModelOptions]="{standalone: true}">
+                      <select class="form-control" name="vehicletype1" [(ngModel)]="userActivity.activity_status"
+                        [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
                         <option value="1">Active</option>
                         <option value="0">In active</option>
                       </select>
@@ -138,13 +147,13 @@
                   </div>
                 </div>
                 <span *ngIf="!userActivity.activity_id">
-                    <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateUserActivity()">ADD</button>
-                  </span>
-                  <span *ngIf="userActivity.activity_id">
-                    <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateUserActivity()">Update</button>
-                  </span>
-                  &nbsp;&nbsp;
-                  <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addOrEditActivity.hide(); backupData()">Close</button>
+                  <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateUserActivity()">ADD</button>
+                </span>
+                <span *ngIf="userActivity.activity_id">
+                  <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateUserActivity()">Update</button>
+                </span>
+                &nbsp;&nbsp;
+                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addOrEditActivity.hide(); backupData()">Close</button>
               </form>
             </div>
           </div>

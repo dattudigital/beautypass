@@ -1,4 +1,4 @@
-import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { ExcelService } from '../../services/excel.service';
@@ -46,6 +46,7 @@ export class UserActivitiesComponent implements OnInit {
     'activity_name': '',
     'activity_points': '',
     'activity_desc': '',
+    'activity_code': '',
     'activity_start_date': '',
     'activity_end_date': '',
     'createdemp_id': '',
@@ -56,8 +57,9 @@ export class UserActivitiesComponent implements OnInit {
   userData: any;
   copiedRow: '';
   deleteRecord: '';
+  randomNumber: any;
 
-  constructor(private spinner: NgxSpinnerService,private cdr: ChangeDetectorRef, private toastyService: ToastyService, private formBuilder: FormBuilder, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private formBuilder: FormBuilder, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -69,6 +71,7 @@ export class UserActivitiesComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.userActivitiesData = response.json().data;
+        console.log(this.userActivitiesData);
       } else {
         this.userActivitiesData = [];
       }
@@ -82,6 +85,7 @@ export class UserActivitiesComponent implements OnInit {
       { field: 'activity_name', header: 'Name' },
       { field: 'activity_points', header: 'Points' },
       { field: 'activity_desc', header: 'Description' },
+      { field: 'activity_code', header: 'Code' },
       { field: 'activity_start_date', header: 'Start Date', type: this.dp },
       { field: 'activity_end_date', header: 'End Date', type: this.dp },
     ];
@@ -123,6 +127,10 @@ export class UserActivitiesComponent implements OnInit {
 
   get f() { return this.activityForm.controls; }
 
+  randomCode() {
+    this.randomNumber = Math.floor(100000 + Math.random() * 900000);
+  }
+
   addOrUpdateUserActivity() {
     this.submitted = true;
     if (this.activityForm.invalid) {
@@ -130,11 +138,13 @@ export class UserActivitiesComponent implements OnInit {
     }
     if (!this.userActivity.activity_id) {
       this.userActivity.activity_status = '1'
-      
+
     }
     if (!this.userActivity.activity_id) {
       this.userActivity.activity_id = null
     }
+    this.randomNumber = 187349;
+
     var data: any = {
       activity_id: this.userActivity.activity_id,
       activity_name: this.userActivity.activity_name,
@@ -144,12 +154,25 @@ export class UserActivitiesComponent implements OnInit {
       activity_end_date: this.userActivity.activity_end_date,
       activity_status: this.userActivity.activity_status
     }
+
+    if (!this.userActivity.activity_id) {
+      for (var i = 0; i < this.userActivitiesData.length; i++) {
+        if (this.userActivitiesData[i].activity_code == this.randomNumber) {
+          this.randomCode();
+          i = 0;
+        }
+        if (i + 1 == this.userActivitiesData.length) {
+          data.activity_code = this.randomNumber;
+        }
+      }
+    }
+
     if (!this.userActivity.activity_id) {
       data.createdemp_id = this.userData.employee_id;
     } else {
       data.updatedempid = this.userData.employee_id;
     }
-    console.log(data)
+
     let modelClose = document.getElementById("CloseButton");
     this.service._addOrEditRefferalActivities(data).subscribe(res => {
       modelClose.click();
