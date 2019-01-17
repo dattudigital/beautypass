@@ -9,26 +9,34 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class PerksReportComponent implements OnInit {
   cols: any = [];
   url: any = '';
-  voucherData: any;
+  perksData: any;
 
   constructor(private service: ReportsService,private spinner:NgxSpinnerService ) { }
 
   ngOnInit() {
+    console.log("came here ");
     this.spinner.show();
-    this.service.getVoucherReports(this.url).subscribe(response => {
+    this.service.getPerksReports().subscribe(response => {
       this.spinner.hide();
       if (response.json().status == true) {
-        this.voucherData = response.json().data;
+        this.perksData = response.json().data;
       } else {
-        this.voucherData = [];
+        this.perksData = [];
       }
     });
 
     this.cols = [
-      { field: 'coupons_for', header: 'Coupons For' },
-      { field: 'Used', header: 'Used' },
-      { field: 'Unused', header: 'Unused' },
-      { field: 'Expired', header: 'Expired' }
+      { field: 'user_id', header: 'User Id' },
+      { field: 'coupon_status', header: 'Status' },
+      { field: 'location_id', header: 'Location Id' },
+      { field: 'location_name', header: 'Location Name' },
+      { field: 'studio_id', header: 'Studio Id' },
+      { field: 'studio_name', header: 'Studio Name' },
+      { field: 'coupons_for', header: 'Coupon Value' },
+      { field: 'fullname', header: 'User Name' },
+      { field: 'email_id', header: 'Email Id' },
+      { field: 'mobile', header: 'Mobile' },
+      { field: 'coupon_createddate', header: 'Coupon Created' }
     ]
   }
 
