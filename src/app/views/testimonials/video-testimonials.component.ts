@@ -2,30 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestmonialsService } from "../../services/TestmonialsService";
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastyService, ToastyConfig, ToastyComponent, ToastOptions, ToastData } from 'ng2-toasty';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
+import { ToastMessageService } from '../../services/toast-message.service'
 @Component({
-  templateUrl: 'video-testimonials.component.html'
+  templateUrl: 'video-testimonials.component.html',
+  providers: [ToastMessageService]
 })
 
 export class VideoTestimonialsComponent {
-
-  toastOptionsSuccess: ToastOptions = {
-    title: "Success",
-    msg: "Successfully Done",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsError: ToastOptions = {
-    title: "Error",
-    msg: "Something is Wrong",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-
   videoTestimonials: any[];
   cols: any[];
   videoTestimonialData: any = {
@@ -40,25 +25,34 @@ export class VideoTestimonialsComponent {
   deleteRecord = '';
   submitted = false;
   copiedRow: '';
+  completeData='';
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private service: TestmonialsService, private toastyService: ToastyService, private formBuilder: FormBuilder) { }
+  constructor(private spinner: NgxSpinnerService, private router: Router, private service: TestmonialsService, private messageService: ToastMessageService, private completeService: CompleteBeautypassService, private formBuilder: FormBuilder) { }
 
   backToDashBoard() {
     this.router.navigate(['reports'])
   }
 
   ngOnInit() {
-    this.spinner.show();
-    this.service.getVideoTestmonials().subscribe(response => {
-      this.spinner.hide();
-      if (response.json().status == true) {
-        this.videoTestimonials = response.json().data;
-        console.log(this.videoTestimonials);
-      } else {
-        this.videoTestimonials = [];
-      }
-      this.userData = JSON.parse(localStorage.getItem('loginDetails'));
-    });
+    let _video = this.completeService.getVideoTestmonials()
+    if (Object.keys(_video).length) {
+      this.videoTestimonials = _video;
+    } else {
+
+      this.spinner.show();
+      this.service.getVideoTestmonials().subscribe(response => {
+        this.spinner.hide();
+        if (response.json().status == true) {
+          this.videoTestimonials = response.json().data;
+          console.log(this.videoTestimonials);
+        } else {
+          this.videoTestimonials = [];
+        }
+        this.userData = JSON.parse(localStorage.getItem('loginDetails'));
+      });
+    }
+
+
 
     this.cols = [
       { field: 'fullname', header: 'Username' },
@@ -107,14 +101,17 @@ export class VideoTestimonialsComponent {
       if (res.json().status == true) {
         if (this.videoTestimonialData.rec_status == '0') {
           this.videoTestimonials.splice(this.videoTestimonialData["index"], 1);
+          this.completeService.addVideoTestmonials(this.completeData);
+          this.messageService.successToast("Video Testmonials inactive successfully")
         } else {
           this.videoTestimonials[this.videoTestimonialData["index"]] = res.json().data;
+          this.completeService.addVideoTestmonials(res.json().data);
+          this.messageService.successToast("Video Testmonials Updated successfully")
           this.videoTestimonials[this.videoTestimonialData["index"]].fullname = this.videoTestimonialData.fullname;
-          this.videoTestimonials[this.videoTestimonialData["index"]].empname = this.userData.emp_firstname + " "+ this.userData.emp_lastname;
+          this.videoTestimonials[this.videoTestimonialData["index"]].empname = this.userData.emp_firstname + " " + this.userData.emp_lastname;
         }
-        this.toastyService.success(this.toastOptionsSuccess);
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("Video Testmonials not Updated ")
       }
     });
   }
@@ -130,9 +127,10 @@ export class VideoTestimonialsComponent {
       console.log(res.json())
       if (res.json().status == true) {
         this.videoTestimonials.splice(this.deleteRecord["index"], 1)
-        this.toastyService.success(this.toastOptionsSuccess);
+        this.completeService.addVideoTestmonials(res.json().data);
+        this.messageService.successToast("Video Testmonials Deleted successfully")
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("Video Testmonials not Updated ")
       }
     });
   }

@@ -8,7 +8,9 @@ export class CompleteBeautypassService {
   couponsData: any = [];
   employeeDetails: any = [];
   faqData: any = [];
-  tipsData:any=[];
+  tipsData: any = [];
+  testmonials: any = [];
+  videoTestimonials:any=[];
 
   constructor() { }
 
@@ -50,6 +52,22 @@ export class CompleteBeautypassService {
 
   public getBeautyTip() {
     return this.tipsData;
+  }
+
+  public addWrittenTestmonials(written) {
+    this.testmonials = written;
+  }
+
+  public getWrittenTestmonials() {
+    return this.testmonials;
+  }
+
+  public addVideoTestmonials(video) {
+    this.videoTestimonials = video;
+  }
+
+  public getVideoTestmonials() {
+    return this.videoTestimonials;
   }
 
 }

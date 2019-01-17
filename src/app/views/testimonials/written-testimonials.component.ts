@@ -3,39 +3,17 @@ import { Router } from '@angular/router';
 import { TestmonialsService } from '../../services/TestmonialsService';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastyService, ToastOptions } from 'ng2-toasty';
+import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
+import { ToastMessageService } from '../../services/toast-message.service';
 
 // such override allows to keep some initial values
 
 @Component({
   templateUrl: 'written-testimonials.component.html',
-  styles: []
+  providers: [ToastMessageService]
 })
 
 export class WrittenTestimonialsComponent implements OnInit {
-
-  toastOptionsSuccess: ToastOptions = {
-    title: "Success",
-    msg: "Successfully Done",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsError: ToastOptions = {
-    title: "Error",
-    msg: "Something is Wrong",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsWarn: ToastOptions = {
-    title: "Not Found",
-    msg: "No Data",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-
   testmonials: any[];
   cols: any[];
   testimonialData: any = {
@@ -53,8 +31,9 @@ export class WrittenTestimonialsComponent implements OnInit {
   testimonialForm: FormGroup;
   submitted = false;
   copiedRow: '';
+  completeData: any = [];
 
-  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private toastyService: ToastyService) { }
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private messageService: ToastMessageService, private completeService: CompleteBeautypassService) { }
   backToDashBoard() {
     this.router.navigate(['reports'])
   }
@@ -65,17 +44,22 @@ export class WrittenTestimonialsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.spinner.show();
-    this.service.getWrittenTestmonials().subscribe(response => {
-      this.spinner.hide();
-      if (response.json().status == true) {
-        this.testmonials = response.json().data;
-      } else {
-        this.testmonials = [];
-      }
-      this.userData = JSON.parse(localStorage.getItem('loginDetails'));
-
-    });
+    let _written = this.completeService.getWrittenTestmonials()
+    if (Object.keys(_written).length) {
+      this.testmonials = _written;
+    } else {
+      this.spinner.show();
+      this.service.getWrittenTestmonials().subscribe(response => {
+        this.spinner.hide();
+        if (response.json().status == true) {
+          this.testmonials = response.json().data;
+          this.completeService.addWrittenTestmonials(response.json().data);
+        } else {
+          this.testmonials = [];
+        }
+        this.userData = JSON.parse(localStorage.getItem('loginDetails'));
+      });
+    }
 
     this.cols = [
       { field: 'fullname', header: 'User Name' },
@@ -88,7 +72,6 @@ export class WrittenTestimonialsComponent implements OnInit {
     ];
 
     this.testimonialForm = this.formBuilder.group({
-      Name: ['', Validators.required],
       Comment: ['', Validators.required],
       Recomment: ['', Validators.required],
       Rating1: ['', Validators.required],
@@ -135,14 +118,17 @@ export class WrittenTestimonialsComponent implements OnInit {
       if (res.json().status == true) {
         if (this.testimonialData.coupons_status == '0') {
           this.testmonials.splice(this.testimonialData["index"], 1);
+          this.completeService.addWrittenTestmonials(this.completeData);
+          this.messageService.successToast("Written Testmonials inactive successfully")
         } else {
           this.testmonials[this.testimonialData["index"]] = res.json().data;
+          this.completeService.addWrittenTestmonials(res.json().data);
+          this.messageService.successToast("Written Testmonials Updated successfully")
           this.testmonials[this.testimonialData["index"]].fullname = this.testimonialData.fullname;
-          this.testmonials[this.testimonialData["index"]].empname = this.userData.emp_firstname + " "+ this.userData.emp_lastname;
+          this.testmonials[this.testimonialData["index"]].empname = this.userData.emp_firstname + " " + this.userData.emp_lastname;
         }
-        this.toastyService.success(this.toastOptionsSuccess);
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("Written Testmonials not Updated ")
       }
     });
   }
@@ -156,9 +142,10 @@ export class WrittenTestimonialsComponent implements OnInit {
     this.service.editWrittenTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         this.testmonials.splice(this.deleteRecord["index"], 1)
-        this.toastyService.success(this.toastOptionsSuccess);
+        this.completeService.addWrittenTestmonials(res.json().data);
+        this.messageService.successToast("Written Testmonials Deleted successfully")
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("Written Testmonials not Updated ")
       }
     });
   }
