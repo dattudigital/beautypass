@@ -3,34 +3,15 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { FaqsService } from '../../services/faqs.service';
 declare var $: any;
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastyService, ToastOptions } from 'ng2-toasty';
+import { ToastMessageService } from '../../services/toast-message.service';
+import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
 
 @Component({
   templateUrl: 'faqs.component.html',
+  providers: [ToastMessageService]
 })
 
 export class FaqsComponent implements OnInit {
-  toastOptionsSuccess: ToastOptions = {
-    title: "Success",
-    msg: "Successfully Done",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsError: ToastOptions = {
-    title: "Error",
-    msg: "Something is Wrong",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsWarn: ToastOptions = {
-    title: "Not Found",
-    msg: "No Data",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
   faqData: any;
   copiedRow: any;
   faqsForm: FormGroup;
@@ -43,8 +24,9 @@ export class FaqsComponent implements OnInit {
   submitted = false;
   cols: any = [];
   deleteRecord = '';
+  completeData='';
 
-  constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: FaqsService) { }
+  constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: FaqsService) { }
 
   ngAfterViewChecked() {
     //your code to update the model
@@ -52,15 +34,21 @@ export class FaqsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.spinner.show();
-    this.service.getList().subscribe(response => {
-      this.spinner.hide();
-      if (response.json().status == true) {
-        this.faqData = response.json().data;
-      } else {
-        this.faqData = [];
-      }
-    });
+    let _faq = this.completeService.getFaqs()
+    if (Object.keys(_faq).length) {
+      this.faqData = _faq;
+    } else {
+      this.spinner.show();
+      this.service.getList().subscribe(response => {
+        this.spinner.hide();
+        if (response.json().status == true) {
+          this.faqData = response.json().data;
+          this.completeService.addFaqs(response.json().data);
+        } else {
+          this.faqData = [];
+        }
+      });
+    }
 
     this.cols = [
       { field: 'faq_question', header: 'Question' },
@@ -106,16 +94,21 @@ export class FaqsComponent implements OnInit {
       if (res.json().status == true) {
         if (!this.faqs.faq_id) {
           this.faqData.push(res.json().data)
+          this.completeService.addFaqs(res.json().data);
+          this.messageService.successToast("Faq Added Successfully")
         } else {
           if (this.faqs.faq_status == '0') {
             this.faqData.splice(this.faqs["index"], 1);
+            this.completeService.addFaqs(this.completeData);
+            this.messageService.successToast("Faq Inactive Successfully")
           } else {
             this.faqData[this.faqs["index"]] = res.json().data;
+            this.completeService.addFaqs(res.json().data);
+            this.messageService.successToast("Faq Updated Successfully")
           }
         }
-        this.toastyService.success(this.toastOptionsSuccess);
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("Faq is not added")
       }
     });
   }
@@ -138,9 +131,10 @@ export class FaqsComponent implements OnInit {
     this.service.addOrUpdateFaq({ faq_id: this.deleteRecord["faq_id"], faq_status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         this.faqData.splice(this.deleteRecord["index"], 1);
-        this.toastyService.success(this.toastOptionsSuccess);
+        this.completeService.addFaqs(this.completeData);
+        this.messageService.successToast("Faq Deleted Successfully")
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("Faq is not Deleted")
       }
     });
   }

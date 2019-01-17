@@ -1,7 +1,7 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
-<ng2-toasty [position]="'top-right'"></ng2-toasty>
+<ng2-toasty></ng2-toasty>
 
 <div class="card-body">
   <div class="row">
@@ -95,7 +95,7 @@
                 <div *ngIf="faqs.faq_id">
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Status</label>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                       <select class="form-control" name="vehicletype1" [(ngModel)]="faqs.faq_status" [(ngModel)]="showMoreControls"
                         [ngModelOptions]="{standalone: true}">
                         <option value="1">Active</option>

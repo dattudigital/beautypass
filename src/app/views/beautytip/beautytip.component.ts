@@ -4,38 +4,19 @@ import { BeautyTipsService } from '../../services/beauty-tips.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastyService, ToastOptions } from 'ng2-toasty';
-import{BeautyTipPipe} from '../../pipe/beauty-tip.pipe';
+import { BeautyTipPipe } from '../../pipe/beauty-tip.pipe';
+import { ToastMessageService } from '../../services/toast-message.service';
+import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
+
 @Component({
   templateUrl: 'beautytip.component.html',
   providers: [
-    BeautyTipPipe
+    BeautyTipPipe,
+    ToastMessageService
   ]
 })
 
 export class BeautyTipsComponent implements OnInit {
-  toastOptionsSuccess: ToastOptions = {
-    title: "Success",
-    msg: "Successfully Done",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsError: ToastOptions = {
-    title: "Error",
-    msg: "Something is Wrong",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsWarn: ToastOptions = {
-    title: "Not Found",
-    msg: "No Data",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-
   beautytips: any = {
     'tip_id': null,
     'tip_title': '',
@@ -56,8 +37,9 @@ export class BeautyTipsComponent implements OnInit {
   totalItems: number;
   userimagePreview: any;
   userImage: string;
+  completeData: any = []
 
-  constructor(private spinner: NgxSpinnerService,private beautyTipPipe:BeautyTipPipe, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private formBuilder: FormBuilder, private service: BeautyTipsService) { }
+  constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private beautyTipPipe: BeautyTipPipe, private cdr: ChangeDetectorRef, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: BeautyTipsService) { }
 
 
   ngAfterViewChecked() {
@@ -65,15 +47,21 @@ export class BeautyTipsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.spinner.show();
-    this.service.getBeautyTipsList().subscribe(response => {
-      this.spinner.hide();
-      if (response.json().status == true) {
-        this.tipsData = this.beautyTipPipe.transform(response.json().data);
-      } else {
-        this.tipsData = [];
-      }
-    });
+    let _beauty = this.completeService.getBeautyTip()
+    if (Object.keys(_beauty).length) {
+      this.tipsData = _beauty;
+    } else {
+      this.spinner.show();
+      this.service.getBeautyTipsList().subscribe(response => {
+        this.spinner.hide();
+        if (response.json().status == true) {
+          this.tipsData = this.beautyTipPipe.transform(response.json().data);
+          this.completeService.addBeautyTip(response.json().data)
+        } else {
+          this.tipsData = [];
+        }
+      });
+    }
 
     this.beautyForm = this.formBuilder.group({
       tipName: ['', Validators.required],
@@ -117,17 +105,22 @@ export class BeautyTipsComponent implements OnInit {
       if (res.json().status == true) {
         if (!this.beautytips.tip_id) {
           this.tipsData.push(res.json().data)
+          this.completeService.addBeautyTip(res.json().data)
+          this.messageService.successToast("BeautyTip added Successfully")
         } else {
           let _index = ((this.currentPage - 1) * 3) + this.beautytips["index"]
           if (this.beautytips.rec_status == '0') {
             this.tipsData.splice(_index, 1);
+            this.completeService.addBeautyTip(this.completeData)
+            this.messageService.successToast("BeautyTip Inactive Successfully")
           } else {
             this.tipsData[_index] = res.json().data;
+            this.completeService.addBeautyTip(res.json().data)
+            this.messageService.successToast("BeautyTip Updated Successfully")
           }
         }
-        this.toastyService.success(this.toastOptionsSuccess);
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("BeautyTip not  Added")
       }
     })
   }
@@ -155,9 +148,10 @@ export class BeautyTipsComponent implements OnInit {
       if (res.json().status == true) {
         let _index = ((this.currentPage - 1) * 3) + this.deleteRecord["index"]
         this.tipsData.splice(_index, 1);
-        this.toastyService.success(this.toastOptionsSuccess);
+        this.completeService.addBeautyTip(this.completeData)
+        this.messageService.successToast("BeautyTip Deleted Successfully")
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("BeautyTip not Deleted")
       }
     });
   }

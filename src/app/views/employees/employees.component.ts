@@ -3,35 +3,16 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
-import { ToastyService, ToastOptions } from 'ng2-toasty';
+import { ToastMessageService } from '../../services/toast-message.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
 
 @Component({
   templateUrl: 'employees.component.html',
+  providers: [ToastMessageService]
 })
 
 export class EmployeesComponent implements OnInit {
-  toastOptionsSuccess: ToastOptions = {
-    title: "Success",
-    msg: "Successfully Done",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsError: ToastOptions = {
-    title: "Error",
-    msg: "Something is Wrong",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsWarn: ToastOptions = {
-    title: "Not Found",
-    msg: "No Data",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
   employeeDetails: any;
   deleteData: any = [];
   userData: any;
@@ -52,23 +33,30 @@ export class EmployeesComponent implements OnInit {
   submitted = false;
   deleteRecord: '';
   copiedRow: '';
+  completeData: '';
 
-  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: LoginService, private router: Router, private toastyService: ToastyService) { }
+  constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: LoginService, private router: Router, private messageService: ToastMessageService, ) { }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
 
   ngOnInit() {
-    this.spinner.show();
-    this.service.getEmpList().subscribe(response => {
-      this.spinner.hide();
-      if (response.json().status == true) {
-        this.employeeDetails = response.json().data;
-      } else {
-        this.employeeDetails = [];
-      }
-    });
+    let _employee = this.completeService.getEmployees()
+    if (Object.keys(_employee).length) {
+      this.employeeDetails = _employee;
+    } else {
+      this.spinner.show();
+      this.service.getEmpList().subscribe(response => {
+        this.spinner.hide();
+        if (response.json().status == true) {
+          this.employeeDetails = response.json().data;
+          this.completeService.addEmployees(response.json().data)
+        } else {
+          this.employeeDetails = [];
+        }
+      });
+    }
 
     if (localStorage.loginDetails) {
       this.userData = JSON.parse(localStorage.getItem('loginDetails'));
@@ -141,16 +129,21 @@ export class EmployeesComponent implements OnInit {
       if (res.json().status == true) {
         if (!this.employeeData.employee_id) {
           this.employeeDetails.push(res.json().data)
+          this.completeService.addEmployees(res.json().data);
+          this.messageService.successToast("Employee Added Successfully")
         } else {
           if (this.employeeData.emp_status == '0') {
             this.employeeDetails.splice(this.employeeData["index"], 1);
+            this.completeService.addEmployees(this.completeData);
+            this.messageService.successToast("Employee Inactive Successfully")
           } else {
             this.employeeDetails[this.employeeData["index"]] = res.json().data;
+            this.completeService.addEmployees(res.json().result);
+            this.messageService.successToast("Employee Updated Successfully")
           }
         }
-        this.toastyService.success(this.toastOptionsSuccess);
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast('Employee not added')
       }
     })
   }
@@ -175,9 +168,10 @@ export class EmployeesComponent implements OnInit {
     this.service.addOrUpdateEmployee({ employee_id: this.deleteRecord["employee_id"], emp_status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         this.employeeDetails.splice(this.deleteRecord["index"], 1);
-        this.toastyService.success(this.toastOptionsSuccess);
+        this.completeService.addEmployees(this.completeData)
+        this.messageService.successToast("Employee Deleted Successfully")
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast('Employee not Deleted')
       }
     });
   }

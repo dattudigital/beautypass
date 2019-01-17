@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersListService } from '../../services/users-list.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-
+import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
 @Component({
   templateUrl: 'users.component.html',
 })
@@ -10,18 +10,24 @@ export class UsersComponent implements OnInit {
   userData: any;
   cols: any[];
 
-  constructor(private spinner: NgxSpinnerService, private service: UsersListService) { }
+  constructor(private spinner: NgxSpinnerService, private service: UsersListService, private completeService: CompleteBeautypassService) { }
 
   ngOnInit() {
-    this.spinner.show();
-    this.service.getUsersList().subscribe(response => {
-      this.spinner.hide();
-      if (response.json().status == true) {
-        this.userData = response.json().data;
-      } else {
-        this.userData = [];
-      }
-    });
+    let _user = this.completeService.getUser();
+    if (Object.keys(_user).length) {
+      this.userData = _user;
+    } else {
+      this.spinner.show();
+      this.service.getUsersList().subscribe(response => {
+        this.spinner.hide();
+        if (response.json().status == true) {
+          this.userData = response.json().data;
+          this.completeService.addUser(response.json().data)
+        } else {
+          this.userData = [];
+        }
+      });
+    }
 
     this.cols = [
       { field: 'fullname', header: 'User Name' },
