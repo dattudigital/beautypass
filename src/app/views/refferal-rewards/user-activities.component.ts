@@ -6,38 +6,19 @@ import { NgxSpinnerService } from 'ngx-spinner';
 declare var jsPDF: any;
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastyService, ToastOptions } from 'ng2-toasty';
 import * as moment from 'moment';
+import { ToastMessageService } from '../../services/toast-message.service';
+import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
 
 @Component({
   templateUrl: 'user-activities.component.html',
   providers: [
-    DatePipe
+    DatePipe,
+    ToastMessageService
   ]
 })
 
 export class UserActivitiesComponent implements OnInit {
-  toastOptionsSuccess: ToastOptions = {
-    title: "Success",
-    msg: "Successfully Done",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsError: ToastOptions = {
-    title: "Error",
-    msg: "Something is Wrong",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsWarn: ToastOptions = {
-    title: "Not Found",
-    msg: "No Data",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
   userActivitiesData: any;
   cols: any = [];
   activityForm: FormGroup;
@@ -58,24 +39,30 @@ export class UserActivitiesComponent implements OnInit {
   copiedRow: '';
   deleteRecord: '';
   randomNumber: any;
+  completeData:any=[];
 
-  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private toastyService: ToastyService, private formBuilder: FormBuilder, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
+  constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
 
   ngOnInit() {
-    this.spinner.show();
-    this.service.getUserActivitiesList().subscribe(response => {
-      this.spinner.hide();
-      if (response.json().status == true) {
-        this.userActivitiesData = response.json().data;
-        console.log(this.userActivitiesData);
-      } else {
-        this.userActivitiesData = [];
-      }
-    });
+    let _useractivity = this.completeService.getUserActivity()
+    if (Object.keys(_useractivity).length) {
+      this.userActivitiesData = _useractivity;
+    } else {
+      this.spinner.show();
+      this.service.getUserActivitiesList().subscribe(response => {
+        this.spinner.hide();
+        if (response.json().status == true) {
+          this.userActivitiesData = response.json().data;
+          this.completeService.addUserActivity(response.json().data)
+        } else {
+          this.userActivitiesData = [];
+        }
+      });
+    }
 
     if (localStorage.loginDetails) {
       this.userData = JSON.parse(localStorage.getItem('loginDetails'));
@@ -179,17 +166,21 @@ export class UserActivitiesComponent implements OnInit {
       if (res.json().status == true) {
         if (!this.userActivity.activity_id) {
           this.userActivitiesData.push(res.json().data)
+          this.completeService.addUserActivity(res.json().data);
+          this.messageService.successToast("User Activity Added Successfully")
         } else {
           if (this.userActivity.activity_status == '0') {
             this.userActivitiesData.splice(this.userActivity["index"], 1);
+            this.completeService.addFaqs(this.completeData);
+            this.messageService.successToast("User Activity Inactive Successfully")
           } else {
             this.userActivitiesData[this.userActivity["index"]] = res.json().data;
+            this.completeService.addUserActivity(res.json().data);
+            this.messageService.successToast("User Activity Updated Successfully")
           }
         }
-        this.toastyService.success(this.toastOptionsSuccess);
       } else {
-        this.toastyService.error(this.toastOptionsError);
-
+        this.messageService.successToast("User Activity not Added ")
       }
     })
   }
@@ -222,9 +213,10 @@ export class UserActivitiesComponent implements OnInit {
     this.service._addOrEditRefferalActivities({ activity_id: this.deleteRecord["activity_id"], activity_status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         this.userActivitiesData.splice(this.deleteRecord["index"], 1);
-        this.toastyService.success(this.toastOptionsSuccess);
+        this.completeService.addFaqs(this.completeData);
+        this.messageService.successToast("User Activity Deleted Successfully")
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.successToast("User Activity not Deleted ")
       }
     });
   }

@@ -11,6 +11,7 @@ export class CompleteBeautypassService {
   tipsData: any = [];
   testmonials: any = [];
   videoTestimonials:any=[];
+  userActivitiesData:any=[];
 
   constructor() { }
 
@@ -70,4 +71,11 @@ export class CompleteBeautypassService {
     return this.videoTestimonials;
   }
 
+  public addUserActivity(user){
+    this.userActivitiesData =user
+  }
+
+  public getUserActivity(){
+    return this.userActivitiesData;
+  }
 }
