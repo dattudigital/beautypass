@@ -3,34 +3,12 @@ import { RefferalRewardsService } from '../../services/refferal-rewards.service'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TypeaheadMatch } from 'ngx-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastyService, ToastOptions } from 'ng2-toasty';
+import { ToastMessageService } from '../../services/toast-message.service';
 
 @Component({
   templateUrl: 'user-points.component.html',
 })
 export class UserPointsComponent {
-  toastOptionsSuccess: ToastOptions = {
-    title: "Success",
-    msg: "Successfully Done",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsError: ToastOptions = {
-    title: "Error",
-    msg: "Something is Wrong",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsWarn: ToastOptions = {
-    title: "Not Found",
-    msg: "No Data",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-
   userId: number;
   tableStatus = false;
   noDataFound = false;
@@ -46,7 +24,7 @@ export class UserPointsComponent {
   pointsForm: FormGroup;
   submitted = false;
 
-  constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+  constructor(private spinner: NgxSpinnerService, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
   ngOnInit() {
     this.cols = [
@@ -130,9 +108,9 @@ export class UserPointsComponent {
     this.service.addUserPoints(data).subscribe(res => {
       modelClose.click();
       if (res.json().status == true) {
-        this.toastyService.success(this.toastOptionsSuccess);
+        this.messageService.successToast("user Points updated Successfully")
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("user Points is not Updated")
       }
     })
   }

@@ -13,9 +13,9 @@
   </div>
   <div style="color:red" *ngIf="noResult">No Results Found</div>
 </div>
-<div style="color:red" *ngIf="noDataFound">
+<!-- <div style="color:red" *ngIf="noDataFound">
   <h1>No Data Found</h1>
-</div>
+</div> -->
 
 <div class="animated fadeIn" *ngIf="tableStatus">
   <div class="row">
@@ -96,7 +96,7 @@
                   <label class="col-md-3 col-form-label" for="text-input">Remarks<b style="color:red">*</b></label>
                   <div class="col-md-9">
                     <textarea type="text" maxlength="500" rows="5" class="form-control" formControlName="Remarks"
-                      placeholder="Enter Beautytip Description" [(ngModel)]="userRemark" [ngClass]="{ 'is-invalid': submitted && f.Remarks.errors }"></textarea>
+                      placeholder=" Enter Remarks" [(ngModel)]="userRemark" [ngClass]="{ 'is-invalid': submitted && f.Remarks.errors }"></textarea>
                     <div *ngIf="submitted && f.Remarks.errors" class="invalid-feedback">
                       <div *ngIf="f.Remarks.errors.required" style="color:red">Remarks is required</div>
                     </div>
