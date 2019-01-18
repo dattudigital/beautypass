@@ -2,48 +2,57 @@ import { Component, OnInit } from '@angular/core';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TypeaheadMatch } from 'ngx-bootstrap';
+import { DatePipe } from '@angular/common';
 
 @Component({
   templateUrl: 'user-history.component.html',
+  providers: [
+    DatePipe
+  ]
 })
 export class UserHistoryComponent {
-  userId: number;
   tableStatus = false;
   noDataFound = false;
-  userHistoryData: any;
   selectedValue: string;
   userInfo: any = [];
   noResult = false;
-  selectedOption: any;
+  selectedOption: any[];
   cols: any = [];
+  temp: any[] = new Array();
 
-  constructor(private spinner: NgxSpinnerService, private service: RefferalRewardsService) { }
+  constructor(private spinner: NgxSpinnerService,private dp: DatePipe,private service: RefferalRewardsService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'user_id', header: 'User ID' },
-      { field: 'points', header: 'Points' },
-      { field: 'reward_for', header: 'Reward For' },
+      { field: 'fullname', header: 'Name' },
+      { field: 'email_id', header: 'Email' },
+       { field: 'dob', header: 'DOB' ,type: this.dp},
+      { field: 'location', header: 'Location Id' },
+      { field: 'locationName', header: 'Location Name' },
+      { field: 'studioid', header: 'Studio Id' },
+      { field: 'studioName', header: 'StudioName' },
     ];
 
   }
   onSelect(event: TypeaheadMatch): void {
-    this.selectedOption = event.item;
-    let id = this.selectedOption.mindbody_id;
-    this.setUserId(id);
+    var data = [];
+    data.push(event.item)
+    this.selectedOption = data;
+    console.log(this.selectedOption)
+    this.tableStatus = true;
   }
 
   userSearch(val) {
+    this.noDataFound = false;
     if (val.length > 2) {
       this.service.getUserlistForHistory(val).subscribe(res => {
-        let temp = [];
-        temp.push(res.json().data);
         if (res.json().status == false) {
           this.userInfo = [];
           this.noResult = true;
         } else {
           this.noResult = false;
-          this.userInfo = temp.pop();
+          this.userInfo = res.json().data;
         }
       })
     } else {
@@ -53,21 +62,4 @@ export class UserHistoryComponent {
     }
   }
 
-  setUserId(branch_id: any): void {
-    this.userId = branch_id;
-    console.log(branch_id)
-    this.tableStatus = true;
-    this.service.getUserRewardHistory(branch_id).subscribe(response => {
-      this.userHistoryData = response.json().data;
-      console.log(this.userHistoryData)
-      if (this.userHistoryData.length != 0) {
-        this.tableStatus = true;
-        this.noDataFound = false;
-      }
-      else {
-        this.tableStatus = false;
-        this.noDataFound = true;
-      }
-    });
-  }
 }

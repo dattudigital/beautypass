@@ -24,7 +24,7 @@
           <i class="fa fa-align-justify"></i> User History
         </div>
         <div class="card-body">
-          <p-table #dt [columns]="cols" [value]="userHistoryData" [paginator]="true" [rows]="4">
+          <p-table #dt [columns]="cols" [value]="selectedOption" [paginator]="true" [rows]="4">
             <ng-template pTemplate="caption">
               <div style="text-align: right">
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -44,7 +44,7 @@
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
                 <td *ngFor="let col of cols">
-                  {{data[col.field]}}
+                  {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }}
                 </td>
               </tr>
             </ng-template>

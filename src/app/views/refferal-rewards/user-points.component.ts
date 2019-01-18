@@ -4,11 +4,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TypeaheadMatch } from 'ngx-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastMessageService } from '../../services/toast-message.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   templateUrl: 'user-points.component.html',
   providers: [
-    ToastMessageService
+    ToastMessageService,
+    DatePipe
   ]
 })
 export class UserPointsComponent {
@@ -36,14 +38,14 @@ export class UserPointsComponent {
   }
 
 
-  constructor(private spinner: NgxSpinnerService, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+  constructor(private spinner: NgxSpinnerService,private dp: DatePipe, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'user_id', header: 'User ID' },
       { field: 'fullname', header: 'Name' },
       { field: 'email_id', header: 'Email' },
-      // { field: 'dob', header: 'DOB' },
+      { field: 'dob', header: 'DOB' ,type: this.dp},
       { field: 'location', header: 'Location Id' },
       { field: 'locationName', header: 'Location Name' },
       { field: 'studioid', header: 'Studio Id' },

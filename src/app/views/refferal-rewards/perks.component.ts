@@ -3,7 +3,8 @@ import { RefferalRewardsService } from '../../services/refferal-rewards.service'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { ToastyService, ToastOptions } from 'ng2-toasty';
+import { ToastMessageService } from '../../services/toast-message.service';
+import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
 
 @Component({
   templateUrl: 'perks.component.html',
@@ -13,27 +14,6 @@ import { ToastyService, ToastOptions } from 'ng2-toasty';
 })
 
 export class PerksComponent implements OnInit {
-  toastOptionsSuccess: ToastOptions = {
-    title: "Success",
-    msg: "Successfully Done",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsError: ToastOptions = {
-    title: "Error",
-    msg: "Something is Wrong",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
-  toastOptionsWarn: ToastOptions = {
-    title: "Not Found",
-    msg: "No Data",
-    showClose: true,
-    timeout: 3000,
-    theme: 'default'
-  };
   perksForm: FormGroup;
   perk: any = [];
   perksData: any = [];
@@ -41,18 +21,27 @@ export class PerksComponent implements OnInit {
   cols: any = [];
   deleteRecord: '';
   copiedRow: '';
-  constructor(private spinner: NgxSpinnerService, private toastyService: ToastyService, private dp: DatePipe, private service: RefferalRewardsService, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) { }
+  completeData: '';
+
+  constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private dp: DatePipe, private service: RefferalRewardsService, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.spinner.show();
-    this.service.getPerksList().subscribe(response => {
-      this.spinner.hide();
-      if (response.json().status == true) {
-        this.perk = response.json().data;
-      } else {
-        this.perk = [];
-      }
-    });
+    let _perks = this.completeService.getPerksData()
+    if (Object.keys(_perks).length) {
+      this.perk = _perks;
+    } else {
+      this.spinner.show();
+      this.service.getPerksList().subscribe(response => {
+        this.spinner.hide();
+        if (response.json().status == true) {
+          this.perk = response.json().data;
+          this.completeService.addPerksData(response.json().data)
+        } else {
+          this.perk = [];
+        }
+      });
+    }
+
 
     this.cols = [
       { field: 'rewardpoint_name', header: 'Reward Point Name' },
@@ -107,17 +96,22 @@ export class PerksComponent implements OnInit {
       modelClose.click();
       if (res.json().status == true) {
         if (!this.perksData.rewardpoint_id) {
-          this.perk.push(res.json().data)
+          this.perk.push(res.json().data);
+          this.completeService.addPerksData(res.json().data);
+          this.messageService.successToast("Perks Added Successfully")
         } else {
           if (this.perksData.rewardpoint_status == '0') {
             this.perk.splice(this.perksData["index"], 1);
+            this.completeService.addFaqs(this.completeData);
+            this.messageService.successToast("Perks Inactive Successfully")
           } else {
             this.perk[this.perksData["index"]] = res.json().data;
+            this.completeService.addPerksData(res.json().data);
+            this.messageService.successToast("Perks Updated Successfully")
           }
         }
-        this.toastyService.success(this.toastOptionsSuccess);
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("Perks not Successfully")
       }
     })
   }
@@ -143,9 +137,11 @@ export class PerksComponent implements OnInit {
     this.service.addOrEditPerksList({ rewardpoint_id: this.deleteRecord["rewardpoint_id"], rewardpoint_status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         this.perk.splice(this.deleteRecord["index"], 1);
-        this.toastyService.success(this.toastOptionsSuccess);
+        this.completeService.addFaqs(this.completeData);
+        this.messageService.successToast("Perks Deleted Successfully")
       } else {
-        this.toastyService.error(this.toastOptionsError);
+        this.messageService.errorToast("Perks not Deleted")
+
       }
     });
   }

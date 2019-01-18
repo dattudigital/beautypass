@@ -10,8 +10,9 @@ export class CompleteBeautypassService {
   faqData: any = [];
   tipsData: any = [];
   testmonials: any = [];
-  videoTestimonials:any=[];
-  userActivitiesData:any=[];
+  videoTestimonials: any = [];
+  userActivitiesData: any = [];
+  perk: any = [];
 
   constructor() { }
 
@@ -71,11 +72,19 @@ export class CompleteBeautypassService {
     return this.videoTestimonials;
   }
 
-  public addUserActivity(user){
-    this.userActivitiesData =user
+  public addUserActivity(user) {
+    this.userActivitiesData = user
   }
 
-  public getUserActivity(){
+  public getUserActivity() {
     return this.userActivitiesData;
+  }
+
+  public addPerksData(perk) {
+    this.perk = perk
+  }
+
+  public getPerksData(){
+    return this.perk;
   }
 }
