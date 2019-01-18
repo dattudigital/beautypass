@@ -5,7 +5,7 @@
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
 
 <div class="form-group row">
-  <label class="col-md-2 col-form-label" for="select2"><b>Select User test</b></label>
+  <label class="col-md-2 col-form-label" for="select2"><b>Select User</b></label>
   <div class="col-md-4">
     <input type="text" class="form-control" placeholder="Enter User Name" name="username" maxlength="50" [(ngModel)]="selectedValue"
       [(ngModel)]="existingDetail" (ngModelChange)='userSearch($event)' [typeahead]="userInfo" typeaheadOptionField="fullname"
@@ -22,10 +22,10 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> User History
+          <i class="fa fa-align-justify"></i>Add User Points
         </div>
         <div class="card-body">
-          <p-table #dt [columns]="cols" [value]="userHistoryData" [paginator]="true" [rows]="4">
+          <p-table #dt [columns]="cols" [value]="selectedOption" [paginator]="true" [rows]="4">
             <ng-template pTemplate="caption">
               <div style="text-align: right">
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -75,11 +75,39 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">User ID<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="Id" class="form-control" [(ngModel)]="userid"
+                    <input type="text" maxlength="50" formControlName="Id" class="form-control" [(ngModel)]="userPointsData.user_id"
                       [ngClass]="{ 'is-invalid': submitted && f.Id.errors }" readonly>
                     <div *ngIf="submitted && f.Id.errors" class="invalid-feedback">
                       <div *ngIf="f.Id.errors.required" style="color:red">User Id is required</div>
                     </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Location Id<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" class="form-control" [(ngModel)]="userPointsData.location"
+                      [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Location Name<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" class="form-control" [(ngModel)]="userPointsData.locationName"
+                      [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Studio Id<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" class="form-control" [(ngModel)]="userPointsData.studioid"
+                      [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Studio Name<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" class="form-control" [(ngModel)]="userPointsData.studioName"
+                      [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -102,6 +130,7 @@
                     </div>
                   </div>
                 </div>
+
                 <button style="margin-left: 26%;" class="btn btn-primary" (click)="addPoint()">ADD</button>
                 &nbsp;&nbsp;
                 <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addPoints.hide();removeFields()">Close</button>

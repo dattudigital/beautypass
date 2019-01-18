@@ -7,30 +7,47 @@ import { ToastMessageService } from '../../services/toast-message.service';
 
 @Component({
   templateUrl: 'user-points.component.html',
+  providers: [
+    ToastMessageService
+  ]
 })
 export class UserPointsComponent {
   userId: number;
   tableStatus = false;
   noDataFound = false;
-  userHistoryData: any;
+  userHistoryData: any = [];
   selectedValue: string;
   userInfo: any = [];
   noResult = false;
-  selectedOption: any;
+  selectedOption: any[];
   cols: any = [];
   userid: '';
   userPoints: '';
   userRemark: '';
   pointsForm: FormGroup;
   submitted = false;
+  temp: any[] = new Array();
+  userPointsData: any = {
+    'user_id': '',
+    'location': '',
+    'locationName': '',
+    'studioid': '',
+    'studioName': ''
+  }
+
 
   constructor(private spinner: NgxSpinnerService, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
   ngOnInit() {
     this.cols = [
       { field: 'user_id', header: 'User ID' },
-      { field: 'points', header: 'Points' },
-      { field: 'reward_for', header: 'Reward For' },
+      { field: 'fullname', header: 'Name' },
+      { field: 'email_id', header: 'Email' },
+      // { field: 'dob', header: 'DOB' },
+      { field: 'location', header: 'Location Id' },
+      { field: 'locationName', header: 'Location Name' },
+      { field: 'studioid', header: 'Studio Id' },
+      { field: 'studioName', header: 'StudioName' },
     ];
 
     this.pointsForm = this.formBuilder.group({
@@ -41,23 +58,22 @@ export class UserPointsComponent {
 
   }
   onSelect(event: TypeaheadMatch): void {
-    this.selectedOption = event.item;
-    let id = this.selectedOption.mindbody_id;
-    this.setUserId(id);
+    var data = [];
+    data.push(event.item)
+    this.selectedOption = data;
+    this.tableStatus = true;
   }
 
   userSearch(val) {
-     this.noDataFound = false;
+    this.noDataFound = false;
     if (val.length > 2) {
       this.service.getUserlistForHistory(val).subscribe(res => {
-        let temp = [];
-        temp.push(res.json().data);
         if (res.json().status == false) {
           this.userInfo = [];
           this.noResult = true;
         } else {
           this.noResult = false;
-          this.userInfo = temp.pop();
+          this.userInfo = res.json().data;
         }
       })
     } else {
@@ -67,23 +83,8 @@ export class UserPointsComponent {
     }
   }
 
-  setUserId(branch_id: any): void {
-    this.userId = branch_id;
-    this.tableStatus = true;
-    this.service.getUserRewardHistory(branch_id).subscribe(response => {
-      this.userHistoryData = response.json().data;
-      if (this.userHistoryData.length != 0) {
-        this.tableStatus = true;
-        this.noDataFound = false;
-      }
-      else {
-        this.tableStatus = false;
-        this.noDataFound = true;
-      }
-    });
-  }
   getUserId(data) {
-    this.userid = data.user_id
+    this.userPointsData = data
   }
 
   removeFields() {
@@ -99,12 +100,11 @@ export class UserPointsComponent {
       return;
     }
     var data: any = {
-      user_id: this.userid,
+      user_id: this.userPointsData.user_id,
       points: this.userPoints,
       reward_for: this.userRemark
     }
     let modelClose = document.getElementById("CloseButton");
-
     this.service.addUserPoints(data).subscribe(res => {
       modelClose.click();
       if (res.json().status == true) {
