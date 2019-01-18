@@ -103,26 +103,10 @@ export const navItems = [
         name: 'Perks Reports',
         url: '/reports/perks',
         icon: 'icon-note'
-      },
-      {
-        name: 'Points Reports',
-        url: '/reports/points',
-        icon: 'icon-note'
       }
-      // ,
       // {
-      //   name: 'User Activity Reports',
-      //   url: '/reports/user-activity',
-      //   icon: 'icon-note'
-      // },
-      // {
-      //   name: 'Pearks and Rewards',
-      //   url: '/reports/perks',
-      //   icon: 'icon-note'
-      // },
-      // {
-      //   name: 'Employee Log History',
-      //   url: '/reports/logs',
+      //   name: 'Points Reports',
+      //   url: '/reports/points',
       //   icon: 'icon-note'
       // }
     ]

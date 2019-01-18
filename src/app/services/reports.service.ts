@@ -12,4 +12,8 @@ export class ReportsService {
   public getVoucherReports(url:any) {
     return this.http.get(environment.host + 'voucher-overview-reports'+url);
   }
+
+  public getPerksReports() {
+    return this.http.get(environment.host + 'voucher-reports');
+  }
 }
