@@ -30,7 +30,7 @@ export class UserPointsComponent {
   submitted = false;
   temp: any[] = new Array();
   userPointsData: any = {
-    'user_id': '',
+    'mindbody_id': '',
     'location': '',
     'locationName': '',
     'studioid': '',
@@ -46,7 +46,7 @@ export class UserPointsComponent {
 
   ngOnInit() {
     this.cols = [
-      { field: 'user_id', header: 'User ID' },
+      { field: 'mindbody_id', header: 'User ID' },
       { field: 'fullname', header: 'Name' },
       { field: 'email_id', header: 'Email' },
       { field: 'dob', header: 'DOB' ,type: this.dp},
@@ -66,6 +66,7 @@ export class UserPointsComponent {
   onSelect(event: TypeaheadMatch): void {
     var data = [];
     data.push(event.item)
+    console.log(event.item)
     this.selectedOption = data;
     this.tableStatus = true;
   }
@@ -106,7 +107,7 @@ export class UserPointsComponent {
       return;
     }
     var data: any = {
-      user_id: this.userPointsData.user_id,
+      user_id: this.userPointsData.mindbody_id,
       studio_id:this.userPointsData.studioid,
       points: this.userPoints,
       reward_for: this.userRemark
