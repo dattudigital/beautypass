@@ -2,7 +2,7 @@
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
 
-<ng2-toasty ></ng2-toasty>
+<ng2-toasty></ng2-toasty>
 
 <div class="card-body">
   <div class="row">
@@ -85,18 +85,15 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Tip Name <b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="tipName" class="form-control" placeholder="Enter Beautytip Title"
-                      [(ngModel)]="beautytips.tip_title" [ngClass]="{ 'is-invalid': submitted && f.tipName.errors }" />
-                    <div *ngIf="submitted && f.tipName.errors" class="invalid-feedback">
-                      <div *ngIf="f.tipName.errors.required" style="color:red">Tip Name is required</div>
-                    </div>
+                    <input type="text" maxlength="50" class="form-control" placeholder="Enter Beautytip Title"
+                      [(ngModel)]="beautytips.tip_title" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" />
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Description</label>
                   <div class="col-md-9">
-                    <textarea type="text" maxlength="500" rows="5" class="form-control" formControlName="description"
-                      placeholder="Enter Beautytip Description" [(ngModel)]="beautytips.tip_description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                    <textarea type="text" rows="5" class="form-control" formControlName="description" placeholder="Enter Beautytip Description"
+                      [(ngModel)]="beautytips.tip_description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                     <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
                       <div *ngIf="f.description.errors.required" style="color:red">Tip Name is required</div>
                     </div>
@@ -105,7 +102,7 @@
                 <div class="form-group row" *ngIf="!beautytips.tip_id">
                   <label class="col-md-3 col-form-label" for="text-input">Image</label>
                   <div class="col-md-9">
-                    <img *ngIf="userimagePreview" [src]="userimagePreview.result" height="50">
+                    <img *ngIf="userimagePreview" height="50" [src]="userimagePreview.result" />
                   </div>
                 </div>
                 <div *ngIf="beautytips.tip_id">
@@ -129,13 +126,12 @@
                     <input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')" />
                   </div>
                 </div>
-                <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Video Url</label>
-                  <div class="col-md-9">
-                    <input type="text" maxlength="50" class="form-control" formControlName="videoUrl" placeholder="Enter Video Url"
-                      [(ngModel)]="beautytips.tip_video" [ngClass]="{ 'is-invalid': submitted && f.videoUrl.errors }" />
-                    <div *ngIf="submitted && f.videoUrl.errors" class="invalid-feedback">
-                      <div *ngIf="f.videoUrl.errors.required" style="color:red">VideoUrl is required</div>
+                <div *ngIf="beautytips.tip_type!='2'">
+                  <div class=" form-group row">
+                    <label class="col-md-3 col-form-label" for="text-input">Video Url</label>
+                    <div class="col-md-9">
+                      <input type="text" maxlength="50" class="form-control" placeholder="Enter Video Url" [(ngModel)]="beautytips.tip_video"
+                        [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" />
                     </div>
                   </div>
                 </div>

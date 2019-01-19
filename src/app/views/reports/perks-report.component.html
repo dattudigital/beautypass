@@ -26,7 +26,7 @@
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
                 <td *ngFor="let col of cols">
-                  {{data[col.field]}}
+                  {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }}
                 </td>
               </tr>
             </ng-template>

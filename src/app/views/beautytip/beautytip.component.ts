@@ -64,10 +64,9 @@ export class BeautyTipsComponent implements OnInit {
     }
 
     this.beautyForm = this.formBuilder.group({
-      tipName: ['', Validators.required],
       description: ['', Validators.required],
-      videoUrl: ['', Validators.required],
-      tipType: ['', Validators.required]
+      tipType: ['', Validators.required],
+      tipImage: ['', Validators.required]
     });
   }
 
@@ -157,6 +156,7 @@ export class BeautyTipsComponent implements OnInit {
   }
 
   getFileDetails(event) {
+    this.beautyForm.controls['tipImage'].setValue(file ? file.name : '');
     var files = event.target.files;
     var file = files[0];
     if (files && file) {
