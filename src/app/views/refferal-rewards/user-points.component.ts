@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TypeaheadMatch } from 'ngx-bootstrap';
@@ -38,7 +38,11 @@ export class UserPointsComponent {
   }
 
 
-  constructor(private spinner: NgxSpinnerService,private dp: DatePipe, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+  constructor(private spinner: NgxSpinnerService,private cdr: ChangeDetectorRef,private dp: DatePipe, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
 
   ngOnInit() {
     this.cols = [
@@ -103,9 +107,11 @@ export class UserPointsComponent {
     }
     var data: any = {
       user_id: this.userPointsData.user_id,
+      studio_id:this.userPointsData.studioid,
       points: this.userPoints,
       reward_for: this.userRemark
     }
+    console.log(data);
     let modelClose = document.getElementById("CloseButton");
     this.service.addUserPoints(data).subscribe(res => {
       modelClose.click();
