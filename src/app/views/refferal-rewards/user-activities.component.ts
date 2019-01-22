@@ -39,7 +39,6 @@ export class UserActivitiesComponent implements OnInit {
   copiedRow: '';
   deleteRecord: '';
   randomNumber: any;
-  completeData:any=[];
 
   constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
 
@@ -161,17 +160,23 @@ export class UserActivitiesComponent implements OnInit {
     }
 
     let modelClose = document.getElementById("CloseButton");
+    this.spinner.show();
     this.service._addOrEditRefferalActivities(data).subscribe(res => {
+      this.spinner.hide();
       modelClose.click();
       if (res.json().status == true) {
         if (!this.userActivity.activity_id) {
+          if (JSON.parse(localStorage.getItem('activityData'))) {
+            this.userActivitiesData = JSON.parse(localStorage.getItem('activityData'))
+          }
           this.userActivitiesData.push(res.json().data)
           this.completeService.addUserActivity(res.json().data);
           this.messageService.successToast("User Activity Added Successfully")
         } else {
           if (this.userActivity.activity_status == '0') {
             this.userActivitiesData.splice(this.userActivity["index"], 1);
-            this.completeService.addFaqs(this.completeData);
+            localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
+            this.completeService.addUserActivity([]);
             this.messageService.successToast("User Activity Inactive Successfully")
           } else {
             this.userActivitiesData[this.userActivity["index"]] = res.json().data;
@@ -210,10 +215,13 @@ export class UserActivitiesComponent implements OnInit {
   }
 
   deleteAlert() {
+    this.spinner.show();
     this.service._addOrEditRefferalActivities({ activity_id: this.deleteRecord["activity_id"], activity_status: 0 }).subscribe(res => {
+      this.spinner.hide();
       if (res.json().status == true) {
         this.userActivitiesData.splice(this.deleteRecord["index"], 1);
-        this.completeService.addFaqs(this.completeData);
+        this.completeService.addUserActivity([]);
+        localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
         this.messageService.successToast("User Activity Deleted Successfully")
       } else {
         this.messageService.successToast("User Activity not Deleted ")

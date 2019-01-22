@@ -24,7 +24,6 @@ export class FaqsComponent implements OnInit {
   submitted = false;
   cols: any = [];
   deleteRecord = '';
-  completeData = '';
 
   constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: FaqsService) { }
 
@@ -89,13 +88,15 @@ export class FaqsComponent implements OnInit {
       faq_status: this.faqs.faq_status
     }
     let modelClose = document.getElementById("CloseButton");
+    this.spinner.show()
     this.service.addOrUpdateFaq(data).subscribe(res => {
+      this.spinner.hide()
       modelClose.click();
       if (res.json().status == true) {
         if (!this.faqs.faq_id) {
-          if(JSON.parse(localStorage.getItem('faq'))){
+          if (JSON.parse(localStorage.getItem('faq'))) {
             this.faqData = JSON.parse(localStorage.getItem('faq'))
-          }          
+          }
           this.faqData.push(res.json().data);
           this.completeService.addFaqs(this.faqData);
           this.messageService.successToast("Faq Added Successfully")
@@ -132,7 +133,9 @@ export class FaqsComponent implements OnInit {
   }
 
   deleteAlert() {
+    this.spinner.show()
     this.service.addOrUpdateFaq({ faq_id: this.deleteRecord["faq_id"], faq_status: 0 }).subscribe(res => {
+      this.spinner.hide()
       if (res.json().status == true) {
         this.faqData.splice(this.deleteRecord["index"], 1);
         this.completeService.addFaqs(this.faqData);

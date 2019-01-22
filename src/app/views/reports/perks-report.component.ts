@@ -15,7 +15,7 @@ export class PerksReportComponent implements OnInit {
   url: any = '';
   perksData: any;
 
-  constructor(private service: ReportsService,private dp: DatePipe,private spinner:NgxSpinnerService ) { }
+  constructor(private service: ReportsService, private dp: DatePipe, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     console.log("came here ");
@@ -40,7 +40,7 @@ export class PerksReportComponent implements OnInit {
       { field: 'fullname', header: 'User Name' },
       { field: 'email_id', header: 'Email Id' },
       { field: 'mobile', header: 'Mobile' },
-      { field: 'coupon_createddate', header: 'Coupon Created' ,type: this.dp  }
+      { field: 'coupon_createddate', header: 'Coupon Created', type: this.dp }
     ]
   }
 

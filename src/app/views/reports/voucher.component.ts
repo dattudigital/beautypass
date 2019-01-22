@@ -23,6 +23,7 @@ export class VoucherComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.voucherData = response.json().data;
+        console.log(this.voucherData)
       } else {
         this.voucherData = [];
       }
@@ -44,7 +45,9 @@ export class VoucherComponent implements OnInit {
     if (this.endDate) {
       this.url = this.url + '&enddate=' + this.endDate;
     }
+    this.spinner.show();
     this.service.getVoucherReports(this.url).subscribe(res => {
+      this.spinner.hide();
       this.voucherData = res.json().data;
     })
   }

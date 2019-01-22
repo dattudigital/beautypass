@@ -38,7 +38,7 @@ export class UserPointsComponent {
   }
 
 
-  constructor(private spinner: NgxSpinnerService,private cdr: ChangeDetectorRef,private dp: DatePipe, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
+  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private dp: DatePipe, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -49,7 +49,7 @@ export class UserPointsComponent {
       { field: 'mindbody_id', header: 'User ID' },
       { field: 'fullname', header: 'Name' },
       { field: 'email_id', header: 'Email' },
-      { field: 'dob', header: 'DOB' ,type: this.dp},
+      { field: 'dob', header: 'DOB', type: this.dp },
       { field: 'location', header: 'Location Id' },
       { field: 'locationName', header: 'Location Name' },
       { field: 'studioid', header: 'Studio Id' },
@@ -108,13 +108,15 @@ export class UserPointsComponent {
     }
     var data: any = {
       user_id: this.userPointsData.mindbody_id,
-      studio_id:this.userPointsData.studioid,
+      studio_id: this.userPointsData.studioid,
       points: this.userPoints,
       reward_for: this.userRemark
     }
     console.log(data);
     let modelClose = document.getElementById("CloseButton");
+    this.spinner.show();
     this.service.addUserPoints(data).subscribe(res => {
+      this.spinner.hide();
       modelClose.click();
       if (res.json().status == true) {
         this.messageService.successToast("user Points updated Successfully")

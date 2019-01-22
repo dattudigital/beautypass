@@ -32,7 +32,6 @@ export class MindbodyCouponsComponent implements OnInit {
   submitted = false;
   cols: any = [];
   copiedRow: '';
-  completeData: any = [];
 
   constructor(private spinner: NgxSpinnerService, private couponPipe: CouponsPipe, private cdr: ChangeDetectorRef, private messageService: ToastMessageService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService, private completeService: CompleteBeautypassService) { }
 
@@ -109,12 +108,14 @@ export class MindbodyCouponsComponent implements OnInit {
       data.updatedempid = this.userData.employee_id;
     }
     let modelClose = document.getElementById("CloseButton");
+    this.spinner.show();
     this.service.addoreditMindBodyCoupons(data).subscribe(res => {
+      this.spinner.hide();
       modelClose.click();
       if (res.json().status == true) {
         if (this.couponsDetails.coupons_status == '0') {
           this.couponsData.splice(this.couponsDetails["index"], 1);
-          this.completeService.addCoupons(this.completeData);
+          this.completeService.addCoupons([]);
           this.messageService.successToast("Coupons Inactive Successfullt")
         } else {
           this.couponsData[this.couponsDetails["index"]] = res.json().data;
@@ -136,10 +137,12 @@ export class MindbodyCouponsComponent implements OnInit {
   }
 
   deleteAlert() {
+    this.spinner.show();
     this.service.addoreditMindBodyCoupons({ coupons_id: this.deleteRecord["coupons_id"], coupons_status: 0 }).subscribe(res => {
+      this.spinner.hide();
       if (res.json().status == true) {
         this.couponsData.splice(this.deleteRecord["index"], 1);
-        this.completeService.addCoupons(this.completeData);
+        this.completeService.addCoupons([]);
         this.messageService.successToast("Coupons Deleted Successfully")
       } else {
         this.messageService.errorToast("Coupons Not Deleted")

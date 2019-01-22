@@ -39,7 +39,6 @@ export class BeautyTipsComponent implements OnInit {
 
   constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private beautyTipPipe: BeautyTipPipe, private cdr: ChangeDetectorRef, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: BeautyTipsService) { }
 
-
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }

@@ -33,7 +33,6 @@ export class EmployeesComponent implements OnInit {
   submitted = false;
   deleteRecord: '';
   copiedRow: '';
-  completeData: '';
 
   constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: LoginService, private router: Router, private messageService: ToastMessageService, ) { }
 
@@ -124,7 +123,9 @@ export class EmployeesComponent implements OnInit {
       emp_status: this.employeeData.emp_status
     }
     let modelClose = document.getElementById("CloseButton");
+    this.spinner.show();
     this.service.addOrUpdateEmployee(data).subscribe(res => {
+      this.spinner.hide();
       modelClose.click();
       if (res.json().status == true) {
         if (!this.employeeData.employee_id) {
@@ -138,7 +139,7 @@ export class EmployeesComponent implements OnInit {
           if (this.employeeData.emp_status == '0') {
             this.employeeDetails.splice(this.employeeData["index"], 1);
             localStorage.setItem('employee', JSON.stringify(this.employeeDetails))
-            this.completeService.addEmployees(this.completeData);
+            this.completeService.addEmployees([]);
             this.messageService.successToast("Employee Inactive Successfully")
           } else {
             this.employeeDetails[this.employeeData["index"]] = res.json().data;
@@ -169,10 +170,12 @@ export class EmployeesComponent implements OnInit {
   }
 
   deleteAlert() {
+    this.spinner.show();
     this.service.addOrUpdateEmployee({ employee_id: this.deleteRecord["employee_id"], emp_status: 0 }).subscribe(res => {
+      this.spinner.hide();
       if (res.json().status == true) {
         this.employeeDetails.splice(this.deleteRecord["index"], 1);
-        this.completeService.addEmployees(this.completeData)
+        this.completeService.addEmployees([])
         localStorage.setItem('employee', JSON.stringify(this.employeeDetails))
         this.messageService.successToast("Employee Deleted Successfully")
       } else {
