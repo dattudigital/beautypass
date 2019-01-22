@@ -12,6 +12,7 @@ import { CompleteBeautypassService } from '../../services/complete-beautypass.se
 })
 
 export class FaqsComponent implements OnInit {
+  tempFaqData: any = [];
   faqData: any;
   copiedRow: any;
   faqsForm: FormGroup;
@@ -24,7 +25,7 @@ export class FaqsComponent implements OnInit {
   submitted = false;
   cols: any = [];
   deleteRecord = '';
-  completeData='';
+  completeData = '';
 
   constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private service: FaqsService) { }
 
@@ -43,6 +44,7 @@ export class FaqsComponent implements OnInit {
         this.spinner.hide();
         if (response.json().status == true) {
           this.faqData = response.json().data;
+          this.tempFaqData = response.json().data;
           this.completeService.addFaqs(response.json().data);
         } else {
           this.faqData = [];
@@ -93,17 +95,21 @@ export class FaqsComponent implements OnInit {
       modelClose.click();
       if (res.json().status == true) {
         if (!this.faqs.faq_id) {
-          this.faqData.push(res.json().data)
-          this.completeService.addFaqs(res.json().data);
+          if(JSON.parse(localStorage.getItem('faq'))){
+            this.faqData = JSON.parse(localStorage.getItem('faq'))
+          }          
+          this.faqData.push(res.json().data);
+          this.completeService.addFaqs(this.faqData);
           this.messageService.successToast("Faq Added Successfully")
         } else {
           if (this.faqs.faq_status == '0') {
             this.faqData.splice(this.faqs["index"], 1);
-            this.completeService.addFaqs(this.completeData);
+            localStorage.setItem('faq', JSON.stringify(this.faqData))
+            this.completeService.addFaqs(this.faqData);
             this.messageService.successToast("Faq Inactive Successfully")
           } else {
             this.faqData[this.faqs["index"]] = res.json().data;
-            this.completeService.addFaqs(res.json().data);
+            this.completeService.addFaqs(this.faqData);
             this.messageService.successToast("Faq Updated Successfully")
           }
         }
@@ -131,7 +137,8 @@ export class FaqsComponent implements OnInit {
     this.service.addOrUpdateFaq({ faq_id: this.deleteRecord["faq_id"], faq_status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         this.faqData.splice(this.deleteRecord["index"], 1);
-        this.completeService.addFaqs(this.completeData);
+        this.completeService.addFaqs(this.faqData);
+        localStorage.setItem('faq', JSON.stringify(this.faqData))
         this.messageService.successToast("Faq Deleted Successfully")
       } else {
         this.messageService.errorToast("Faq is not Deleted")
