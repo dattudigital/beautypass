@@ -10,7 +10,7 @@ export const navItems = [
     icon: 'icon-people'
   },
   {
-    name: 'coupons',
+    name: 'Coupons',
     url: '/mindbody-coupons',
     icon: 'icon-envelope-open'
   },

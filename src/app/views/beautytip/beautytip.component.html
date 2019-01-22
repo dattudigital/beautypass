@@ -83,14 +83,14 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Tip Name <b style="color:red">*</b></label>
+                  <label class="col-md-3 col-form-label" for="text-input">Tip Name </label>
                   <div class="col-md-9">
                     <input type="text" maxlength="50" class="form-control" placeholder="Enter Beautytip Title"
                       [(ngModel)]="beautytips.tip_title" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" />
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Description</label>
+                  <label class="col-md-3 col-form-label" for="text-input">Description <b style="color:red">*</b></label>
                   <div class="col-md-9">
                     <textarea type="text" rows="5" class="form-control" formControlName="description" placeholder="Enter Beautytip Description"
                       [(ngModel)]="beautytips.tip_description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
@@ -100,7 +100,7 @@
                   </div>
                 </div>
                 <div class="form-group row" *ngIf="!beautytips.tip_id">
-                  <label class="col-md-3 col-form-label" for="text-input">Image</label>
+                  <label class="col-md-3 col-form-label" for="text-input">Image <b style="color:red">*</b></label>
                   <div class="col-md-9">
                     <img *ngIf="userimagePreview" height="50" [src]="userimagePreview.result" />
                   </div>
@@ -124,6 +124,7 @@
                   <label class="col-md-3 col-form-label" for="text-input"></label>
                   <div class="col-md-9">
                     <input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')" />
+                    <span *ngIf=" submitted == true && beautytips.tip_img == null" style="color:red">Image is Required</span>
                   </div>
                 </div>
                 <div *ngIf="beautytips.tip_type!='2'">
@@ -179,7 +180,7 @@
                 <th>Description</th>
                 <th>Image</th>
                 <th>Type</th>
-                <th>Video</th>
+                <!-- <th>Video</th> -->
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -190,7 +191,7 @@
                 <td>{{data.tip_description}}</td>
                 <td> <img [src]="data.tip_img" height="50"></td>
                 <td>{{data.tip_type}}</td>
-                <td>{{data.tip_video}}</td>
+                <!-- <td>{{data.tip_video}}</td> -->
                 <td> <button class="btn-primary" data-toggle="modal" (click)="addOrUpdateBeautyTip.show();editBeautyTip(data,i)"><i
                       class="fa fa-edit"></i></button></td>
                 <td> <button class="btn-danger" data-toggle="modal" (click)="dangerModal.show();deleteBeautyTips(data,i)"><i
