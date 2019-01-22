@@ -35,16 +35,16 @@
               <tr>
                 <td *ngFor="let col of cols">
                   {{data[col.field]}}
-                </td>
-                <td><button data-toggle="modal" (click)="videoModal.show();displayVideo(data,i)">click
-                    here</button>
+                </td>              
+                <td>
+                  <span ><a style="color:blue;" target="_blank" href="{{data.video}}">Click Here For Video</a></span>
                 </td>
                 <td href="#" data-toggle="modal" (click)="addorUpdateTestimonial.show();editVideoTestimonials(data,i)"><i
                     class="fa fa-edit" style="color:orange;font-size: 20px;text-align:center"></i></td>
                 <td href="#" data-toggle="modal" (click)="dangerModal.show();deleteVideoTestimonial(data,i)"><i class="fa fa-trash"
                     style="color:red;font-size: 20px;text-align:center"></i></td>
               </tr>
-            </ng-template>
+            </ng-template>           
           </p-table>
         </div>
       </div>
@@ -171,11 +171,12 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" *ngIf="urlSafe">
         <!-- <iframe width="560" height="315" [src]="urlSafe" frameborder="0" allow="autoplay; encrypted-media"
           allowfullscreen></iframe> -->
-        <iframe width="560" height="315" [src]="urlSafe" frameborder="0" allow="autoplay; encrypted-media"
-          allowfullscreen></iframe>
+        <iframe width="560" height="315" [src]="urlSafe" frameborder="0" allow=" encrypted-media"
+          allowfullscreen></iframe> 
+          
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="videoModal.hide()">Close</button>

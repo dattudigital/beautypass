@@ -79,9 +79,9 @@ export class VideoTestimonialsComponent {
   }
 
   displayVideo(data, index) {
+    this.urlSafe = null;
     this.videoTestimonialData["index"] = index;
-    this.urlSafe = this.dom.bypassSecurityTrustResourceUrl(data.video);
-
+    this.urlSafe = this.dom.bypassSecurityTrustResourceUrl(data.video+'&autoplay=0?mute=0');
   }
 
   backupData() {
