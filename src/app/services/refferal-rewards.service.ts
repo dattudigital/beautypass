@@ -41,4 +41,8 @@ export class RefferalRewardsService {
   public addUserPoints(data: any) {
     return this.http.post(environment.host + 'user-points', data)
   }
+  
+  public getUserHistory(URL: any) {
+    return this.http.get(environment.host + 'reward_histories'+URL)
+  }
 }

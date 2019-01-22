@@ -8,7 +8,7 @@
   <label class="col-md-2 col-form-label" for="select2"><b>Select User</b></label>
   <div class="col-md-4">
     <input type="text" class="form-control" placeholder="Enter User Name" name="username" maxlength="50" [(ngModel)]="selectedValue"
-      [(ngModel)]="existingDetail" (ngModelChange)='userSearch($event)' [typeahead]="userInfo" typeaheadOptionField="fullname"
+      [(ngModel)]="existingDetail" (ngModelChange)='userSearch($event)' [typeahead]="userInfo" typeaheadOptionField="alldetails"
       (typeaheadOnSelect)="onSelect($event)">
   </div>
   <div style="color:red" *ngIf="noResult">No Results Found</div>
