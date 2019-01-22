@@ -4,7 +4,10 @@ import { TestmonialsService } from "../../services/TestmonialsService";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
-import { ToastMessageService } from '../../services/toast-message.service'
+import { ToastMessageService } from '../../services/toast-message.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+declare var $: any;
+
 @Component({
   templateUrl: 'video-testimonials.component.html',
   providers: [ToastMessageService]
@@ -25,9 +28,11 @@ export class VideoTestimonialsComponent {
   deleteRecord = '';
   submitted = false;
   copiedRow: '';
-  completeData='';
+  completeData = '';
+  urlSafe: SafeResourceUrl;
 
-  constructor(private spinner: NgxSpinnerService, private router: Router, private service: TestmonialsService, private messageService: ToastMessageService, private completeService: CompleteBeautypassService, private formBuilder: FormBuilder) { }
+  constructor(private spinner: NgxSpinnerService, private dom: DomSanitizer, private router: Router, private service: TestmonialsService, private messageService: ToastMessageService, private completeService: CompleteBeautypassService, private formBuilder: FormBuilder) {
+  }
 
   backToDashBoard() {
     this.router.navigate(['reports'])
@@ -52,13 +57,11 @@ export class VideoTestimonialsComponent {
       });
     }
 
-
-
     this.cols = [
       { field: 'fullname', header: 'Username' },
       { field: 'description', header: 'Description' },
       { field: 'likes', header: 'Likes' },
-      { field: 'video', header: 'Video' },
+      // { field: 'video', header: 'Video' },
       { field: 'empname', header: 'Updated Emp' }
     ];
 
@@ -73,6 +76,12 @@ export class VideoTestimonialsComponent {
     this.copiedRow = Object.assign({}, data)
     this.videoTestimonialData = data;
     this.videoTestimonialData["index"] = index;
+  }
+
+  displayVideo(data, index) {
+    this.videoTestimonialData["index"] = index;
+    this.urlSafe = this.dom.bypassSecurityTrustResourceUrl(data.video);
+
   }
 
   backupData() {

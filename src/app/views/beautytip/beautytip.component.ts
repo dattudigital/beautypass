@@ -1,5 +1,4 @@
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { AlertConfig } from 'ngx-bootstrap/alert';
 import { BeautyTipsService } from '../../services/beauty-tips.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
@@ -37,7 +36,6 @@ export class BeautyTipsComponent implements OnInit {
   totalItems: number;
   userimagePreview: any;
   userImage: string;
-  completeData: any = []
 
   constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private beautyTipPipe: BeautyTipPipe, private cdr: ChangeDetectorRef, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: BeautyTipsService) { }
 
@@ -49,7 +47,7 @@ export class BeautyTipsComponent implements OnInit {
   ngOnInit() {
     let _beauty = this.completeService.getBeautyTip()
     if (Object.keys(_beauty).length) {
-      this.tipsData = _beauty;
+      this.tipsData = this.beautyTipPipe.transform(_beauty);
     } else {
       this.spinner.show();
       this.service.getBeautyTipsList().subscribe(response => {
@@ -65,8 +63,7 @@ export class BeautyTipsComponent implements OnInit {
 
     this.beautyForm = this.formBuilder.group({
       description: ['', Validators.required],
-      tipType: ['', Validators.required],
-      tipImage: ['', Validators.required]
+      tipType: ['', Validators.required]
     });
   }
 
@@ -74,6 +71,10 @@ export class BeautyTipsComponent implements OnInit {
 
   addOrUpdateBeautyTips() {
     this.submitted = true;
+    if (!this.beautytips.tip_img) {
+      this.beautytips.tip_img = null;
+    }
+    console.log(this.beautytips.tip_img)
     if (this.beautyForm.invalid) {
       return;
     }
@@ -96,38 +97,62 @@ export class BeautyTipsComponent implements OnInit {
       rec_status: this.beautytips.rec_status
     }
     console.log(data);
-    let modelClose = document.getElementById("CloseButton");
-    this.spinner.show();
-    this.service.AddOrEditBeautyTip(data).subscribe(res => {
-      this.spinner.hide();
-      modelClose.click();
-      if (res.json().status == true) {
-        if (!this.beautytips.tip_id) {
-          this.tipsData.push(res.json().data)
-          this.completeService.addBeautyTip(res.json().data)
-          this.messageService.successToast("BeautyTip added Successfully")
-        } else {
-          let _index = ((this.currentPage - 1) * 3) + this.beautytips["index"]
-          if (this.beautytips.rec_status == '0') {
-            this.tipsData.splice(_index, 1);
-            this.completeService.addBeautyTip(this.completeData)
-            this.messageService.successToast("BeautyTip Inactive Successfully")
-          } else {
-            this.tipsData[_index] = res.json().data;
+    if (this.beautytips.tip_img) {
+      let modelClose = document.getElementById("CloseButton");
+      this.spinner.show();
+      this.service.AddOrEditBeautyTip(data).subscribe(res => {
+        this.spinner.hide();
+        modelClose.click();
+        if (res.json().status == true) {
+          if (!this.beautytips.tip_id) {
+            this.tipsData.push(res.json().data)
             this.completeService.addBeautyTip(res.json().data)
-            this.messageService.successToast("BeautyTip Updated Successfully")
+            this.messageService.successToast("BeautyTip added Successfully")
+          } else {
+            // console.log(this.currentPage);
+            // console.log((this.currentPage - 1)*3)
+            // console.log( this.beautytips["index"])
+            // console.log(((this.currentPage - 1) * 3) + this.beautytips["index"])
+            // let _index = ((this.currentPage - 1) * 3) + this.beautytips["index"]
+            // console.log(_index)
+            if (this.beautytips.rec_status == '0') {
+              this.tipsData.splice(this._index, 1);
+              this.completeService.addBeautyTip([])
+              this.messageService.successToast("BeautyTip Inactive Successfully")
+            } else {
+              this.tipsData[this._index] = res.json().data;
+              if (this.tipsData[this._index].tip_type == 2) {
+                this.tipsData[this._index].tip_type = 'Hot Deal'
+              }
+              if (this.tipsData[this._index].tip_type == 1) {
+                this.tipsData[this._index].tip_type = 'Beauty Tip'
+              }
+              this.completeService.addBeautyTip(res.json().data)
+              this.messageService.successToast("BeautyTip Updated Successfully")
+            }
           }
+        } else {
+          this.messageService.errorToast("BeautyTip not  Added")
         }
-      } else {
-        this.messageService.errorToast("BeautyTip not  Added")
-      }
-    })
+      })
+    }
   }
-
+  _index: any;
   editBeautyTip(data, index) {
+    console.log(index)
+    this.beautytips["index"] = index;
+    console.log(this.beautytips["index"])
+    console.log(((this.currentPage - 1) * 3) + this.beautytips["index"])
+    this._index = ((this.currentPage - 1) * 3) + this.beautytips["index"]
+    console.log(this._index)
+    if (data.tip_type == "Beauty Tip") {
+      data.tip_type = "1"
+    }
+    if (data.tip_type == "Hot Deal") {
+      data.tip_type = "2"
+    }
     this.copiedRow = Object.assign({}, data);
     this.beautytips = data;
-    this.beautytips["index"] = index;
   }
 
   backupData() {
@@ -147,7 +172,7 @@ export class BeautyTipsComponent implements OnInit {
       if (res.json().status == true) {
         let _index = ((this.currentPage - 1) * 3) + this.deleteRecord["index"]
         this.tipsData.splice(_index, 1);
-        this.completeService.addBeautyTip(this.completeData)
+        this.completeService.addBeautyTip([])
         this.messageService.successToast("BeautyTip Deleted Successfully")
       } else {
         this.messageService.errorToast("BeautyTip not Deleted")
@@ -156,7 +181,6 @@ export class BeautyTipsComponent implements OnInit {
   }
 
   getFileDetails(event) {
-    this.beautyForm.controls['tipImage'].setValue(file ? file.name : '');
     var files = event.target.files;
     var file = files[0];
     if (files && file) {
@@ -182,10 +206,12 @@ export class BeautyTipsComponent implements OnInit {
     }
   }
   removeFields() {
+    this.submitted = false;
     this.beautytips.tip_id = '';
     this.beautytips.tip_title = '';
     this.beautytips.tip_description = '';
     this.beautytips.tip_img = '';
+    this.beautytips.tip_type = '';
     this.beautytips.tip_video = '';
     this.beautytips.rec_status = '';
   }
