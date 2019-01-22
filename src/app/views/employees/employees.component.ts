@@ -128,12 +128,16 @@ export class EmployeesComponent implements OnInit {
       modelClose.click();
       if (res.json().status == true) {
         if (!this.employeeData.employee_id) {
+          if (JSON.parse(localStorage.getItem('employee'))) {
+            this.employeeDetails = JSON.parse(localStorage.getItem('employee'))
+          }
           this.employeeDetails.push(res.json().data)
           this.completeService.addEmployees(res.json().data);
           this.messageService.successToast("Employee Added Successfully")
         } else {
           if (this.employeeData.emp_status == '0') {
             this.employeeDetails.splice(this.employeeData["index"], 1);
+            localStorage.setItem('employee', JSON.stringify(this.employeeDetails))
             this.completeService.addEmployees(this.completeData);
             this.messageService.successToast("Employee Inactive Successfully")
           } else {
@@ -169,6 +173,7 @@ export class EmployeesComponent implements OnInit {
       if (res.json().status == true) {
         this.employeeDetails.splice(this.deleteRecord["index"], 1);
         this.completeService.addEmployees(this.completeData)
+        localStorage.setItem('employee', JSON.stringify(this.employeeDetails))
         this.messageService.successToast("Employee Deleted Successfully")
       } else {
         this.messageService.errorToast('Employee not Deleted')

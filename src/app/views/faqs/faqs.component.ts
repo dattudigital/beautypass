@@ -12,7 +12,6 @@ import { CompleteBeautypassService } from '../../services/complete-beautypass.se
 })
 
 export class FaqsComponent implements OnInit {
-  tempFaqData: any = [];
   faqData: any;
   copiedRow: any;
   faqsForm: FormGroup;
@@ -44,7 +43,6 @@ export class FaqsComponent implements OnInit {
         this.spinner.hide();
         if (response.json().status == true) {
           this.faqData = response.json().data;
-          this.tempFaqData = response.json().data;
           this.completeService.addFaqs(response.json().data);
         } else {
           this.faqData = [];
