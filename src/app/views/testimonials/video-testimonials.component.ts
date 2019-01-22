@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
 import { ToastMessageService } from '../../services/toast-message.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+// import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 declare var $: any;
 
 @Component({
@@ -29,9 +29,8 @@ export class VideoTestimonialsComponent {
   submitted = false;
   copiedRow: '';
   completeData = '';
-  urlSafe: SafeResourceUrl;
 
-  constructor(private spinner: NgxSpinnerService, private dom: DomSanitizer, private router: Router, private service: TestmonialsService, private messageService: ToastMessageService, private completeService: CompleteBeautypassService, private formBuilder: FormBuilder) {
+  constructor(private spinner: NgxSpinnerService, private router: Router, private service: TestmonialsService, private messageService: ToastMessageService, private completeService: CompleteBeautypassService, private formBuilder: FormBuilder) {
   }
 
   backToDashBoard() {
@@ -76,12 +75,6 @@ export class VideoTestimonialsComponent {
     this.copiedRow = Object.assign({}, data)
     this.videoTestimonialData = data;
     this.videoTestimonialData["index"] = index;
-  }
-
-  displayVideo(data, index) {
-    this.urlSafe = null;
-    this.videoTestimonialData["index"] = index;
-    this.urlSafe = this.dom.bypassSecurityTrustResourceUrl(data.video+'&autoplay=0?mute=0');
   }
 
   backupData() {
