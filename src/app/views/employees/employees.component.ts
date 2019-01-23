@@ -133,17 +133,17 @@ export class EmployeesComponent implements OnInit {
             this.employeeDetails = JSON.parse(localStorage.getItem('employee'))
           }
           this.employeeDetails.push(res.json().data)
-          this.completeService.addEmployees(res.json().data);
+          this.completeService.addEmployees(this.employeeDetails);
           this.messageService.successToast("Employee Added Successfully")
         } else {
           if (this.employeeData.emp_status == '0') {
             this.employeeDetails.splice(this.employeeData["index"], 1);
             localStorage.setItem('employee', JSON.stringify(this.employeeDetails))
-            this.completeService.addEmployees([]);
+            this.completeService.addEmployees(this.employeeDetails);
             this.messageService.successToast("Employee Inactive Successfully")
           } else {
             this.employeeDetails[this.employeeData["index"]] = res.json().data;
-            this.completeService.addEmployees(res.json().result);
+            this.completeService.addEmployees(this.employeeDetails);
             this.messageService.successToast("Employee Updated Successfully")
           }
         }
@@ -175,7 +175,7 @@ export class EmployeesComponent implements OnInit {
       this.spinner.hide();
       if (res.json().status == true) {
         this.employeeDetails.splice(this.deleteRecord["index"], 1);
-        this.completeService.addEmployees([])
+        this.completeService.addEmployees(this.employeeDetails)
         localStorage.setItem('employee', JSON.stringify(this.employeeDetails))
         this.messageService.successToast("Employee Deleted Successfully")
       } else {

@@ -21,7 +21,6 @@ export class PerksComponent implements OnInit {
   cols: any = [];
   deleteRecord: '';
   copiedRow: '';
-  completeData: '';
 
   constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private dp: DatePipe, private service: RefferalRewardsService, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) { }
 
@@ -97,16 +96,16 @@ export class PerksComponent implements OnInit {
       if (res.json().status == true) {
         if (!this.perksData.rewardpoint_id) {
           this.perk.push(res.json().data);
-          this.completeService.addPerksData(res.json().data);
+          this.completeService.addPerksData(this.perk);
           this.messageService.successToast("Perks Added Successfully")
         } else {
           if (this.perksData.rewardpoint_status == '0') {
             this.perk.splice(this.perksData["index"], 1);
-            this.completeService.addFaqs(this.completeData);
+            this.completeService.addPerksData(this.perk);
             this.messageService.successToast("Perks Inactive Successfully")
           } else {
             this.perk[this.perksData["index"]] = res.json().data;
-            this.completeService.addPerksData(res.json().data);
+            this.completeService.addPerksData(this.perk);
             this.messageService.successToast("Perks Updated Successfully")
           }
         }
@@ -137,7 +136,7 @@ export class PerksComponent implements OnInit {
     this.service.addOrEditPerksList({ rewardpoint_id: this.deleteRecord["rewardpoint_id"], rewardpoint_status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         this.perk.splice(this.deleteRecord["index"], 1);
-        this.completeService.addFaqs(this.completeData);
+        this.completeService.addPerksData(this.perk);
         this.messageService.successToast("Perks Deleted Successfully")
       } else {
         this.messageService.errorToast("Perks not Deleted")
