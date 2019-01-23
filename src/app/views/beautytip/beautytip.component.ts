@@ -73,7 +73,6 @@ export class BeautyTipsComponent implements OnInit {
     if (!this.beautytips.tip_img) {
       this.beautytips.tip_img = null;
     }
-    console.log(this.beautytips.tip_img)
     if (this.beautyForm.invalid) {
       return;
     }
@@ -95,7 +94,6 @@ export class BeautyTipsComponent implements OnInit {
       tip_type: this.beautytips.tip_type,
       rec_status: this.beautytips.rec_status
     }
-    console.log(data);
     if (this.beautytips.tip_img) {
       let modelClose = document.getElementById("CloseButton");
       this.spinner.show();
@@ -105,15 +103,10 @@ export class BeautyTipsComponent implements OnInit {
         if (res.json().status == true) {
           if (!this.beautytips.tip_id) {
             this.tipsData.push(res.json().data)
+            this.tipsData = this.beautyTipPipe.transform(this.tipsData);
             this.completeService.addBeautyTip(res.json().data)
             this.messageService.successToast("BeautyTip added Successfully")
           } else {
-            // console.log(this.currentPage);
-            // console.log((this.currentPage - 1)*3)
-            // console.log( this.beautytips["index"])
-            // console.log(((this.currentPage - 1) * 3) + this.beautytips["index"])
-            // let _index = ((this.currentPage - 1) * 3) + this.beautytips["index"]
-            // console.log(_index)
             if (this.beautytips.rec_status == '0') {
               this.tipsData.splice(this._index, 1);
               this.completeService.addBeautyTip([])
@@ -136,14 +129,11 @@ export class BeautyTipsComponent implements OnInit {
       })
     }
   }
+
   _index: any;
   editBeautyTip(data, index) {
-    console.log(index)
     this.beautytips["index"] = index;
-    console.log(this.beautytips["index"])
-    console.log(((this.currentPage - 1) * 3) + this.beautytips["index"])
     this._index = ((this.currentPage - 1) * 3) + this.beautytips["index"]
-    console.log(this._index)
     if (data.tip_type == "Beauty Tip") {
       data.tip_type = "1"
     }
@@ -209,9 +199,11 @@ export class BeautyTipsComponent implements OnInit {
     this.beautytips.tip_id = '';
     this.beautytips.tip_title = '';
     this.beautytips.tip_description = '';
-    this.beautytips.tip_img = '';
+    this.userimagePreview = '';
     this.beautytips.tip_type = '';
     this.beautytips.tip_video = '';
     this.beautytips.rec_status = '';
+    var inputElement = <HTMLInputElement>document.getElementById('uploadCaptureInputFile');
+    inputElement.value = '';
   }
 }

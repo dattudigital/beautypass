@@ -122,7 +122,7 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input"></label>
                   <div class="col-md-9">
-                    <input type="file" name="photo" accept="image/*" (change)="getFileDetails($event,'p')" />
+                    <input type="file" name="photo" id="uploadCaptureInputFile" accept="image/*" (change)="getFileDetails($event,'p')" />
                     <span *ngIf=" submitted == true && beautytips.tip_img == null" style="color:red">Image is Required</span>
                   </div>
                 </div>
