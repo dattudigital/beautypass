@@ -31,7 +31,6 @@ export class WrittenTestimonialsComponent implements OnInit {
   testimonialForm: FormGroup;
   submitted = false;
   copiedRow: '';
-  completeData: any = [];
 
   constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private messageService: ToastMessageService, private completeService: CompleteBeautypassService) { }
   backToDashBoard() {
@@ -118,11 +117,11 @@ export class WrittenTestimonialsComponent implements OnInit {
       if (res.json().status == true) {
         if (this.testimonialData.coupons_status == '0') {
           this.testmonials.splice(this.testimonialData["index"], 1);
-          this.completeService.addWrittenTestmonials(this.completeData);
+          this.completeService.addWrittenTestmonials(this.testmonials);
           this.messageService.successToast("Written Testmonials inactive successfully")
         } else {
           this.testmonials[this.testimonialData["index"]] = res.json().data;
-          this.completeService.addWrittenTestmonials(res.json().data);
+          this.completeService.addWrittenTestmonials(this.testmonials);
           this.messageService.successToast("Written Testmonials Updated successfully")
           this.testmonials[this.testimonialData["index"]].fullname = this.testimonialData.fullname;
           this.testmonials[this.testimonialData["index"]].empname = this.userData.emp_firstname + " " + this.userData.emp_lastname;
@@ -142,7 +141,7 @@ export class WrittenTestimonialsComponent implements OnInit {
     this.service.editWrittenTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         this.testmonials.splice(this.deleteRecord["index"], 1)
-        this.completeService.addWrittenTestmonials(res.json().data);
+        this.completeService.addWrittenTestmonials(this.testmonials);
         this.messageService.successToast("Written Testmonials Deleted successfully")
       } else {
         this.messageService.errorToast("Written Testmonials not Updated ")

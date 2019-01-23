@@ -28,7 +28,6 @@ export class VideoTestimonialsComponent {
   deleteRecord = '';
   submitted = false;
   copiedRow: '';
-  completeData = '';
 
   constructor(private spinner: NgxSpinnerService, private router: Router, private service: TestmonialsService, private messageService: ToastMessageService, private completeService: CompleteBeautypassService, private formBuilder: FormBuilder) {
   }
@@ -103,11 +102,11 @@ export class VideoTestimonialsComponent {
       if (res.json().status == true) {
         if (this.videoTestimonialData.rec_status == '0') {
           this.videoTestimonials.splice(this.videoTestimonialData["index"], 1);
-          this.completeService.addVideoTestmonials(this.completeData);
+          this.completeService.addVideoTestmonials(this.videoTestimonials);
           this.messageService.successToast("Video Testmonials inactive successfully")
         } else {
           this.videoTestimonials[this.videoTestimonialData["index"]] = res.json().data;
-          this.completeService.addVideoTestmonials(res.json().data);
+          this.completeService.addVideoTestmonials(this.videoTestimonials);
           this.messageService.successToast("Video Testmonials Updated successfully")
           this.videoTestimonials[this.videoTestimonialData["index"]].fullname = this.videoTestimonialData.fullname;
           this.videoTestimonials[this.videoTestimonialData["index"]].empname = this.userData.emp_firstname + " " + this.userData.emp_lastname;
@@ -129,7 +128,7 @@ export class VideoTestimonialsComponent {
       console.log(res.json())
       if (res.json().status == true) {
         this.videoTestimonials.splice(this.deleteRecord["index"], 1)
-        this.completeService.addVideoTestmonials(res.json().data);
+        this.completeService.addVideoTestmonials(this.videoTestimonials);
         this.messageService.successToast("Video Testmonials Deleted successfully")
       } else {
         this.messageService.errorToast("Video Testmonials not Updated ")
