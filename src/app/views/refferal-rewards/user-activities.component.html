@@ -192,8 +192,8 @@
               <td>{{deleteRecord.activity_name}}</td>
               <td>{{deleteRecord.activity_points}}</td>
               <td>{{deleteRecord.activity_desc}}</td>
-              <td>{{deleteRecord.activity_start_date}}</td>
-              <td>{{deleteRecord.activity_end_date }}</td>
+              <td>{{deleteRecord.activity_start_date | date:'mediumDate'}}</td>
+              <td>{{deleteRecord.activity_end_date | date:'mediumDate'}}</td>
             </tr>
           </tbody>
         </table>
