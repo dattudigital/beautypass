@@ -13,6 +13,7 @@ import { DatePipe } from '@angular/common';
 export class UserHistoryComponent {
   tableStatus = false;
   noDataFound = false;
+  popupStatus = false;
   selectedValue: string;
   userInfo: any = [];
   noResult = false;
@@ -39,6 +40,31 @@ export class UserHistoryComponent {
     ];
 
   }
+
+  getUserData(val) {
+    console.log(val)
+    console.log(val.studioid)
+    this.popupStatus = false;
+    this.userInfo = [];
+    let URL = '';
+    if (val.mindbody_id) {
+      URL = URL + '/' + val.mindbody_id
+    }
+    if (val.studioid) {
+      URL = URL + '/' + val.studioid
+    }
+    this.spinner.show();
+    this.service.getUserHistory(URL).subscribe(res => {
+      this.spinner.hide();
+      if (res.json().status == true) {
+        this.tableStatus = true;
+        this.selectedOption = res.json().data;
+      }
+    }, (err) => {
+      this.spinner.hide();
+    })
+  }
+
   onSelect(event: TypeaheadMatch): void {
     // var data = [];
     // data.push(event.item)
@@ -69,6 +95,7 @@ export class UserHistoryComponent {
   userSearch(val) {
     this.noDataFound = false;
     if (val.length > 2) {
+      this.popupStatus = true;
       this.service.getUserlistForHistory(val).subscribe(res => {
         if (res.json().status == false) {
           this.userInfo = [];
@@ -78,9 +105,11 @@ export class UserHistoryComponent {
           this.userInfo = res.json().data;
         }
       })
+
     } else {
       this.tableStatus = false;
       this.noResult = false;
+      this.popupStatus = false;
       this.userInfo = [];
     }
   }
