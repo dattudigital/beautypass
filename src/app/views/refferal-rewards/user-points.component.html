@@ -75,11 +75,8 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">User ID<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="Id" class="form-control" [(ngModel)]="userPointsData.mindbody_id"
-                      [ngClass]="{ 'is-invalid': submitted && f.Id.errors }" readonly>
-                    <div *ngIf="submitted && f.Id.errors" class="invalid-feedback">
-                      <div *ngIf="f.Id.errors.required" style="color:red">User Id is required</div>
-                    </div>
+                    <input type="text" maxlength="50" class="form-control" [(ngModel)]="userPointsData.mindbody_id"
+                      [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
                   </div>
                 </div>
                 <div class="form-group row">

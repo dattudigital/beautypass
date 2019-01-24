@@ -57,7 +57,6 @@ export class UserPointsComponent {
     ];
 
     this.pointsForm = this.formBuilder.group({
-      Id: ['', Validators.required],
       Points: ['', Validators.required],
       Remarks: ['', Validators.required],
     })

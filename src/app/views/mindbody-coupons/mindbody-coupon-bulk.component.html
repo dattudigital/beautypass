@@ -2,13 +2,50 @@
     <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
 
-<div class="add-bulk" style="padding-left: 350px;">
+<div class="add-bulk" style="padding-left: 200px;">
     <div class="container">
-        <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file"
-            accept=".xlsx">
-        <button *ngIf="file" type="button" class="btn btn-info" (click)="Upload()">Upload</button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <button *ngIf="list.length!==0" type="button" class="btn btn-warning" (click)="addBulkCoupons()">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" class="btn btn-secondary" (click)="redirectToCoupons()">Back</button>
+        <div class="row form-group">
+            <label class="col-sm-4 col-form-label required" style="font-size: 16px;color:gray">Select Coupons Excel Sheet:<b style="color:red">*</b></label>
+            <div class="col-sm-8">
+                <div class="file">
+                    Choose File
+                    <input type="file" class="hide_file" style="display: inline-block;" (change)="incomingfile($event)"
+                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                </div> &nbsp;&nbsp;&nbsp;&nbsp;
+                <button *ngIf="file" type="button" class="btn btn-info" (click)="Upload()">Upload</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button *ngIf="list.length!==0" type="button" class="btn btn-warning" (click)="addBulkCoupons()">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-secondary" (click)="redirectToCoupons()">Back</button>
+            </div>
+        </div>
+
     </div>
 </div>
+
+<style>
+    .file {
+        padding: 5px 10px;
+        background: rgb(52, 199, 16);
+        border: 1px solid black;
+        position: relative;
+        color: #fff;
+        border-radius: 5px;
+        text-align: center;
+        float: left;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .hide_file {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        right: 0;
+        top: 0;
+        height: 100%;
+        font-size: 24px;
+        width: 100%;
+        border: 1px solid black;
+        border-radius: 2px;
+    }
+</style>
