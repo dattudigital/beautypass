@@ -170,11 +170,13 @@ export class UserActivitiesComponent implements OnInit {
             this.userActivitiesData = JSON.parse(localStorage.getItem('activityData'))
           }
           this.userActivitiesData.push(res.json().data)
+          this.userActivitiesData = this.userActivitiesData.slice();
           this.completeService.addUserActivity(this.userActivitiesData);
           this.messageService.successToast("User Activity Added Successfully")
         } else {
           if (this.userActivity.activity_status == '0') {
             this.userActivitiesData.splice(this.userActivity["index"], 1);
+            this.userActivitiesData = this.userActivitiesData.slice();
             localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
             this.completeService.addUserActivity(this.userActivitiesData);
             this.messageService.successToast("User Activity Inactive Successfully")
@@ -238,6 +240,18 @@ export class UserActivitiesComponent implements OnInit {
     this.userActivity.activity_start_date = '';
     this.userActivity.activity_end_date = '';
     this.userActivity.activity_status = '';
+  }
+
+  reloadClick() {
+    this.spinner.show();
+    this.service.getUserActivitiesList().subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.userActivitiesData = response.json().data;
+      } else {
+        this.userActivitiesData = [];
+      }
+    });
   }
 
 }

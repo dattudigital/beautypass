@@ -98,11 +98,13 @@ export class FaqsComponent implements OnInit {
             this.faqData = JSON.parse(localStorage.getItem('faq'))
           }
           this.faqData.push(res.json().data);
+          this.faqData = this.faqData.slice();
           this.completeService.addFaqs(this.faqData);
           this.messageService.successToast("Faq Added Successfully")
         } else {
           if (this.faqs.faq_status == '0') {
             this.faqData.splice(this.faqs["index"], 1);
+            this.faqData = this.faqData.slice();
             localStorage.setItem('faq', JSON.stringify(this.faqData))
             this.completeService.addFaqs(this.faqData);
             this.messageService.successToast("Faq Inactive Successfully")
@@ -143,6 +145,18 @@ export class FaqsComponent implements OnInit {
         this.messageService.successToast("Faq Deleted Successfully")
       } else {
         this.messageService.errorToast("Faq is not Deleted")
+      }
+    });
+  }
+
+  reloadClick() {
+    this.spinner.show();
+    this.service.getList().subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.faqData = response.json().data;
+      } else {
+        this.faqData = [];
       }
     });
   }

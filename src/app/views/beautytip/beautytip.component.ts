@@ -206,4 +206,16 @@ export class BeautyTipsComponent implements OnInit {
     var inputElement = <HTMLInputElement>document.getElementById('uploadCaptureInputFile');
     inputElement.value = '';
   }
+
+  reloadClick() {
+    this.spinner.show();
+    this.service.getBeautyTipsList().subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.tipsData = this.beautyTipPipe.transform(response.json().data);
+      } else {
+        this.tipsData = [];
+      }
+    });
+  }
 }
