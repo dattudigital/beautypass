@@ -46,7 +46,7 @@ export class MindbodyCouponsBulkComponent {
 
   addBulkCoupons() {
     this.list.forEach(element => {
-      element.empid = this.empData[0].employee_id;
+      element.empid = this.empData.employee_id;
     });
     // coupon point  ,   coupon num
     this.spinner.show();
