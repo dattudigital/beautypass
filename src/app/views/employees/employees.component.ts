@@ -133,11 +133,13 @@ export class EmployeesComponent implements OnInit {
             this.employeeDetails = JSON.parse(localStorage.getItem('employee'))
           }
           this.employeeDetails.push(res.json().data)
+          this.employeeDetails = this.employeeDetails.slice();
           this.completeService.addEmployees(this.employeeDetails);
           this.messageService.successToast("Employee Added Successfully")
         } else {
           if (this.employeeData.emp_status == '0') {
             this.employeeDetails.splice(this.employeeData["index"], 1);
+            this.employeeDetails = this.employeeDetails.slice();
             localStorage.setItem('employee', JSON.stringify(this.employeeDetails))
             this.completeService.addEmployees(this.employeeDetails);
             this.messageService.successToast("Employee Inactive Successfully")
@@ -180,6 +182,18 @@ export class EmployeesComponent implements OnInit {
         this.messageService.successToast("Employee Deleted Successfully")
       } else {
         this.messageService.errorToast('Employee not Deleted')
+      }
+    });
+  }
+
+  reloadClick() {
+    this.spinner.show();
+    this.service.getEmpList().subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.employeeDetails = response.json().data;
+      } else {
+        this.employeeDetails = [];
       }
     });
   }

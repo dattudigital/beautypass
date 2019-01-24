@@ -11,6 +11,9 @@
           class="fa fa-lightbulb-o"></i>&nbsp;Add
         Employee</button>
     </div>
+    <div class=" col-sm-1">
+      <i class="fas fa-sync-alt" (click)="reloadClick()" style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff"></i>
+    </div>
   </div>
 </div>
 
@@ -22,7 +25,7 @@
           <i class="fa fa-align-justify"></i>Employee List
         </div>
         <div class="card-body">
-          <p-table #dt [columns]="cols" [value]="employeeDetails"  [paginator]="true" [rows]="4">
+          <p-table #dt [columns]="cols" [value]="employeeDetails" [paginator]="true" [rows]="4" [rowsPerPageOptions]='[4,8,12]'>
             <ng-template pTemplate="caption">
               <div style="text-align: right">
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
