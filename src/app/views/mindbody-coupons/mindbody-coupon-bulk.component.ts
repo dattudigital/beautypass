@@ -13,11 +13,17 @@ export class MindbodyCouponsBulkComponent {
   arrayBuffer: any;
   list: any = [];
   file: File;
+  cols: any = [];
 
   constructor(private service: RefferalRewardsService, private spinner: NgxSpinnerService, private router: Router) {
     if (localStorage.loginDetails) {
       this.empData = JSON.parse(localStorage.getItem('loginDetails'));
     }
+
+    this.cols = [
+      { field: 'coupon num', header: 'Coupon Number' },
+      { field: 'coupon point', header: 'Cost' }
+    ];
   }
 
   incomingfile(event) {
@@ -43,7 +49,7 @@ export class MindbodyCouponsBulkComponent {
     }
     fileReader.readAsArrayBuffer(this.file);
   }
-
+  errorData: any=[];
   addBulkCoupons() {
     this.list.forEach(element => {
       element.empid = this.empData.employee_id;
@@ -51,8 +57,17 @@ export class MindbodyCouponsBulkComponent {
     // coupon point  ,   coupon num
     this.spinner.show();
     this.service.addBulkMindBodyCoupons(this.list).subscribe(res => {
+      console.log(res.json().errdata);
+      // console.log(res.json().errdata.length);
+      console.log(res.json().errdata[0])
       this.spinner.hide();
-      this.router.navigate(['mindbody-coupons']);
+      
+      if ( Object.keys(res.json().errdata).length > 0) {
+        this.errorData=res.json().errdata
+        console.log(this.errorData)
+      } else {
+        this.router.navigate(['mindbody-coupons']);
+      }
     })
   }
 

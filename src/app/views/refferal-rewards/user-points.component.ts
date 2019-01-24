@@ -21,7 +21,7 @@ export class UserPointsComponent {
   selectedValue: string;
   userInfo: any = [];
   noResult = false;
-  selectedOption: any[];
+  selectedOption: any = [];
   cols: any = [];
   userid: '';
   userPoints: '';
@@ -62,47 +62,51 @@ export class UserPointsComponent {
     })
   }
 
-  onSelect(event: TypeaheadMatch): void {
-    let URL = '';
-    if (event.item["mindbody_id"]) {
-      URL = URL + '/' + event.item["mindbody_id"]
-    }
-    if (event.item["studioid"]) {
-      URL = URL + '/' + event.item["studioid"]
-    }
-    this.spinner.show();
-    this.service.getUserHistory(URL).subscribe(res => {
-      this.spinner.hide();
-      if (res.json().status == true) {
-        this.tableStatus = true;
-        this.selectedOption = res.json().data;
-      }
-    }, (err) => {
-      this.spinner.hide();
-    })
-  }
+  // onSelect(event: TypeaheadMatch): void {
+  //   let URL = '';
+  //   if (event.item["mindbody_id"]) {
+  //     URL = URL + '/' + event.item["mindbody_id"]
+  //   }
+  //   if (event.item["studioid"]) {
+  //     URL = URL + '/' + event.item["studioid"]
+  //   }
+  //   this.spinner.show();
+  //   this.service.getUserHistory(URL).subscribe(res => {
+  //     this.spinner.hide();
+  //     if (res.json().status == true) {
+  //       this.tableStatus = true;
+  //       this.selectedOption = res.json().data;
+  //     }
+  //   }, (err) => {
+  //     this.spinner.hide();
+  //   })
+  // }
 
   getUserData(val) {
+    console.log(val)
+    this.selectedOption.push(val);
+    console.log(this.selectedOption)
     this.selectedValue = val.alldetails
     this.popupStatus = false;
-    this.userInfo = [];
-    let URL = '';
-    if (val.mindbody_id) {
-      URL = URL + '/' + val.mindbody_id
-    }
-    if (val.studioid) {
-      URL = URL + '/' + val.studioid
-    }
-    this.spinner.show();
-    this.service.getUserHistory(URL).subscribe(res => {
-      this.spinner.hide();
-      if (res.json().status == true) {
-        this.tableStatus = true;
-        this.selectedOption = res.json().data;
-      }
-    }, (err) => {
-      this.spinner.hide();
-    })
+    this.tableStatus = true;
+    // this.userInfo = [];
+    // let URL = '';
+    // if (val.mindbody_id) {
+    //   URL = URL + '/' + val.mindbody_id
+    // }
+    // if (val.studioid) {
+    //   URL = URL + '/' + val.studioid
+    // }
+    // this.spinner.show();
+    // this.service.getUserHistory(URL).subscribe(res => {
+    //   this.spinner.hide();
+    //   if (res.json().status == true) {
+    //     this.tableStatus = true;
+    //     this.selectedOption = res.json().data;
+    //   }
+    // }, (err) => {
+    //   this.spinner.hide();
+    // })
   }
 
   userSearch(val) {
@@ -116,6 +120,7 @@ export class UserPointsComponent {
         } else {
           this.noResult = false;
           this.userInfo = res.json().data;
+          console.log(this.userInfo)
         }
       })
 
