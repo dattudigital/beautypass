@@ -132,6 +132,7 @@ export class BeautyTipsComponent implements OnInit {
 
   _index: any;
   editBeautyTip(data, index) {
+    this.copiedRow = Object.assign({}, data);
     this.beautytips["index"] = index;
     this._index = ((this.currentPage - 1) * 3) + this.beautytips["index"]
     if (data.tip_type == "Beauty Tip") {
@@ -140,13 +141,12 @@ export class BeautyTipsComponent implements OnInit {
     if (data.tip_type == "Hot Deal") {
       data.tip_type = "2"
     }
-    this.copiedRow = Object.assign({}, data);
     this.beautytips = data;
   }
 
   backupData() {
-    let _index = this.beautytips["index"];
-    this.tipsData[_index] = this.copiedRow;
+    console.log(this.copiedRow)
+    this.tipsData[this._index] = this.copiedRow;
   }
 
   deleteBeautyTips(data, index) {
