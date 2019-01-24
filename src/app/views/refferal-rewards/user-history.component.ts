@@ -38,12 +38,10 @@ export class UserHistoryComponent {
       { field: 'debit', header: 'Debit' },
       { field: 'rewarddate', header: 'Purchase Date', type: this.dp }
     ];
-
   }
 
   getUserData(val) {
-    console.log(val)
-    console.log(val.studioid)
+    this.selectedValue = val.alldetails
     this.popupStatus = false;
     this.userInfo = [];
     let URL = '';
@@ -66,13 +64,6 @@ export class UserHistoryComponent {
   }
 
   onSelect(event: TypeaheadMatch): void {
-    // var data = [];
-    // data.push(event.item)
-    // this.selectedOption = data;
-    // console.log(this.selectedOption)
-    // this.tableStatus = true;
-    console.log(event.item)
-    console.log(event.item["studioid"])
     let URL = '';
     if (event.item["mindbody_id"]) {
       URL = URL + '/' + event.item["mindbody_id"]
@@ -100,6 +91,7 @@ export class UserHistoryComponent {
         if (res.json().status == false) {
           this.userInfo = [];
           this.noResult = true;
+          this.popupStatus = false;
         } else {
           this.noResult = false;
           this.userInfo = res.json().data;

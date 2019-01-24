@@ -36,7 +36,7 @@ export class UserPointsComponent {
     'studioid': '',
     'studioName': ''
   }
-
+  popupStatus = false;
 
   constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private dp: DatePipe, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
@@ -61,19 +61,55 @@ export class UserPointsComponent {
       Points: ['', Validators.required],
       Remarks: ['', Validators.required],
     })
-
   }
+
   onSelect(event: TypeaheadMatch): void {
-    var data = [];
-    data.push(event.item)
-    console.log(event.item)
-    this.selectedOption = data;
-    this.tableStatus = true;
+    let URL = '';
+    if (event.item["mindbody_id"]) {
+      URL = URL + '/' + event.item["mindbody_id"]
+    }
+    if (event.item["studioid"]) {
+      URL = URL + '/' + event.item["studioid"]
+    }
+    this.spinner.show();
+    this.service.getUserHistory(URL).subscribe(res => {
+      this.spinner.hide();
+      if (res.json().status == true) {
+        this.tableStatus = true;
+        this.selectedOption = res.json().data;
+      }
+    }, (err) => {
+      this.spinner.hide();
+    })
+  }
+
+  getUserData(val) {
+    this.selectedValue = val.alldetails
+    this.popupStatus = false;
+    this.userInfo = [];
+    let URL = '';
+    if (val.mindbody_id) {
+      URL = URL + '/' + val.mindbody_id
+    }
+    if (val.studioid) {
+      URL = URL + '/' + val.studioid
+    }
+    this.spinner.show();
+    this.service.getUserHistory(URL).subscribe(res => {
+      this.spinner.hide();
+      if (res.json().status == true) {
+        this.tableStatus = true;
+        this.selectedOption = res.json().data;
+      }
+    }, (err) => {
+      this.spinner.hide();
+    })
   }
 
   userSearch(val) {
     this.noDataFound = false;
     if (val.length > 2) {
+      this.popupStatus = true;
       this.service.getUserlistForHistory(val).subscribe(res => {
         if (res.json().status == false) {
           this.userInfo = [];
@@ -83,9 +119,11 @@ export class UserPointsComponent {
           this.userInfo = res.json().data;
         }
       })
+
     } else {
       this.tableStatus = false;
       this.noResult = false;
+      this.popupStatus = false;
       this.userInfo = [];
     }
   }
@@ -112,7 +150,6 @@ export class UserPointsComponent {
       points: this.userPoints,
       reward_for: this.userRemark
     }
-    console.log(data);
     let modelClose = document.getElementById("CloseButton");
     this.spinner.show();
     this.service.addUserPoints(data).subscribe(res => {

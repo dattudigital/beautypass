@@ -7,15 +7,15 @@
 <div class="form-group row">
   <label class="col-md-2 col-form-label" for="select2"><b>Select User</b></label>
   <div class="col-md-4">
-    <input type="text" class="form-control" placeholder="Enter User Name" name="username" maxlength="50" [(ngModel)]="selectedValue"
-      [(ngModel)]="existingDetail" (ngModelChange)='userSearch($event)' [typeahead]="userInfo" typeaheadOptionField="alldetails"
-      (typeaheadOnSelect)="onSelect($event)">
+    <input type="text" class="form-control" [(ngModel)]="selectedValue" placeholder="Enter Email Id / Mindbody Id / Mobile"
+      (ngModelChange)='userSearch(selectedValue)' name="" id="">
   </div>
   <div style="color:red" *ngIf="noResult">No Results Found</div>
 </div>
-<!-- <div style="color:red" *ngIf="noDataFound">
+
+<div style="color:red" *ngIf="noDataFound">
   <h1>No Data Found</h1>
-</div> -->
+</div>
 
 <div class="animated fadeIn" *ngIf="tableStatus">
   <div class="row">
@@ -46,8 +46,8 @@
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
                 <td *ngFor="let col of cols">
-                    {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }}
-                  </td>
+                  {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }}
+                </td>
                 <td href="#" data-toggle="modal" (click)="addPoints.show();getUserId(data,i)"><i class="far fa-plus-square"
                     style="color:orange;font-size: 20px;text-align:center"></i></td>
               </tr>
@@ -142,3 +142,122 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="form-popup" *ngIf="popupStatus" style="display:contents">
+  <form class="form-container" style="margin-left: 185px;
+    margin-top: -16px;">
+    <table>
+      <thead>
+        <tr>
+          <th>User Details</th>
+          <th>Select</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of userInfo">
+          <td> {{user.alldetails}}</td>
+          <td> <input type="radio" name="" id="" (click)="getUserData(user)"> </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
+<style>
+  table,
+  td,
+  th {
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 15px;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2
+  }
+
+  ;
+
+  .open-button {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 280px;
+  }
+
+  /* The popup form - hidden by default */
+  .form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+  }
+
+  /* Add styles to the form container */
+  .form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+  }
+
+  /* Full-width input fields */
+  .form-container input[type=text],
+  .form-container input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+
+  /* When the inputs get focus, do something */
+  .form-container input[type=text]:focus,
+  .form-container input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+
+  /* Set a style for the submit/login button */
+  .form-container .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+
+  /* Add a red background color to the cancel button */
+  .form-container .cancel {
+    background-color: red;
+  }
+
+  /* Add some hover effects to buttons */
+  .form-container .btn:hover,
+  .open-button:hover {
+    opacity: 1;
+  }
+</style>
