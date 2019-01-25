@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { TypeaheadMatch } from 'ngx-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastMessageService } from '../../services/toast-message.service';
 import { DatePipe } from '@angular/common';
@@ -14,21 +13,18 @@ import { DatePipe } from '@angular/common';
   ]
 })
 export class UserPointsComponent {
-  userId: number;
   tableStatus = false;
   noDataFound = false;
-  userHistoryData: any = [];
   selectedValue: string;
   userInfo: any = [];
   noResult = false;
   selectedOption: any = [];
   cols: any = [];
-  userid: '';
   userPoints: '';
   userRemark: '';
   pointsForm: FormGroup;
   submitted = false;
-  temp: any[] = new Array();
+  popupStatus = false;
   userPointsData: any = {
     'mindbody_id': '',
     'location': '',
@@ -36,7 +32,6 @@ export class UserPointsComponent {
     'studioid': '',
     'studioName': ''
   }
-  popupStatus = false;
 
   constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private dp: DatePipe, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
@@ -62,51 +57,11 @@ export class UserPointsComponent {
     })
   }
 
-  // onSelect(event: TypeaheadMatch): void {
-  //   let URL = '';
-  //   if (event.item["mindbody_id"]) {
-  //     URL = URL + '/' + event.item["mindbody_id"]
-  //   }
-  //   if (event.item["studioid"]) {
-  //     URL = URL + '/' + event.item["studioid"]
-  //   }
-  //   this.spinner.show();
-  //   this.service.getUserHistory(URL).subscribe(res => {
-  //     this.spinner.hide();
-  //     if (res.json().status == true) {
-  //       this.tableStatus = true;
-  //       this.selectedOption = res.json().data;
-  //     }
-  //   }, (err) => {
-  //     this.spinner.hide();
-  //   })
-  // }
-
   getUserData(val) {
-    console.log(val)
     this.selectedOption.push(val);
-    console.log(this.selectedOption)
     this.selectedValue = val.alldetails
     this.popupStatus = false;
     this.tableStatus = true;
-    // this.userInfo = [];
-    // let URL = '';
-    // if (val.mindbody_id) {
-    //   URL = URL + '/' + val.mindbody_id
-    // }
-    // if (val.studioid) {
-    //   URL = URL + '/' + val.studioid
-    // }
-    // this.spinner.show();
-    // this.service.getUserHistory(URL).subscribe(res => {
-    //   this.spinner.hide();
-    //   if (res.json().status == true) {
-    //     this.tableStatus = true;
-    //     this.selectedOption = res.json().data;
-    //   }
-    // }, (err) => {
-    //   this.spinner.hide();
-    // })
   }
 
   userSearch(val) {
@@ -120,7 +75,6 @@ export class UserPointsComponent {
         } else {
           this.noResult = false;
           this.userInfo = res.json().data;
-          console.log(this.userInfo)
         }
       })
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { TypeaheadMatch } from 'ngx-bootstrap';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -17,7 +16,7 @@ export class UserHistoryComponent {
   selectedValue: string;
   userInfo: any = [];
   noResult = false;
-  selectedOption: any[];
+  selectedOption: any = [];
   cols: any = [];
   temp: any[] = new Array();
 
@@ -41,46 +40,10 @@ export class UserHistoryComponent {
   }
 
   getUserData(val) {
+    this.selectedOption.push(val);
     this.selectedValue = val.alldetails
     this.popupStatus = false;
-    this.userInfo = [];
-    let URL = '';
-    if (val.mindbody_id) {
-      URL = URL + '/' + val.mindbody_id
-    }
-    if (val.studioid) {
-      URL = URL + '/' + val.studioid
-    }
-    this.spinner.show();
-    this.service.getUserHistory(URL).subscribe(res => {
-      this.spinner.hide();
-      if (res.json().status == true) {
-        this.tableStatus = true;
-        this.selectedOption = res.json().data;
-      }
-    }, (err) => {
-      this.spinner.hide();
-    })
-  }
-
-  onSelect(event: TypeaheadMatch): void {
-    let URL = '';
-    if (event.item["mindbody_id"]) {
-      URL = URL + '/' + event.item["mindbody_id"]
-    }
-    if (event.item["studioid"]) {
-      URL = URL + '/' + event.item["studioid"]
-    }
-    this.spinner.show();
-    this.service.getUserHistory(URL).subscribe(res => {
-      this.spinner.hide();
-      if (res.json().status == true) {
-        this.tableStatus = true;
-        this.selectedOption = res.json().data;
-      }
-    }, (err) => {
-      this.spinner.hide();
-    })
+    this.tableStatus = true;
   }
 
   userSearch(val) {

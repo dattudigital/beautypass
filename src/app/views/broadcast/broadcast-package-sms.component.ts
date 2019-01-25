@@ -32,7 +32,6 @@ export class broadcastPackageSmsComponent implements OnInit {
     textToSend: any;
 
     constructor(private spinner: NgxSpinnerService, private router: Router, sanitizer: DomSanitizer, private service: BroadcastSmsService) {
-        console.log("************")
     }
 
     ngOnInit() {

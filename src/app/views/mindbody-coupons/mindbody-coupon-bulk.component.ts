@@ -49,7 +49,7 @@ export class MindbodyCouponsBulkComponent {
     }
     fileReader.readAsArrayBuffer(this.file);
   }
-  errorData: any=[];
+  errorData: any = [];
   addBulkCoupons() {
     this.list.forEach(element => {
       element.empid = this.empData.employee_id;
@@ -57,14 +57,10 @@ export class MindbodyCouponsBulkComponent {
     // coupon point  ,   coupon num
     this.spinner.show();
     this.service.addBulkMindBodyCoupons(this.list).subscribe(res => {
-      console.log(res.json().errdata);
-      // console.log(res.json().errdata.length);
-      console.log(res.json().errdata[0])
       this.spinner.hide();
-      
-      if ( Object.keys(res.json().errdata).length > 0) {
-        this.errorData=res.json().errdata
-        console.log(this.errorData)
+
+      if (Object.keys(res.json().errdata).length > 0) {
+        this.errorData = res.json().errdata
       } else {
         this.router.navigate(['mindbody-coupons']);
       }

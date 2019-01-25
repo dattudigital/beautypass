@@ -181,7 +181,6 @@
                 <th>Description</th>
                 <th>Image</th>
                 <th>Type</th>
-                <!-- <th>Video</th> -->
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -192,7 +191,6 @@
                 <td>{{data.tip_description}}</td>
                 <td> <img [src]="data.tip_img" height="50"></td>
                 <td>{{data.tip_type}}</td>
-                <!-- <td>{{data.tip_video}}</td> -->
                 <td> <button class="btn-primary" data-toggle="modal" (click)="addOrUpdateBeautyTip.show();editBeautyTip(data,i)"><i
                       class="fa fa-edit"></i></button></td>
                 <td> <button class="btn-danger" data-toggle="modal" (click)="dangerModal.show();deleteBeautyTips(data,i)"><i

@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
       password: this.loginData.password
     }
     this.spinner.show();
-    console.log(data);
     this.service.loginSubmit(data).subscribe(response => {
       this.spinner.hide();
       if (response.json().status == true) {

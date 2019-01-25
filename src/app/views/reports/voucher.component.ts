@@ -23,7 +23,6 @@ export class VoucherComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.voucherData = response.json().data;
-        console.log(this.voucherData)
       } else {
         this.voucherData = [];
       }

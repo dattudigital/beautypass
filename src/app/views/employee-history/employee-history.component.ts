@@ -7,7 +7,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: 'employee-history.component.html',
 })
 export class EmployeeHistoryComponent implements OnInit {
-
   employeeHistoryData: any = [];
   cols: any = [];
 

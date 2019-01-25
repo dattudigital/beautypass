@@ -18,7 +18,6 @@ export class PerksReportComponent implements OnInit {
   constructor(private service: ReportsService, private dp: DatePipe, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    console.log("came here ");
     this.spinner.show();
     this.service.getPerksReports().subscribe(response => {
       this.spinner.hide();

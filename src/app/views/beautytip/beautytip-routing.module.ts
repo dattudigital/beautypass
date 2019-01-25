@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../../common-session/session.check'
 import { BeautyTipsComponent } from './beautytip.component';
 
-console.log("locading**************")
 const routes: Routes = [
   {
     path: '', component: BeautyTipsComponent,

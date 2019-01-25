@@ -36,6 +36,7 @@ export class BeautyTipsComponent implements OnInit {
   totalItems: number;
   userimagePreview: any;
   userImage: string;
+  _index: any;
 
   constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private beautyTipPipe: BeautyTipPipe, private cdr: ChangeDetectorRef, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: BeautyTipsService) { }
 
@@ -130,7 +131,6 @@ export class BeautyTipsComponent implements OnInit {
     }
   }
 
-  _index: any;
   editBeautyTip(data, index) {
     this.copiedRow = Object.assign({}, data);
     this.beautytips["index"] = index;
@@ -145,7 +145,6 @@ export class BeautyTipsComponent implements OnInit {
   }
 
   backupData() {
-    console.log(this.copiedRow)
     this.tipsData[this._index] = this.copiedRow;
   }
 
@@ -186,6 +185,7 @@ export class BeautyTipsComponent implements OnInit {
       }
     }
   }
+
   _handleReaderLoaded(readerEvt) {
     var binaryString = readerEvt.target.result;
     this.beautytips.tip_img = btoa(binaryString);
@@ -194,6 +194,7 @@ export class BeautyTipsComponent implements OnInit {
       this.isShowOriginalImg = true;
     }
   }
+
   removeFields() {
     this.submitted = false;
     this.beautytips.tip_id = '';
@@ -218,4 +219,5 @@ export class BeautyTipsComponent implements OnInit {
       }
     });
   }
+
 }

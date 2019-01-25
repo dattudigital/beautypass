@@ -47,7 +47,6 @@ export class broadcastSmsComponent implements OnInit {
   }
 
   selectedBroadcastId(val) {
-    console.log(val);
     this.spinner.show();
     this.service.locationsId(val).subscribe(res => {
       this.spinner.hide();
@@ -69,9 +68,7 @@ export class broadcastSmsComponent implements OnInit {
       location: this.locationSelectedId,
       message: this.textToSend
     }
-    console.log(data);
     this.service.broadcastSend(data).subscribe(res => {
-      console.log(res)
     })
   }
 }
