@@ -104,7 +104,7 @@ export class BeautyTipsComponent implements OnInit {
         if (res.json().status == true) {
           if (!this.beautytips.tip_id) {
             this.tipsData.push(res.json().data)
-            this.tipsData = this.beautyTipPipe.transform(this.tipsData);
+            // this.tipsData = this.beautyTipPipe.transform(this.tipsData);
             this.completeService.addBeautyTip(this.tipsData)
             this.messageService.successToast("BeautyTip added Successfully")
           } else {
@@ -189,7 +189,7 @@ export class BeautyTipsComponent implements OnInit {
   _handleReaderLoaded(readerEvt) {
     var binaryString = readerEvt.target.result;
     this.beautytips.tip_img = btoa(binaryString);
-    this.isShowOriginalImg = true;
+    // this.isShowOriginalImg = true;
     if (this.beautytips.tip_id) {
       this.isShowOriginalImg = true;
     }
