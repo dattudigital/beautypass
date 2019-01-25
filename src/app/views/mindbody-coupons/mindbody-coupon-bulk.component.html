@@ -8,12 +8,22 @@
             <label class="col-sm-4 col-form-label required" style="font-size: 16px;color:gray">Select Coupons Excel
                 Sheet:<b style="color:red">*</b></label>
             <div class="col-sm-8">
-                <div class="file">
+                <!-- <div class="file">
                     Choose File
                     <input type="file" class="hide_file" style="display: inline-block;" (change)="incomingfile($event)"
-                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-                </div> &nbsp;&nbsp;&nbsp;&nbsp;
-                <button *ngIf="file" type="button" class="btn btn-info" (click)="Upload()">Upload</button>
+                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                </div>  -->
+                <!-- <input type="file" (change)="incomingfile($event)" style="display: inline-block;position:relative;  "
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"> -->
+
+                <label class="custom-file-upload">
+                    <input type="file" (change)="incomingfile($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                    Choose File
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <span [style.visibility]="uploadStyle">
+                    <button type="button" class="btn btn-info" (click)="Upload()">Upload</button>
+                </span>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button *ngIf="list.length!==0" type="button" class="btn btn-warning" (click)="addBulkCoupons()">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn-secondary" (click)="redirectToCoupons()">Back</button>
@@ -62,29 +72,16 @@
 </div>
 
 <style>
-    .file {
-        padding: 5px 10px;
-        background: rgb(52, 199, 16);
-        border: 1px solid black;
-        position: relative;
-        color: #fff;
-        border-radius: 5px;
-        text-align: center;
-        float: left;
-        cursor: pointer;
-        font-size: 16px;
+    input[type="file"] {
+        display: none;
     }
 
-    .hide_file {
-        position: absolute;
-        opacity: 0;
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 9px 20px;
         cursor: pointer;
-        right: 0;
-        top: 0;
-        height: 100%;
-        font-size: 24px;
-        width: 100%;
-        border: 1px solid black;
-        border-radius: 2px;
+        border-radius: 6px;
+        background:green;
     }
 </style>

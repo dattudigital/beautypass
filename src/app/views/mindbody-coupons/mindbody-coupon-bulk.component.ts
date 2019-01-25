@@ -14,6 +14,7 @@ export class MindbodyCouponsBulkComponent {
   list: any = [];
   file: File;
   cols: any = [];
+  uploadStyle = 'hidden'
 
   constructor(private service: RefferalRewardsService, private spinner: NgxSpinnerService, private router: Router) {
     if (localStorage.loginDetails) {
@@ -28,6 +29,7 @@ export class MindbodyCouponsBulkComponent {
 
   incomingfile(event) {
     this.file = event.target.files[0];
+    this.uploadStyle = 'visible'
   }
 
   redirectToCoupons() {
