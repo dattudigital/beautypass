@@ -39,18 +39,7 @@ export class UserHistoryComponent {
     ];
   }
 
-  // getUserData(val) {
-  //   this.selectedOption.push(val);
-  //   this.selectedValue = val.alldetails
-  //   this.popupStatus = false;
-  //   this.tableStatus = true;
-  // }
-
   getUserData(val) {
-    // this.selectedOption.push(val);
-    // this.selectedValue = val.alldetails
-    console.log(val)
-    console.log(val.studioid)
     let URL = '';
     if (val.mindbody_id) {
       URL = URL + '/' + val.mindbody_id
@@ -74,6 +63,7 @@ export class UserHistoryComponent {
   userSearch(val) {
     this.noDataFound = false;
     if (val.length > 2) {
+      this.tableStatus = false;
       this.popupStatus = true;
       this.spinner.show();
       this.service.getUserlistForHistory(val).subscribe(res => {
