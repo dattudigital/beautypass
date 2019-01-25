@@ -67,6 +67,7 @@ export class UserPointsComponent {
   userSearch(val) {
     this.noDataFound = false;
     if (val.length > 2) {
+      this.tableStatus = false;
       this.popupStatus = true;
       this.spinner.show();
       this.service.getUserlistForHistory(val).subscribe(res => {
