@@ -39,11 +39,36 @@ export class UserHistoryComponent {
     ];
   }
 
+  // getUserData(val) {
+  //   this.selectedOption.push(val);
+  //   this.selectedValue = val.alldetails
+  //   this.popupStatus = false;
+  //   this.tableStatus = true;
+  // }
+
   getUserData(val) {
-    this.selectedOption.push(val);
-    this.selectedValue = val.alldetails
-    this.popupStatus = false;
-    this.tableStatus = true;
+    // this.selectedOption.push(val);
+    // this.selectedValue = val.alldetails
+    console.log(val)
+    console.log(val.studioid)
+    let URL = '';
+    if (val.mindbody_id) {
+      URL = URL + '/' + val.mindbody_id
+    }
+    if (val.studioid) {
+      URL = URL + '/' + val.studioid
+    }
+    this.spinner.show();
+    this.service.getUserHistory(URL).subscribe(res => {
+      this.spinner.hide();
+      if (res.json().status == true) {
+        this.popupStatus = false;
+        this.tableStatus = true;
+        this.selectedOption = res.json().data;
+      }
+    }, (err) => {
+      this.spinner.hide();
+    })
   }
 
   userSearch(val) {
