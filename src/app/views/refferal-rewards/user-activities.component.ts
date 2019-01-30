@@ -76,9 +76,9 @@ export class UserActivitiesComponent implements OnInit {
       { field: 'activity_end_date', header: 'End Date', type: this.dp },
     ];
     this.activityForm = this.formBuilder.group({
-      Name: ['', Validators.required],
+      activityName: ['', Validators.required],
       Points: ['', Validators.required],
-      Description: ['', Validators.required],
+      // Description: ['', Validators.required],
       StartDate: ['', Validators.required],
       EndDate: ['', Validators.required]
     })
@@ -129,7 +129,6 @@ export class UserActivitiesComponent implements OnInit {
     if (!this.userActivity.activity_id) {
       this.userActivity.activity_id = null
     }
-    this.randomNumber = 187349;
 
     var data: any = {
       activity_id: this.userActivity.activity_id,
@@ -158,7 +157,6 @@ export class UserActivitiesComponent implements OnInit {
     } else {
       data.updatedempid = this.userData.employee_id;
     }
-
     let modelClose = document.getElementById("CloseActivity");
     this.spinner.show();
     this.service._addOrEditRefferalActivities(data).subscribe(res => {
@@ -195,6 +193,7 @@ export class UserActivitiesComponent implements OnInit {
   editUserActivity(data, index) {
     this.copiedRow = Object.assign({}, data);
     this.userActivity = data;
+
     if (this.userActivity.activity_start_date) {
       let newDate = moment(this.userActivity.activity_start_date).format('YYYY-MM-DD').toString();
       this.userActivity.activity_start_date = newDate;
