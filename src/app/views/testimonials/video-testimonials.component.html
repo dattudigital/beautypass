@@ -107,6 +107,17 @@
                   </div>
                 </div>
 
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Status</label>
+                  <div class="col-md-9">
+                    <select class="form-control" name="vehicletype1" [(ngModel)]="videoTestimonialData.rec_status"
+                      [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
+                      <option value="1">Active</option>
+                      <option value="0">In active</option>
+                    </select>
+                  </div>
+                </div>
+
                 <button class="btn btn-primary" style="margin-left:26%" (click)="updateTestimonial()">Update</button>
                 &nbsp;&nbsp;
                 <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addorUpdateTestimonial.hide();backupData()">Close</button>

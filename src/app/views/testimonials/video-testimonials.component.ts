@@ -41,12 +41,12 @@ export class VideoTestimonialsComponent {
     if (Object.keys(_video).length) {
       this.videoTestimonials = _video;
     } else {
-
       this.spinner.show();
       this.service.getVideoTestmonials().subscribe(response => {
         this.spinner.hide();
         if (response.json().status == true) {
           this.videoTestimonials = response.json().data;
+          this.completeService.addVideoTestmonials(this.videoTestimonials);
         } else {
           this.videoTestimonials = [];
         }
@@ -58,7 +58,6 @@ export class VideoTestimonialsComponent {
       { field: 'fullname', header: 'Username' },
       { field: 'description', header: 'Description' },
       { field: 'likes', header: 'Likes' },
-      // { field: 'video', header: 'Video' },
       { field: 'empname', header: 'Updated Emp' }
     ];
 

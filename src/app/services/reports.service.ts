@@ -10,10 +10,10 @@ export class ReportsService {
   constructor(private http: Http) { }
   
   public getVoucherReports(url:any) {
-    return this.http.get(environment.host + 'voucher-overview-reports'+url);
+    return this.http.get(environment.host + 'reports/vocher'+url);
   }
 
   public getPerksReports() {
-    return this.http.get(environment.host + 'voucher-reports');
+    return this.http.get(environment.host + 'reports/perks');
   }
 }

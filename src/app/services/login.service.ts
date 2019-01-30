@@ -12,9 +12,9 @@ export class LoginService {
     return this.http.post(environment.host + 'web-login', data);
   }
   public addOrUpdateEmployee(data:any) {
-    return this.http.post(environment.host + 'add_employee', data);
+    return this.http.post(environment.host + 'employees', data);
   }
   public getEmpList() {
-    return this.http.get(environment.host + 'get_employees');
+    return this.http.get(environment.host + 'employees');
   }
 }

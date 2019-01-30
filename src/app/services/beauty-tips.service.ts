@@ -9,10 +9,10 @@ export class BeautyTipsService {
 
   constructor(private http: Http) { }
   public getBeautyTipsList() {
-    return this.http.get(environment.host + 'show-beauty-tips');
+    return this.http.get(environment.host + 'beauty-tips');
   }
   public AddOrEditBeautyTip(data:any) {
-    return this.http.post(environment.host + 'add-beauty-tips', data);
+    return this.http.post(environment.host + 'beauty-tips', data);
   }
   
 }

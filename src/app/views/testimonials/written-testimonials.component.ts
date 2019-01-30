@@ -86,6 +86,7 @@ export class WrittenTestimonialsComponent implements OnInit {
   editTestimonials(data, index) {
     this.copiedRow = Object.assign({}, data);
     this.testimonialData = data;
+    console.log(this.testimonialData)
     this.testimonialData["index"] = index;
   }
 
@@ -111,10 +112,12 @@ export class WrittenTestimonialsComponent implements OnInit {
       status: this.testimonialData.status,
       updatedempid: this.userData.employee_id
     }
+    console.log(data);
     let modelClose = document.getElementById("CloseButton");
     this.service.editWrittenTestmonials(data).subscribe(res => {
       modelClose.click();
       if (res.json().status == true) {
+        console.log(this.testimonialData.coupons_status)
         if (this.testimonialData.coupons_status == '0') {
           this.testmonials.splice(this.testimonialData["index"], 1);
           this.completeService.addWrittenTestmonials(this.testmonials);
