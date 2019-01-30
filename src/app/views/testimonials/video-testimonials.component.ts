@@ -94,7 +94,7 @@ export class VideoTestimonialsComponent {
       rec_status: this.videoTestimonialData.rec_status,
       updatedempid: this.userData.employee_id
     }
-    let modelClose = document.getElementById("CloseButton");
+    let modelClose = document.getElementById("CloseVideo");
     this.service.editVideoTestmonials(data).subscribe(res => {
       modelClose.click();
       if (res.json().status == true) {

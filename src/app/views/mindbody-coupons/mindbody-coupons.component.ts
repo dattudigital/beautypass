@@ -43,14 +43,17 @@ export class MindbodyCouponsComponent implements OnInit {
   ngOnInit() {
     let _coupons = this.completeService.getCoupons()
     if (Object.keys(_coupons).length) {
-      this.couponsData = _coupons;
+      this.couponsData = this.couponPipe.transform(_coupons);
+      console.log(this.couponsData)
     } else {
+      this.couponsData = [];
       this.spinner.show();
       this.service.getMindBodyCoupons().subscribe(response => {
         this.spinner.hide();
         if (response.json().status == true) {
           this.couponsData = this.couponPipe.transform(response.json().data);
-          this.completeService.addCoupons(response.json().data)
+          this.completeService.addCoupons( this.couponsData)
+          console.log( this.couponsData)
         } else {
           this.couponsData = [];
         }
@@ -116,14 +119,14 @@ export class MindbodyCouponsComponent implements OnInit {
         if (this.couponsDetails.coupons_status == '0') {
           this.couponsData.splice(this.couponsDetails["index"], 1);
           this.completeService.addCoupons(this.couponsData);
-          this.messageService.successToast("Coupons Inactive Successfullt")
+          this.messageService.successToast("Coupons Inactive Successfully")
         } else {
           this.couponsData[this.couponsDetails["index"]] = res.json().data;
           this.completeService.addCoupons(this.couponsData);
           if (this.couponsData[this.couponsDetails["index"]].coupons_status) {
             this.couponsData[this.couponsDetails["index"]].coupons_status = 'active'
           }
-          this.messageService.successToast("Coupons Updated Successfullt")
+          this.messageService.successToast("Coupons Updated Successfully")
         }
       } else {
         this.messageService.errorToast("Coupons Not Updated")

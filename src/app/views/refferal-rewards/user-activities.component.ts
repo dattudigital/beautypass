@@ -159,7 +159,7 @@ export class UserActivitiesComponent implements OnInit {
       data.updatedempid = this.userData.employee_id;
     }
 
-    let modelClose = document.getElementById("CloseButton");
+    let modelClose = document.getElementById("CloseActivity");
     this.spinner.show();
     this.service._addOrEditRefferalActivities(data).subscribe(res => {
       this.spinner.hide();

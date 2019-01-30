@@ -13,8 +13,6 @@
   </div>
 </div>
 
-<ng2-toasty [position]="'top-right'"></ng2-toasty>
-
 <div bsModal #deleteCoupon="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -71,8 +69,8 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Coupon Number<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="Number" class="form-control" placeholder="MindBody Number"
-                      [(ngModel)]="couponsDetails.coupons_number" [ngClass]="{ 'is-invalid': submitted && f.Number.errors }">
+                    <input type="text" name="couponno" id="couponno" maxlength="50" formControlName="Number" class="form-control"
+                      placeholder="MindBody Number" [(ngModel)]="couponsDetails.coupons_number" [ngClass]="{ 'is-invalid': submitted && f.Number.errors }">
                     <div *ngIf="submitted && f.Number.errors" class="invalid-feedback">
                       <div *ngIf="f.Number.errors.required" style="color:red">Coupon Number is required</div>
                     </div>
@@ -81,8 +79,8 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Cost<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="10" formControlName="Cost" class="form-control" placeholder="cost"
-                      [(ngModel)]="couponsDetails.coupons_for" [ngClass]="{ 'is-invalid': submitted && f.Cost.errors }">
+                    <input type="text" name="couponcost" id="couponcost" maxlength="10" formControlName="Cost" class="form-control"
+                      placeholder="cost" [(ngModel)]="couponsDetails.coupons_for" [ngClass]="{ 'is-invalid': submitted && f.Cost.errors }">
                     <div *ngIf="submitted && f.Cost.errors" class="invalid-feedback">
                       <div *ngIf="f.Cost.errors.required" style="color:red">Cost is required</div>
                     </div>
@@ -92,7 +90,7 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Status</label>
                   <div class="col-md-8">
-                    <select class="form-control" name="vehicletype1" [(ngModel)]="couponsDetails.coupons_status"
+                    <select class="form-control" name="couponstatus" id="couponstatus" [(ngModel)]="couponsDetails.coupons_status"
                       [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
                       <option value="1">Active</option>
                       <option value="0">In active</option>

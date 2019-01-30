@@ -122,7 +122,7 @@ export class EmployeesComponent implements OnInit {
       emp_role: this.employeeData.emp_role,
       emp_status: this.employeeData.emp_status
     }
-    let modelClose = document.getElementById("CloseButton");
+    let modelClose = document.getElementById("CloseEmployee");
     this.spinner.show();
     this.service.addOrUpdateEmployee(data).subscribe(res => {
       this.spinner.hide();

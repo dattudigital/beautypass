@@ -8,8 +8,8 @@
 <div class="card-body">
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
-      <button type="button" (click)="removeFields();addOrEditActivity.show();" class="btn btn-primary" style="float: right;"><i
-          class="fa fa-lightbulb-o"></i>&nbsp;Add Activity</button>
+      <button type="button" name="createactivity" id="createactivity" (click)="removeFields();addOrEditActivity.show();"
+        class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add Activity</button>
     </div>
     <div class=" col-sm-1">
       <i class="fas fa-sync-alt" (click)="reloadClick()" style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
@@ -81,8 +81,9 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Name<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="Name" class="form-control" placeholder="User Activity Name"
-                      [(ngModel)]="userActivity.activity_name" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+                    <input type="text" name="activityname" id="activityname" maxlength="50" formControlName="Name"
+                      class="form-control" placeholder="User Activity Name" [(ngModel)]="userActivity.activity_name"
+                      [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
                     <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
                       <div *ngIf="f.Name.errors.required" style="color:red">Activity name is required</div>
                     </div>
@@ -91,8 +92,9 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Points<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="10" formControlName="Points" class="form-control" placeholder="Activity Points"
-                      [(ngModel)]="userActivity.activity_points" [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
+                    <input type="text" name="activitypoints" id="activitypoints" maxlength="10" formControlName="Points"
+                      class="form-control" placeholder="Activity Points" [(ngModel)]="userActivity.activity_points"
+                      [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
                     <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
                       <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>
                     </div>
@@ -101,8 +103,9 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Description<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="100" formControlName="Description" class="form-control" placeholder="Activity Description"
-                      [(ngModel)]="userActivity.activity_desc" [ngClass]="{ 'is-invalid': submitted && f.Description.errors }">
+                    <input type="text" name="activitydesc" id="activitydesc" maxlength="100" formControlName="Description"
+                      class="form-control" placeholder="Activity Description" [(ngModel)]="userActivity.activity_desc"
+                      [ngClass]="{ 'is-invalid': submitted && f.Description.errors }">
                     <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
                       <div *ngIf="f.Description.errors.required" style="color:red">Description is required</div>
                     </div>
@@ -112,16 +115,17 @@
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Code</label>
                     <div class="col-md-9">
-                      <input type="text" maxlength="10" class="form-control" placeholder="Activity code" [(ngModel)]="userActivity.activity_code"
-                        [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
+                      <input type="text" name="activitycode" id="activitycode" maxlength="10" class="form-control"
+                        placeholder="Activity code" [(ngModel)]="userActivity.activity_code" [(ngModel)]="showMoreControls"
+                        [ngModelOptions]="{standalone: true}" readonly>
                     </div>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Start Date<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="date" maxlength="10" formControlName="StartDate" class="form-control" placeholder="Activity StartDate"
-                      [(ngModel)]="userActivity.activity_start_date" [ngClass]="{ 'is-invalid': submitted && f.StartDate.errors }">
+                    <input type="date" name="startdate" id="startdate" maxlength="10" formControlName="StartDate" class="form-control"
+                      placeholder="Activity StartDate" [(ngModel)]="userActivity.activity_start_date" [ngClass]="{ 'is-invalid': submitted && f.StartDate.errors }">
                     <div *ngIf="submitted && f.StartDate.errors" class="invalid-feedback">
                       <div *ngIf="f.StartDate.errors.required" style="color:red">StartDate is required</div>
                     </div>
@@ -130,8 +134,8 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">End Date<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="date" maxlength="10" formControlName="EndDate" class="form-control" placeholder="Activity EndDate"
-                      [(ngModel)]="userActivity.activity_end_date" [ngClass]="{ 'is-invalid': submitted && f.EndDate.errors }">
+                    <input type="date" name="enddate" id="enddate" maxlength="10" formControlName="EndDate" class="form-control"
+                      placeholder="Activity EndDate" [(ngModel)]="userActivity.activity_end_date" [ngClass]="{ 'is-invalid': submitted && f.EndDate.errors }">
                     <div *ngIf="submitted && f.EndDate.errors" class="invalid-feedback">
                       <div *ngIf="f.EndDate.errors.required" style="color:red">EndDate is required</div>
                     </div>
@@ -141,7 +145,7 @@
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Status</label>
                     <div class="col-md-9">
-                      <select class="form-control" name="vehicletype1" [(ngModel)]="userActivity.activity_status"
+                      <select class="form-control" name="activitystatus" id="activitystatus" [(ngModel)]="userActivity.activity_status"
                         [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
                         <option value="1">Active</option>
                         <option value="0">In active</option>
@@ -150,13 +154,13 @@
                   </div>
                 </div>
                 <span *ngIf="!userActivity.activity_id">
-                  <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateUserActivity()">ADD</button>
+                  <button  name="addactivity" id="addactivity" style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateUserActivity()">ADD</button>
                 </span>
                 <span *ngIf="userActivity.activity_id">
-                  <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateUserActivity()">Update</button>
+                  <button name="updateactivity" id="updateactivity" style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateUserActivity()">Update</button>
                 </span>
                 &nbsp;&nbsp;
-                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addOrEditActivity.hide(); backupData()">Close</button>
+                <button type="button" id="CloseActivity" class="btn btn-secondary" (click)="addOrEditActivity.hide(); backupData()">Close</button>
               </form>
             </div>
           </div>

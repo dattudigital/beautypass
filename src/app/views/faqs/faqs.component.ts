@@ -87,7 +87,7 @@ export class FaqsComponent implements OnInit {
       faq_answer: this.faqs.faq_answer,
       faq_status: this.faqs.faq_status
     }
-    let modelClose = document.getElementById("CloseButton");
+    let modelClose = document.getElementById("CloseFaqs");
     this.spinner.show()
     this.service.addOrUpdateFaq(data).subscribe(res => {
       this.spinner.hide()

@@ -17,8 +17,8 @@
                             <div class="row form-group">
                                 <label class="col-sm-3">Studio Id</label>
                                 <div class="col-sm-6">
-                                    <select name="broadcast" id="" [(ngModel)]="broadcastSelectedId" (ngModelChange)="selectedBroadcastId(broadcastSelectedId)"
-                                        style="padding-right: 13px">
+                                    <select name="broadcastid" id="broadcastid" [(ngModel)]="broadcastSelectedId"
+                                        (ngModelChange)="selectedBroadcastId(broadcastSelectedId)" style="padding-right: 13px">
                                         <option [ngValue]="undefined" disabled>Select Studio id</option>
                                         <option *ngFor=" let broadcast of broadcastIds " [ngValue]="broadcast.studioid">{{broadcast.studioid}}</option>
                                     </select>
@@ -27,7 +27,8 @@
                             <div class="row form-group" *ngIf="broadcastSelectedId">
                                 <label class="col-sm-3">Location Id</label>
                                 <div class="col-sm-5">
-                                    <select name="location" id="" [(ngModel)]="locationSelectedId" (ngModelChange)="selectedLocationId(locationSelectedId)">
+                                    <select name="locationid" id="locationid" [(ngModel)]="locationSelectedId"
+                                        (ngModelChange)="selectedLocationId(locationSelectedId)">
                                         <option [ngValue]="undefined" disabled>Select Location id</option>
                                         <option *ngFor=" let locationId of locationIds " [ngValue]="locationId.location">{{locationId.location}}</option>
                                     </select>
@@ -36,17 +37,18 @@
                             <div class="row form-group">
                                 <label class="col-sm-3">Text to Send</label>
                                 <div class="col-sm-5">
-                                    <textarea name="text-send" placeholder="Write Sms Text" id="" cols="42" rows="6"
-                                        [(ngModel)]="textToSend"></textarea>
-                                        <small class="form-text text-muted"><code *ngIf="textToSend">{{textToSend.length}}</code><code *ngIf="!textToSend">0</code> of <code>160</code> characters</small>
-                                    </div>
+                                    <textarea name="text-to-send" id="text-to-send" placeholder="Write Sms Text" id=""
+                                        cols="42" rows="6" [(ngModel)]="textToSend"></textarea>
+                                    <small class="form-text text-muted"><code *ngIf="textToSend">{{textToSend.length}}</code><code
+                                            *ngIf="!textToSend">0</code> of <code>160</code> characters</small>
+                                </div>
                             </div>
                             <div class="row form-group">
                                 <label class="col-sm-3"></label>
                                 <div class="col-sm-3">
-                                    <button type="submit" class="btn btn-primary" style="margin-left: 42px" (click)="sendBroadcastSms()"
-                                        value="Submite">Send Sms</button>
-                                </div>                                
+                                    <button type="submit" name="send" id="send" class="btn btn-primary" style="margin-left: 42px"
+                                        (click)="sendBroadcastSms()" value="Submite">Send Sms</button>
+                                </div>
                             </div>
                         </div>
                     </div>

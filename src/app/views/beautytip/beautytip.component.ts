@@ -96,7 +96,7 @@ export class BeautyTipsComponent implements OnInit {
       rec_status: this.beautytips.rec_status
     }
     if (this.beautytips.tip_img) {
-      let modelClose = document.getElementById("CloseButton");
+      let modelClose = document.getElementById("CloseBeautyTip");
       this.spinner.show();
       this.service.AddOrEditBeautyTip(data).subscribe(res => {
         this.spinner.hide();

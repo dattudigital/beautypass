@@ -113,7 +113,7 @@ export class WrittenTestimonialsComponent implements OnInit {
       updatedempid: this.userData.employee_id
     }
     console.log(data);
-    let modelClose = document.getElementById("CloseButton");
+    let modelClose = document.getElementById("CloseWritten");
     this.service.editWrittenTestmonials(data).subscribe(res => {
       modelClose.click();
       if (res.json().status == true) {

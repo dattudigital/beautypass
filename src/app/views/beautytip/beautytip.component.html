@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
       <button (click)="addOrUpdateBeautyTip.show();removeFields()" class="btn btn-primary" style="float: right;"><i
-          class="fa fa-lightbulb-o"></i>&nbsp;Create
+          class="fa fa-lightbulb-o" name="createtip" id="createtip"></i>&nbsp;Create
         Tip</button>
     </div>
     <div class=" col-sm-1">
@@ -87,15 +87,15 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Tip Name </label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" class="form-control" placeholder="Enter Name"
+                    <input type="text" name="tipname" id="tipname" maxlength="50" class="form-control" placeholder="Enter Name"
                       [(ngModel)]="beautytips.tip_title" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" />
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Description <b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <textarea type="text" rows="5" class="form-control" formControlName="description" placeholder="Enter Beautytip Description"
-                      [(ngModel)]="beautytips.tip_description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                    <textarea type="text" name="tipdesc" id="tipdesc" rows="5" class="form-control" formControlName="description"
+                      placeholder="Enter Beautytip Description" [(ngModel)]="beautytips.tip_description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                     <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
                       <div *ngIf="f.description.errors.required" style="color:red">Tip Name is required</div>
                     </div>
@@ -132,8 +132,8 @@
                   <div class=" form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Video Url</label>
                     <div class="col-md-9">
-                      <input type="text" maxlength="50" class="form-control" placeholder="Enter Video Url" [(ngModel)]="beautytips.tip_video"
-                        [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" />
+                      <input type="text" name="tipvideo" id="tipvideo" maxlength="50" class="form-control" placeholder="Enter Video Url"
+                        [(ngModel)]="beautytips.tip_video" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" />
                     </div>
                   </div>
                 </div>
@@ -141,8 +141,8 @@
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Status</label>
                     <div class="col-md-9">
-                      <select class="form-control" name="vehicletype1" [(ngModel)]="beautytips.rec_status" [(ngModel)]="showMoreControls"
-                        [ngModelOptions]="{standalone: true}">
+                      <select class="form-control" name="tipstatus" id="tipstatus" [(ngModel)]="beautytips.rec_status"
+                        [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
                         <option value="1">Active</option>
                         <option value="0">In active</option>
                       </select>
@@ -150,13 +150,13 @@
                   </div>
                 </div>
                 <span *ngIf="!beautytips.tip_id">
-                  <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateBeautyTips()">ADD</button>
+                  <button style="margin-left: 26%;" name="addTip" id="addTip" class="btn btn-primary" (click)="addOrUpdateBeautyTips()">ADD</button>
                 </span>
                 <span *ngIf="beautytips.tip_id">
-                  <button style="margin-left: 26%;" class="btn btn-primary" (click)="addOrUpdateBeautyTips()">Update</button>
+                  <button style="margin-left: 26%;" name="updateTip" id="updateTip" class="btn btn-primary" (click)="addOrUpdateBeautyTips()">Update</button>
                 </span>
                 &nbsp;&nbsp;
-                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addOrUpdateBeautyTip.hide();backupData()">Close</button>
+                <button type="button" id="CloseBeautyTip" class="btn btn-secondary" (click)="addOrUpdateBeautyTip.hide();backupData()">Close</button>
               </form>
             </div>
           </div>

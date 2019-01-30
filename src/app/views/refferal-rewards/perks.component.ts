@@ -52,7 +52,7 @@ export class PerksComponent implements OnInit {
 
     this.perksForm = this.formBuilder.group({
       rewardName: ['', Validators.required],
-      amount: ['', Validators.required]
+      rewardAmount: ['', Validators.required]
     });
   }
 
@@ -81,7 +81,7 @@ export class PerksComponent implements OnInit {
       this.perksData.rewardpoint_id = null;
     }
 
-    let modelClose = document.getElementById("CloseButton");
+    let modelClose = document.getElementById("ClosePerks");
     var data = {
       rewardpoint_id: this.perksData.rewardpoint_id,
       rewardpoint_name: this.perksData.rewardpoint_name,
@@ -143,5 +143,10 @@ export class PerksComponent implements OnInit {
 
       }
     });
+  }
+
+  only_allow_number(event) {
+     var n = event.charCode
+    return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
   }
 }

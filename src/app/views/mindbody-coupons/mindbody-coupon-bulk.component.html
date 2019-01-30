@@ -2,6 +2,8 @@
     <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
 
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+
 <div class="add-bulk" style="padding-left: 200px;">
     <div class="container">
         <div class="row form-group">
@@ -9,7 +11,7 @@
                 Sheet:</b><b style="color:red">*</b></label>
             <div class="col-sm-8">
                 <label class="custom-file-upload">
-                    <input type="file" (change)="incomingfile($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                    <input type="file"  name="fileupload" id="fileupload"(change)="incomingfile($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                     Choose File
                 </label>
                 &nbsp;&nbsp;&nbsp;&nbsp;
