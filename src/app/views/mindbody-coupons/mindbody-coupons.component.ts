@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ToastMessageService } from '../../services/toast-message.service';
 import { CouponsPipe } from '../../pipe/coupons.pipe';
-import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
 @Component({
   templateUrl: 'mindbody-coupons.component.html',
   providers: [
@@ -33,7 +32,7 @@ export class MindbodyCouponsComponent implements OnInit {
   cols: any = [];
   copiedRow: '';
 
-  constructor(private spinner: NgxSpinnerService, private couponPipe: CouponsPipe, private cdr: ChangeDetectorRef, private messageService: ToastMessageService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService, private completeService: CompleteBeautypassService) { }
+  constructor(private spinner: NgxSpinnerService, private couponPipe: CouponsPipe, private cdr: ChangeDetectorRef, private messageService: ToastMessageService, private dp: DatePipe, private router: Router, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
   ngAfterViewChecked() {
     //your code to update the model
@@ -41,25 +40,18 @@ export class MindbodyCouponsComponent implements OnInit {
   }
 
   ngOnInit() {
-    let _coupons = this.completeService.getCoupons()
-    if (Object.keys(_coupons).length) {
-      this.couponsData = this.couponPipe.transform(_coupons);
-      console.log(this.couponsData)
-    } else {
-      this.couponsData = [];
-      this.spinner.show();
-      this.service.getMindBodyCoupons().subscribe(response => {
-        this.spinner.hide();
-        if (response.json().status == true) {
-          this.couponsData = this.couponPipe.transform(response.json().data);
-          this.completeService.addCoupons( this.couponsData)
-          console.log( this.couponsData)
-        } else {
-          this.couponsData = [];
-        }
-        this.userData = JSON.parse(localStorage.getItem('loginDetails'));
-      });
-    }
+    this.couponsData = [];
+    this.spinner.show();
+    this.service.getMindBodyCoupons().subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.couponsData = this.couponPipe.transform(response.json().data);
+      } else {
+        this.couponsData = [];
+      }
+      this.userData = JSON.parse(localStorage.getItem('loginDetails'));
+    });
+
 
     this.couponsForm = this.formBuilder.group({
       Number: ['', Validators.required],
@@ -89,6 +81,9 @@ export class MindbodyCouponsComponent implements OnInit {
   backupData() {
     let _index = this.couponsDetails["index"];
     this.couponsData[_index] = this.copiedRow;
+    if(this.couponsData[_index].coupons_status){
+      this.couponsData[_index].coupons_status ="Active"
+    }
   }
 
   get f() { return this.couponsForm.controls; }
@@ -118,11 +113,9 @@ export class MindbodyCouponsComponent implements OnInit {
       if (res.json().status == true) {
         if (this.couponsDetails.coupons_status == '0') {
           this.couponsData.splice(this.couponsDetails["index"], 1);
-          this.completeService.addCoupons(this.couponsData);
           this.messageService.successToast("Coupons Inactive Successfully")
         } else {
           this.couponsData[this.couponsDetails["index"]] = res.json().data;
-          this.completeService.addCoupons(this.couponsData);
           if (this.couponsData[this.couponsDetails["index"]].coupons_status) {
             this.couponsData[this.couponsDetails["index"]].coupons_status = 'active'
           }
@@ -145,7 +138,6 @@ export class MindbodyCouponsComponent implements OnInit {
       this.spinner.hide();
       if (res.json().status == true) {
         this.couponsData.splice(this.deleteRecord["index"], 1);
-        this.completeService.addCoupons(this.couponsData);
         this.messageService.successToast("Coupons Deleted Successfully")
       } else {
         this.messageService.errorToast("Coupons Not Deleted")
