@@ -12,6 +12,7 @@ export class CompleteBeautypassService {
   videoTestimonials: any = [];
   userActivitiesData: any = [];
   perk: any = [];
+  couponsData: any = [];
 
   constructor() { }
 
@@ -69,6 +70,14 @@ export class CompleteBeautypassService {
 
   public getUserActivity() {
     return this.userActivitiesData;
+  }
+  
+  public addCoupons(coupon) {
+    this.couponsData = coupon
+  }
+
+  public getCoupons() {
+    return this.couponsData;
   }
 
   public addPerksData(perk) {
