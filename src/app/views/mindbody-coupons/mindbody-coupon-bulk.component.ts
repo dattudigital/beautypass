@@ -67,6 +67,7 @@ export class MindbodyCouponsBulkComponent {
       this.spinner.hide();
 
       if (Object.keys(res.json().errdata).length > 0) {
+        this.completeService.addCoupons([]);
         this.errorData = res.json().errdata;
         this.messageService.errorToast("Already Coupons Exists")
       } else {
