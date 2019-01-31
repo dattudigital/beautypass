@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class CompleteBeautypassService {
   userData: any = [];
-  couponsData: any = [];
   employeeDetails: any = [];
   faqData: any = [];
   tipsData: any = [];
@@ -22,14 +21,6 @@ export class CompleteBeautypassService {
 
   public getUser() {
     return this.userData;
-  }
-
-  public addCoupons(coupon) {
-    this.couponsData = coupon
-  }
-
-  public getCoupons() {
-    return this.couponsData;
   }
 
   public addEmployees(employee) {

@@ -4,7 +4,6 @@ import * as XLSX from 'xlsx';
 import { RefferalRewardsService } from '../../services/refferal-rewards.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastMessageService } from '../../services/toast-message.service';
-import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
 
 @Component({
   templateUrl: 'mindbody-coupon-bulk.component.html',
@@ -21,7 +20,7 @@ export class MindbodyCouponsBulkComponent {
   cols: any = [];
   uploadStyle = 'hidden'
 
-  constructor(private service: RefferalRewardsService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private spinner: NgxSpinnerService, private router: Router) {
+  constructor(private service: RefferalRewardsService, private messageService: ToastMessageService, private spinner: NgxSpinnerService, private router: Router) {
     if (localStorage.loginDetails) {
       this.empData = JSON.parse(localStorage.getItem('loginDetails'));
     }
@@ -71,7 +70,6 @@ export class MindbodyCouponsBulkComponent {
         this.errorData = res.json().errdata;
         this.messageService.errorToast("Already Coupons Exists")
       } else {
-        this.completeService.addCoupons([]);
         this.router.navigate(['mindbody-coupons']);
       }
     })
