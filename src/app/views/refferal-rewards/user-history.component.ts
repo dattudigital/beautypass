@@ -40,6 +40,8 @@ export class UserHistoryComponent {
   }
 
   getUserData(val) {
+    this.selectedValue = val.alldetails;
+    console.log(val);
     let URL = '';
     if (val.mindbody_id) {
       URL = URL + '/' + val.mindbody_id
@@ -49,6 +51,7 @@ export class UserHistoryComponent {
     }
     this.spinner.show();
     this.service.getUserHistory(URL).subscribe(res => {
+      console.log(res.json())
       this.spinner.hide();
       if (res.json().status == true) {
         this.popupStatus = false;
@@ -75,6 +78,7 @@ export class UserHistoryComponent {
         } else {
           this.noResult = false;
           this.userInfo = res.json().data;
+          console.log(this.userInfo)
         }
       })
 

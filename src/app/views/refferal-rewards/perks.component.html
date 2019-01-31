@@ -6,8 +6,8 @@
 <div class="card-body">
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
-      <button type="button" name="createperks" id="createperks" (click)="removeFields();addorUpdatePerks.show();" class="btn btn-primary" style="float: right;"><i
-          class="fa fa-lightbulb-o"></i>&nbsp;Add Perks</button>
+      <button type="button" name="createperks" id="createperks" (click)="removeFields();addorUpdatePerks.show();" class="btn btn-primary"
+        style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add Perks</button>
     </div>
   </div>
 </div>
@@ -29,8 +29,9 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Reward Name<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" name="rew-name" id="rew-name" maxlength="50" formControlName="rewardName" class="form-control" placeholder="Reward Points Name"
-                      [(ngModel)]="perksData.rewardpoint_name" [ngClass]="{ 'is-invalid': submitted && f.rewardName.errors }" (keypress)="only_allow_number($event)">
+                    <input type="text" name="rew-name" id="rew-name" maxlength="50" formControlName="rewardName" class="form-control"
+                      placeholder="Reward Points Name" [(ngModel)]="perksData.rewardpoint_name" [ngClass]="{ 'is-invalid': submitted && f.rewardName.errors }"
+                      (keypress)="only_allow_number($event)">
                     <div *ngIf="submitted && f.rewardName.errors" class="invalid-feedback">
                       <div *ngIf="f.rewardName.errors.required" style="color:red">Reward Name is required</div>
                     </div>
@@ -39,8 +40,9 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Amount<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="number" name="rew-amount" id="rew-amount" maxlength="50" formControlName="rewardAmount" class="form-control" placeholder="Reward Amount"
-                      [(ngModel)]="perksData.rewardpoint_amount" [ngClass]="{ 'is-invalid': submitted && f.rewardAmount.errors }" (keypress)="only_allow_number($event)">
+                    <input type="text" name="rew-amount" id="rew-amount" maxlength="50" formControlName="rewardAmount"
+                      class="form-control" placeholder="Reward Amount" [(ngModel)]="perksData.rewardpoint_amount"
+                      [ngClass]="{ 'is-invalid': submitted && f.rewardAmount.errors }" (keypress)="only_allow_number($event)">
                     <div *ngIf="submitted && f.rewardAmount.errors" class="invalid-feedback">
                       <div *ngIf="f.rewardAmount.errors.required" style="color:red">Reward Amount is required</div>
                     </div>

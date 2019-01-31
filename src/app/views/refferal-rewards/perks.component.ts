@@ -96,11 +96,13 @@ export class PerksComponent implements OnInit {
       if (res.json().status == true) {
         if (!this.perksData.rewardpoint_id) {
           this.perk.push(res.json().data);
+          this.perk = this.perk.slice();
           this.completeService.addPerksData(this.perk);
           this.messageService.successToast("Perks Added Successfully")
         } else {
           if (this.perksData.rewardpoint_status == '0') {
             this.perk.splice(this.perksData["index"], 1);
+            this.perk = this.perk.slice();
             this.completeService.addPerksData(this.perk);
             this.messageService.successToast("Perks Inactive Successfully")
           } else {
@@ -146,7 +148,12 @@ export class PerksComponent implements OnInit {
   }
 
   only_allow_number(event) {
-     var n = event.charCode
-    return (n == 8 || n == 0 || n == 32 || (n >= 48 && n <= 57))
+    var regex = new RegExp("^[0-9?=.*!@#$%^&*]+$");
+    var key = String.fromCharCode(event.charCode ? event.which : event.charCode);
+    if (!regex.test(key)) {
+      event.preventDefault();
+      return false;
+    }
   }
+
 }

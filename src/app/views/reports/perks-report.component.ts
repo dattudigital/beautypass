@@ -36,6 +36,7 @@ export class PerksReportComponent implements OnInit {
       { field: 'studio_id', header: 'Studio Id' },
       { field: 'studio_name', header: 'Studio Name' },
       { field: 'coupons_for', header: 'Coupon Value' },
+      { field: 'coupons_number', header: 'Coupon Number' },
       { field: 'fullname', header: 'User Name' },
       { field: 'email_id', header: 'Email Id' },
       { field: 'mobile', header: 'Mobile' },

@@ -41,7 +41,7 @@ export class UserPointsComponent {
 
   ngOnInit() {
     this.cols = [
-      { field: 'mindbody_id', header: 'User ID' },
+      { field: 'user_id', header: 'User ID' },
       { field: 'fullname', header: 'Name' },
       { field: 'email_id', header: 'Email' },
       { field: 'dob', header: 'DOB', type: this.dp },
@@ -49,6 +49,8 @@ export class UserPointsComponent {
       { field: 'locationName', header: 'Location Name' },
       { field: 'studioid', header: 'Studio Id' },
       { field: 'studioName', header: 'StudioName' },
+      { field: 'points', header: 'Points' },
+
     ];
 
     this.pointsForm = this.formBuilder.group({
@@ -58,10 +60,28 @@ export class UserPointsComponent {
   }
 
   getUserData(val) {
-    this.selectedOption.push(val);
-    this.selectedValue = val.alldetails
-    this.popupStatus = false;
-    this.tableStatus = true;
+    this.selectedValue = val.alldetails;
+    console.log(val);
+    let URL = '';
+    if (val.mindbody_id) {
+      URL = URL + '/' + val.mindbody_id
+    }
+    if (val.studioid) {
+      URL = URL + '/' + val.studioid
+    }
+    this.spinner.show();
+    this.service.getUserHistory(URL).subscribe(res => {
+      console.log(res.json())
+      this.spinner.hide();
+      if (res.json().status == true) {
+        this.popupStatus = false;
+        this.tableStatus = true;
+        this.selectedOption = res.json().data;
+        console.log(this.selectedOption)
+      }
+    }, (err) => {
+      this.spinner.hide();
+    })
   }
 
   userSearch(val) {

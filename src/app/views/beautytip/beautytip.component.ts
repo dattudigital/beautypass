@@ -54,6 +54,7 @@ export class BeautyTipsComponent implements OnInit {
         this.spinner.hide();
         if (response.json().status == true) {
           this.tipsData = this.beautyTipPipe.transform(response.json().data);
+          console.log(this.tipsData)
           this.completeService.addBeautyTip(response.json().data)
         } else {
           this.tipsData = [];
@@ -104,7 +105,6 @@ export class BeautyTipsComponent implements OnInit {
         if (res.json().status == true) {
           if (!this.beautytips.tip_id) {
             this.tipsData.push(res.json().data)
-            // this.tipsData = this.beautyTipPipe.transform(this.tipsData);
             this.completeService.addBeautyTip(this.tipsData)
             this.messageService.successToast("BeautyTip added Successfully")
           } else {
