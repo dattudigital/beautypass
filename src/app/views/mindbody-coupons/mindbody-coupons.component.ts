@@ -153,4 +153,14 @@ export class MindbodyCouponsComponent implements OnInit {
       }
     });
   }
+
+  reloadClick() {
+    this.spinner.show();
+    this.service.getMindBodyCoupons().subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.couponsData = this.couponPipe.transform(response.json().data);
+      }
+    });
+  }
 }

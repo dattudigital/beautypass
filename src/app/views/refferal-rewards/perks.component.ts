@@ -147,13 +147,22 @@ export class PerksComponent implements OnInit {
     });
   }
 
-  only_allow_number(event) {
-    var regex = new RegExp("^[0-9?=.*!@#$%^&*]+$");
-    var key = String.fromCharCode(event.charCode ? event.which : event.charCode);
-    if (!regex.test(key)) {
-      event.preventDefault();
-      return false;
-    }
+  reloadClick() {
+    this.spinner.show();
+    this.service.getPerksList().subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.perk = response.json().data;
+      } else {
+        this.perk = [];
+      }
+    });
   }
 
+  only_allow_number(event) {
+    console.log(event)
+    var k;
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return (k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 0 || k == 36);
+  }
 }

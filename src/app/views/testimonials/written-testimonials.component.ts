@@ -152,4 +152,16 @@ export class WrittenTestimonialsComponent implements OnInit {
     });
   }
 
+  reloadClick() {
+    this.spinner.show();
+    this.service.getWrittenTestmonials().subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.testmonials = response.json().data;
+      } else {
+        this.testmonials = [];
+      }
+    });
+  }
+
 }

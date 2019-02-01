@@ -132,4 +132,16 @@ export class VideoTestimonialsComponent {
     });
   }
 
+  reloadClick() {
+    this.spinner.show();
+    this.service.getVideoTestmonials().subscribe(response => {
+      this.spinner.hide();
+      if (response.json().status == true) {
+        this.videoTestimonials = response.json().data;
+      } else {
+        this.videoTestimonials = [];
+      }
+    });
+  }
+
 }
