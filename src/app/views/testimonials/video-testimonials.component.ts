@@ -58,7 +58,11 @@ export class VideoTestimonialsComponent {
       { field: 'fullname', header: 'Username' },
       { field: 'description', header: 'Description' },
       { field: 'likes', header: 'Likes' },
-      { field: 'empname', header: 'Updated Emp' }
+      { field: 'locationName', header: 'Location Name' },
+      { field: 'studioName', header: 'Studio Name' },
+      { field: 'empname', header: 'Updated Emp' },
+      { field: 'description', header: 'Description' },
+      { field: 'rec_status', header: 'Status', type: 1 }
     ];
 
     this.videoTestimonialForm = this.formBuilder.group({

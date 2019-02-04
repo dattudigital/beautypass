@@ -67,7 +67,11 @@ export class WrittenTestimonialsComponent implements OnInit {
       { field: 'rating_3', header: 'Rating 3' },
       { field: 'rating_4', header: 'Rating 4' },
       { field: 'rating_5', header: 'Rating 5' },
-      { field: 'empname', header: 'Updated Emp' }
+      { field: 'locationName', header: 'Location Name' },
+      { field: 'studioName', header: 'Studio Name' },
+      { field: 'empname', header: 'Updated Emp' },
+      { field: 'comments', header: 'Description' },
+      { field: 'status', header: 'Status', type: 1 }
     ];
 
     this.testimonialForm = this.formBuilder.group({
