@@ -35,6 +35,7 @@ export class FaqsComponent implements OnInit {
   ngOnInit() {
     let _faq = this.completeService.getFaqs()
     if (Object.keys(_faq).length) {
+      console.log(_faq)
       this.faqData = _faq;
     } else {
       this.spinner.show();
@@ -154,7 +155,9 @@ export class FaqsComponent implements OnInit {
     this.service.getList().subscribe(response => {
       this.spinner.hide();
       if (response.json().status == true) {
+        console.log(response.json().data)
         this.faqData = response.json().data;
+        this.completeService.addFaqs(response.json().data);
       } else {
         this.faqData = [];
       }

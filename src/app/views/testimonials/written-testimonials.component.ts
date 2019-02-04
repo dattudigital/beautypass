@@ -158,6 +158,7 @@ export class WrittenTestimonialsComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.testmonials = response.json().data;
+        this.completeService.addWrittenTestmonials(response.json().data);
       } else {
         this.testmonials = [];
       }

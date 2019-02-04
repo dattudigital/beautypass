@@ -153,6 +153,7 @@ export class PerksComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.perk = response.json().data;
+        this.completeService.addPerksData(response.json().data)
       } else {
         this.perk = [];
       }
@@ -160,9 +161,7 @@ export class PerksComponent implements OnInit {
   }
 
   only_allow_number(event) {
-    console.log(event)
-    var k;
-    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    var k = event.charCode;  //         k = event.keyCode;  (Both can be used)
     return (k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 0 || k == 36);
   }
 }

@@ -247,6 +247,7 @@ export class UserActivitiesComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.userActivitiesData = response.json().data;
+        this.completeService.addUserActivity(response.json().data)
       } else {
         this.userActivitiesData = [];
       }

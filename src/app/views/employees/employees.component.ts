@@ -43,6 +43,7 @@ export class EmployeesComponent implements OnInit {
   ngOnInit() {
     let _employee = this.completeService.getEmployees()
     if (Object.keys(_employee).length) {
+      console.log(_employee)
       this.employeeDetails = _employee;
     } else {
       this.spinner.show();
@@ -191,7 +192,10 @@ export class EmployeesComponent implements OnInit {
     this.service.getEmpList().subscribe(response => {
       this.spinner.hide();
       if (response.json().status == true) {
+        console.log(response.json().data)
         this.employeeDetails = response.json().data;
+        console.log(this.employeeDetails)
+        this.completeService.addEmployees(response.json().data)
       } else {
         this.employeeDetails = [];
       }

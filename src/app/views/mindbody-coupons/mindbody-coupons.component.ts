@@ -160,6 +160,7 @@ export class MindbodyCouponsComponent implements OnInit {
       this.spinner.hide();
       if (response.json().status == true) {
         this.couponsData = this.couponPipe.transform(response.json().data);
+        this.completeService.addCoupons(this.couponsData)
       }
     });
   }

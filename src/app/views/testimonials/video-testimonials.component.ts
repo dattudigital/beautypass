@@ -138,6 +138,7 @@ export class VideoTestimonialsComponent {
       this.spinner.hide();
       if (response.json().status == true) {
         this.videoTestimonials = response.json().data;
+        this.completeService.addVideoTestmonials(response.json().data);
       } else {
         this.videoTestimonials = [];
       }
