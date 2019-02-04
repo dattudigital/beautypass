@@ -25,6 +25,12 @@
           <i class="fa fa-align-justify"></i>Add User Points
         </div>
         <div class="card-body">
+          <div class="row">
+            <div class="col-md-5">
+              <label><b>Total User Points:</b></label>&nbsp;&nbsp;
+              <label style="color: crimson;font-size: 18px;" > {{totalPoints}}</label>
+            </div>
+          </div>
           <p-table #dt [columns]="cols" [value]="selectedOption" [paginator]="true" [rows]="4">
             <ng-template pTemplate="caption">
               <div style="text-align: right">

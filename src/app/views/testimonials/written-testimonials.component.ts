@@ -123,7 +123,7 @@ export class WrittenTestimonialsComponent implements OnInit {
       if (res.json().status == true) {
         console.log(this.testimonialData.coupons_status)
         if (this.testimonialData.coupons_status == '0') {
-          this.testmonials.splice(this.testimonialData["index"], 1);
+          // this.testmonials.splice(this.testimonialData["index"], 1);
           this.completeService.addWrittenTestmonials(this.testmonials);
           this.messageService.successToast("Written Testmonials inactive successfully")
         } else {
@@ -147,7 +147,7 @@ export class WrittenTestimonialsComponent implements OnInit {
   deleteAlert() {
     this.service.editWrittenTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], status: 0 }).subscribe(res => {
       if (res.json().status == true) {
-        this.testmonials.splice(this.deleteRecord["index"], 1)
+        // this.testmonials.splice(this.deleteRecord["index"], 1)
         this.completeService.addWrittenTestmonials(this.testmonials);
         this.messageService.successToast("Written Testmonials Deleted successfully")
       } else {

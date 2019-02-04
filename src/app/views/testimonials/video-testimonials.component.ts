@@ -103,7 +103,7 @@ export class VideoTestimonialsComponent {
       modelClose.click();
       if (res.json().status == true) {
         if (this.videoTestimonialData.rec_status == '0') {
-          this.videoTestimonials.splice(this.videoTestimonialData["index"], 1);
+          // this.videoTestimonials.splice(this.videoTestimonialData["index"], 1);
           this.completeService.addVideoTestmonials(this.videoTestimonials);
           this.messageService.successToast("Video Testmonials inactive successfully")
         } else {
@@ -127,7 +127,7 @@ export class VideoTestimonialsComponent {
   deleteAlert() {
     this.service.editVideoTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], rec_status: 0 }).subscribe(res => {
       if (res.json().status == true) {
-        this.videoTestimonials.splice(this.deleteRecord["index"], 1)
+        // this.videoTestimonials.splice(this.deleteRecord["index"], 1)
         this.completeService.addVideoTestmonials(this.videoTestimonials);
         this.messageService.successToast("Video Testmonials Deleted successfully")
       } else {

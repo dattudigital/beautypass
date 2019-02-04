@@ -32,7 +32,7 @@ export class UserPointsComponent {
     'studioid': '',
     'studioName': ''
   }
-
+  totalPoints: any = 0;
   constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private dp: DatePipe, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
   ngAfterViewChecked() {
@@ -49,9 +49,9 @@ export class UserPointsComponent {
       { field: 'locationName', header: 'Location Name' },
       { field: 'studioid', header: 'Studio Id' },
       { field: 'studioName', header: 'StudioName' },
-      { field: 'points', header: 'Points' },
+      { field: 'points', header: 'Credit' },
+      { field: 'debit', header: 'Debit' },
       { field: 'reward_for', header: 'Reward For' }
-
     ];
 
     this.pointsForm = this.formBuilder.group({
@@ -79,6 +79,12 @@ export class UserPointsComponent {
         this.tableStatus = true;
         this.selectedOption = res.json().data;
         console.log(this.selectedOption)
+        let credit = 0, debit = 0;
+        this.selectedOption.forEach(element => {
+          credit = credit + element.points;
+          debit = debit + element.debit;          
+        });
+        this.totalPoints = credit - debit;
       }
     }, (err) => {
       this.spinner.hide();
