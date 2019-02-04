@@ -50,6 +50,7 @@ export class UserPointsComponent {
       { field: 'studioid', header: 'Studio Id' },
       { field: 'studioName', header: 'StudioName' },
       { field: 'points', header: 'Points' },
+      { field: 'reward_for', header: 'Reward For' }
 
     ];
 
