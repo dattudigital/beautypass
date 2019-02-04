@@ -126,7 +126,7 @@ export class UserPointsComponent {
       return;
     }
     var data: any = {
-      user_id: this.userPointsData.mindbody_id,
+      user_id: this.userPointsData.user_id,
       studio_id: this.userPointsData.studioid,
       points: this.userPoints,
       reward_for: this.userRemark

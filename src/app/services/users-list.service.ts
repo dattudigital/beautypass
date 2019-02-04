@@ -17,4 +17,11 @@ export class UsersListService {
   public getFemaleCount() {
     return this.http.get(environment.host + 'get_female_users_count');
   }
+  public getStudioId(){
+    return this.http.get(environment.host + 'studioids');
+  }
+
+  public getLocationId(url:any){
+    return this.http.get(environment.host +'locationids/' +url)
+  }
 }
