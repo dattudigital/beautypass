@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UsersListService } from '../../services/users-list.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
+import { PagerService } from '../pagination/pagination'
 @Component({
   templateUrl: 'users.component.html',
+  providers: [PagerService]
 })
 
 export class UsersComponent implements OnInit {
@@ -13,44 +15,33 @@ export class UsersComponent implements OnInit {
   locationIdData: any;
   studioId: '';
   locationId = undefined;
-
-  constructor(private spinner: NgxSpinnerService, private service: UsersListService, private completeService: CompleteBeautypassService) { }
+  selectedVal: number=50;
+  pager: any = {};
+  pagedItems: any[];
+  constructor(private spinner: NgxSpinnerService, private pagerService: PagerService, private service: UsersListService, private completeService: CompleteBeautypassService) { }
 
   ngOnInit() {
-    // let _user = this.completeService.getUser();
-    // if (Object.keys(_user).length) {
-    //   this.userData = _user;
-    // } else {
-    //   this.spinner.show();
-    //   this.service.getUsersList().subscribe(response => {
-    //     this.spinner.hide();
-    //     if (response.json().status == true) {
-    //       this.userData = response.json().data;
-    //       this.completeService.addUser(response.json().data)
-    //     } else {
-    //       this.userData = [];
-    //     }
-    //   });
-    // }
-
+    this.spinner.show();
     this.service.getStudioId().subscribe(res => {
       if (res.json().status == true) {
-        this.studioIdData = res.json().data;
-        console.log(this.studioIdData)
+        this.spinner.hide();
+        this.studioIdData = res.json().data;       
       }
-
     })
 
-    this.cols = [
+    this.cols = [      
+      { field: 'first_name', header: 'First Name' },
+      { field: 'last_name', header: 'Last Name' },
       { field: 'fullname', header: 'User Name' },
       { field: 'email_id', header: 'Email ID' },
       { field: 'mobile', header: 'Mobile' },
       { field: 'gender', header: 'Gender' },
-      { field: 'mindbody_id', header: 'Mind Body Id' },
+      { field: 'locationName', header: 'Location Name' },
+      { field: 'studioName', header: 'Studio Name' }
     ];
   }
+
   studioDetails() {
-    console.log('%%%%%%%%%%%%%%');
     let URL = ''
     if (this.studioId) {
       URL = this.studioId;
@@ -62,16 +53,30 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  userSearchData() {
-    console.log('search')
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+
     var url = '';
     if (this.studioId) {
-      url = url + 'studioid=' + this.studioId;
+      url = url + '/' + this.studioId;
     }
     if (this.locationId) {
-      url = url + '&locationi=' + this.locationId
+      url = url + '/' + this.locationId
     }
-    console.log(url)
+    url = url + "/" + ((page - 1) * this.selectedVal);
+    url = url + "/" + this.selectedVal;
+    this.spinner.show();
+    this.service.getUsers(url).subscribe(res => {
+      this.spinner.hide();
+      this.pagedItems = res.json().data[1];
+      this.pager = this.pagerService.getPager(res.json().data[0][0].totalusers, page, this.selectedVal);
+    })
+  }
+
+  userSearchData() {
+    this.setPage(1);
   }
 
 }

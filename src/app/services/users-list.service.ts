@@ -17,11 +17,17 @@ export class UsersListService {
   public getFemaleCount() {
     return this.http.get(environment.host + 'get_female_users_count');
   }
-  public getStudioId(){
+  public getStudioId() {
     return this.http.get(environment.host + 'studioids');
   }
 
-  public getLocationId(url:any){
-    return this.http.get(environment.host +'locationids/' +url)
+  public getLocationId(url: any) {
+    return this.http.get(environment.host + 'locationids/' + url)
   }
+
+  public getUsers(url: any) {
+    console.log(environment.host + 'users-limit' + url)
+    return this.http.get(environment.host + 'users-limit' + url)
+  }
+
 }
