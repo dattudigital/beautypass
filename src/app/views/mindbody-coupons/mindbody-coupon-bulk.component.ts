@@ -41,6 +41,8 @@ export class MindbodyCouponsBulkComponent {
       this.file = event.target.files[0];
       console.log(this.file)
       this.uploadStyle = 'visible'
+      this.errorMessage = false;
+
     }
   }
 
