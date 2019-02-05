@@ -127,7 +127,7 @@ export class WrittenTestimonialsComponent implements OnInit {
         console.log(this.testimonialData.coupons_status)
         if (this.testimonialData.coupons_status == '0') {
           // this.testmonials.splice(this.testimonialData["index"], 1);
-          this.completeService.addWrittenTestmonials(this.testmonials);
+          this.completeService.addWrittenTestmonials([]);
           this.messageService.successToast("Written Testmonials inactive successfully")
         } else {
           console.log(res.json().data)
@@ -135,7 +135,7 @@ export class WrittenTestimonialsComponent implements OnInit {
           this.testmonials[this.testimonialData["index"]].locationName = this.testimonialData.locationName;
           this.testmonials[this.testimonialData["index"]].studioName = this.testimonialData.studioName
 
-          this.completeService.addWrittenTestmonials(this.testmonials);
+          this.completeService.addWrittenTestmonials([]);
 
           this.messageService.successToast("Written Testmonials Updated successfully")
           this.testmonials[this.testimonialData["index"]].fullname = this.testimonialData.fullname;
@@ -156,7 +156,7 @@ export class WrittenTestimonialsComponent implements OnInit {
     this.service.editWrittenTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         // this.testmonials.splice(this.deleteRecord["index"], 1)
-        this.completeService.addWrittenTestmonials(this.testmonials);
+        this.completeService.addWrittenTestmonials([]);
         this.messageService.successToast("Written Testmonials Deleted successfully")
       } else {
         this.messageService.errorToast("Written Testmonials not Updated ")
