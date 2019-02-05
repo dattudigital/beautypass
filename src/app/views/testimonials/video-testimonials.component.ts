@@ -46,6 +46,7 @@ export class VideoTestimonialsComponent {
         this.spinner.hide();
         if (response.json().status == true) {
           this.videoTestimonials = response.json().data;
+          console.log(this.videoTestimonials)
           this.completeService.addVideoTestmonials(this.videoTestimonials);
         } else {
           this.videoTestimonials = [];
@@ -112,6 +113,8 @@ export class VideoTestimonialsComponent {
           this.messageService.successToast("Video Testmonials Updated successfully")
           this.videoTestimonials[this.videoTestimonialData["index"]].fullname = this.videoTestimonialData.fullname;
           this.videoTestimonials[this.videoTestimonialData["index"]].empname = this.userData.emp_firstname + " " + this.userData.emp_lastname;
+          this.videoTestimonials[this.videoTestimonialData["index"]].studioName = this.videoTestimonialData.studioName;
+          this.videoTestimonials[this.videoTestimonialData["index"]].locationName = this.videoTestimonialData.locationName;
         }
       } else {
         this.messageService.errorToast("Video Testmonials not Updated ")

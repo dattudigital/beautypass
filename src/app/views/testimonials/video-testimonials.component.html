@@ -37,7 +37,7 @@
                 </th>
                 <th>Video</th>
                 <th>Update</th>
-                <th>Delete</th>
+                <!-- <th>Delete</th> -->
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
@@ -50,8 +50,8 @@
                 </td>
                 <td href="#" data-toggle="modal" (click)="addorUpdateTestimonial.show();editVideoTestimonials(data,i)"><i
                     class="fa fa-edit" style="color:orange;font-size: 20px;text-align:center"></i></td>
-                <td href="#" data-toggle="modal" (click)="dangerModal.show();deleteVideoTestimonial(data,i)"><i class="fa fa-trash"
-                    style="color:red;font-size: 20px;text-align:center"></i></td>
+                <!-- <td href="#" data-toggle="modal" (click)="dangerModal.show();deleteVideoTestimonial(data,i)"><i class="fa fa-trash"
+                    style="color:red;font-size: 20px;text-align:center"></i></td> -->
               </tr>
             </ng-template>
           </p-table>
@@ -61,8 +61,8 @@
   </div>
 </div>
 
-<div bsModal #addorUpdateTestimonial="bs-modal" class="modal fade" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+<div bsModal #addorUpdateTestimonial="bs-modal" class="modal fade" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="row">
@@ -116,6 +116,24 @@
                     <div *ngIf="submitted && f.Likes.errors" class="invalid-feedback">
                       <div *ngIf="f.Likes.errors.required" style="color:red">Likes is required</div>
                     </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Location Name</label>
+                  <div class="col-md-9">
+                    <input type="test" name="location" id="location" maxlength="1" [(ngModel)]="videoTestimonialData.locationName"
+                      class="form-control" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"
+                      readonly>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Studio Name</label>
+                  <div class="col-md-9">
+                    <input type="text" name="studio" id="studio" [(ngModel)]="videoTestimonialData.studioName"
+                      maxlength="1" class="form-control" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}"
+                      readonly>
                   </div>
                 </div>
 

@@ -91,6 +91,7 @@ export class WrittenTestimonialsComponent implements OnInit {
     this.copiedRow = Object.assign({}, data);
     this.testimonialData = data;
     console.log(this.testimonialData)
+    console.log(this.testimonialData.studioName)
     this.testimonialData["index"] = index;
   }
 
@@ -113,6 +114,8 @@ export class WrittenTestimonialsComponent implements OnInit {
       rating_3: this.testimonialData.rating_3,
       rating_4: this.testimonialData.rating_4,
       rating_5: this.testimonialData.rating_5,
+      // studioName: this.testimonialData.studioName,
+      // locationName: this.testimonialData.locationName,
       status: this.testimonialData.status,
       updatedempid: this.userData.employee_id
     }
@@ -127,8 +130,13 @@ export class WrittenTestimonialsComponent implements OnInit {
           this.completeService.addWrittenTestmonials(this.testmonials);
           this.messageService.successToast("Written Testmonials inactive successfully")
         } else {
+          console.log(res.json().data)
           this.testmonials[this.testimonialData["index"]] = res.json().data;
+          this.testmonials[this.testimonialData["index"]].locationName = this.testimonialData.locationName;
+          this.testmonials[this.testimonialData["index"]].studioName = this.testimonialData.studioName
+
           this.completeService.addWrittenTestmonials(this.testmonials);
+
           this.messageService.successToast("Written Testmonials Updated successfully")
           this.testmonials[this.testimonialData["index"]].fullname = this.testimonialData.fullname;
           this.testmonials[this.testimonialData["index"]].empname = this.userData.emp_firstname + " " + this.userData.emp_lastname;
