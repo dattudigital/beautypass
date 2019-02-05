@@ -104,12 +104,12 @@ export class BeautyTipsComponent implements OnInit {
         if (res.json().status == true) {
           if (!this.beautytips.tip_id) {
             this.tipsData.push(res.json().data)
-            this.completeService.addBeautyTip(this.tipsData)
+            this.completeService.addBeautyTip([])
             this.messageService.successToast("BeautyTip added Successfully")
           } else {
             if (this.beautytips.rec_status == '0') {
               this.tipsData.splice(this._index, 1);
-              this.completeService.addBeautyTip(this.tipsData)
+              this.completeService.addBeautyTip([])
               this.messageService.successToast("BeautyTip Inactive Successfully")
             } else {
               this.tipsData[this._index] = res.json().data;
@@ -119,7 +119,7 @@ export class BeautyTipsComponent implements OnInit {
               if (this.tipsData[this._index].tip_type == 1) {
                 this.tipsData[this._index].tip_type = 'Beauty Tip'
               }
-              this.completeService.addBeautyTip(this.tipsData)
+              this.completeService.addBeautyTip([])
               this.messageService.successToast("BeautyTip Updated Successfully")
             }
           }
@@ -159,7 +159,7 @@ export class BeautyTipsComponent implements OnInit {
       if (res.json().status == true) {
         let _index = ((this.currentPage - 1) * 3) + this.deleteRecord["index"]
         this.tipsData.splice(_index, 1);
-        this.completeService.addBeautyTip(this.tipsData)
+        this.completeService.addBeautyTip([])
         this.messageService.successToast("BeautyTip Deleted Successfully")
       } else {
         this.messageService.errorToast("BeautyTip not Deleted")
