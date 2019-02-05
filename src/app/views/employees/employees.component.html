@@ -63,7 +63,7 @@
 </div>
 
 <div bsModal #addOrUpdateEmployee="bs-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+  aria-hidden="true" [config]="{backdrop: 'static'}">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="row">
@@ -167,7 +167,8 @@
                     &nbsp; &nbsp;
                   </span>
                   <span *ngIf="employeeData.employee_id">
-                    <button  name="updateemployee" id="updateemployee" class="btn btn-success" (click)="addOrUpdateEmployees()">Update</button>&nbsp; &nbsp;
+                    <button name="updateemployee" id="updateemployee" class="btn btn-success" (click)="addOrUpdateEmployees()">Update</button>&nbsp;
+                    &nbsp;
                   </span>
                   <button type="button" id="CloseEmployee" class="btn btn-secondary" (click)="addOrUpdateEmployee.hide();backupData()">Close</button>
                 </div>
@@ -181,7 +182,7 @@
 </div>
 
 <div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+  aria-hidden="true" [config]="{backdrop: 'static'}">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:#EC8D8D">

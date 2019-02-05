@@ -16,7 +16,7 @@
 </div>
 
 <div bsModal #addorUpdatePerks="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+  aria-hidden="true" [config]="{backdrop: 'static'}">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="row">
@@ -54,7 +54,7 @@
                 <div *ngIf="perksData.rewardpoint_id">
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Status</label>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                       <select class="form-control" name="perksstatus" id="perksstatus" [(ngModel)]="perksData.rewardpoint_status"
                         [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
                         <option value="1">Active</option>
@@ -126,7 +126,7 @@
 </div>
 
 <div bsModal #deletePerks="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+  aria-hidden="true" [config]="{backdrop: 'static'}">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:#EC8D8D">

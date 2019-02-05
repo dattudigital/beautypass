@@ -28,7 +28,7 @@
           <div class="row">
             <div class="col-md-5">
               <label><b>Total User Points:</b></label>&nbsp;&nbsp;
-              <label style="color: crimson;font-size: 18px;" > {{totalPoints}}</label>
+              <label style="color: crimson;font-size: 18px;"> {{totalPoints}}</label>
             </div>
           </div>
           <p-table #dt [columns]="cols" [value]="selectedOption" [paginator]="true" [rows]="4">
@@ -66,7 +66,7 @@
 </div>
 
 <div bsModal #addPoints="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+  aria-hidden="true" [config]="{backdrop: 'static'}">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="row">

@@ -11,13 +11,13 @@
         MindBody Coupons</button>
     </div>
     <div class=" col-sm-1">
-        <i class="fas fa-sync-alt" (click)="reloadClick()" style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
-      </div>
+      <i class="fas fa-sync-alt" (click)="reloadClick()" style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
+    </div>
   </div>
 </div>
 
 <div bsModal #deleteCoupon="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+  aria-hidden="true" [config]="{backdrop: 'static'}">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:#EC8D8D">
@@ -55,8 +55,8 @@
   </div>
 </div>
 
-<div bsModal #editCoupon="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+<div bsModal #editCoupon="bs-modal" class="modal fade" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="row">
@@ -92,7 +92,7 @@
 
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Status</label>
-                  <div class="col-md-8">
+                  <div class="col-md-9">
                     <select class="form-control" name="couponstatus" id="couponstatus" [(ngModel)]="couponsDetails.coupons_status"
                       [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
                       <option value="1">Active</option>
