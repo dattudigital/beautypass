@@ -18,7 +18,8 @@ export class MindbodyCouponsBulkComponent {
   list: any = [];
   file: File;
   cols: any = [];
-  uploadStyle = 'hidden'
+  uploadStyle = 'hidden';
+  errorMessage = false;
 
   constructor(private service: RefferalRewardsService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private spinner: NgxSpinnerService, private router: Router) {
     if (localStorage.loginDetails) {
@@ -32,17 +33,27 @@ export class MindbodyCouponsBulkComponent {
   }
 
   incomingfile(event) {
-    this.file = event.target.files[0];
-    this.uploadStyle = 'visible'
+    console.log(event.target.files[0].type)
+    if (event.target.files[0].type != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+      console.log('Invalid file selected')
+      this.errorMessage = true;
+    } else {
+      this.file = event.target.files[0];
+      console.log(this.file)
+      this.uploadStyle = 'visible'
+    }
   }
 
   redirectToCoupons() {
     this.router.navigate(['mindbody-coupons']);
   }
 
+
   Upload() {
     let fileReader = new FileReader();
+    console.log(fileReader)
     fileReader.onload = (e) => {
+      console.log(fileReader.result)
       this.arrayBuffer = fileReader.result;
       var data = new Uint8Array(this.arrayBuffer);
       var arr = new Array();
@@ -52,6 +63,7 @@ export class MindbodyCouponsBulkComponent {
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
       this.list = XLSX.utils.sheet_to_json(worksheet, { raw: false })
+      console.log(this.list)
     }
     fileReader.readAsArrayBuffer(this.file);
   }
@@ -68,6 +80,7 @@ export class MindbodyCouponsBulkComponent {
       if (Object.keys(res.json().errdata).length > 0) {
         this.completeService.addCoupons([]);
         this.errorData = res.json().errdata;
+        console.log(this.errorData)
         this.messageService.errorToast("Already Coupons Exists")
       } else {
         this.router.navigate(['mindbody-coupons']);

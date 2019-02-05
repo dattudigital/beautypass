@@ -8,21 +8,22 @@
     <div class="container">
         <div class="row form-group">
             <label class="col-sm-4 col-form-label required" style="font-size: 16px;color:gray"><b>Select Coupons Excel
-                Sheet:</b><b style="color:red">*</b></label>
+                    Sheet:</b><b style="color:red">*</b></label>
             <div class="col-sm-8">
                 <label class="custom-file-upload">
-                    <input type="file"  name="fileupload" id="fileupload"(change)="incomingfile($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                    <input type="file" name="fileupload" id="fileupload" (change)="incomingfile($event)" pattern=".+\.(xlsx|xls|csv)" />
                     Choose File
                 </label>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <span [style.visibility]="uploadStyle">
-                    <button type="button" class="btn btn-info" (click)="Upload()">Upload</button>
+                    <button type="button" class="btn btn-info" (click)="Upload();">Upload</button>
                 </span>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button *ngIf="list.length!==0" type="button" class="btn btn-warning" (click)="addBulkCoupons()">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn-secondary" (click)="redirectToCoupons()">Back</button>
             </div>
         </div>
+        <span *ngIf="errorMessage" style="color:red;margin-left: 296px;font-size: 17px">Invalid file format</span>
     </div>
 </div>
 
