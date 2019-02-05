@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { UsersListService } from '../../services/users-list.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
-import { PagerService } from '../pagination/pagination'
+import { PagerService } from '../pagination/pagination';
+import { ToastMessageService } from '../../services/toast-message.service';
+
 @Component({
   templateUrl: 'users.component.html',
-  providers: [PagerService]
+  providers: [PagerService,ToastMessageService]
 })
 
 export class UsersComponent implements OnInit {
@@ -15,21 +17,21 @@ export class UsersComponent implements OnInit {
   locationIdData: any;
   studioId: '';
   locationId = undefined;
-  selectedVal: number=50;
+  selectedVal: number = 50;
   pager: any = {};
   pagedItems: any[];
-  constructor(private spinner: NgxSpinnerService, private pagerService: PagerService, private service: UsersListService, private completeService: CompleteBeautypassService) { }
+  constructor(private spinner: NgxSpinnerService, private pagerService: PagerService, private service: UsersListService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService) { }
 
   ngOnInit() {
     this.spinner.show();
     this.service.getStudioId().subscribe(res => {
       if (res.json().status == true) {
         this.spinner.hide();
-        this.studioIdData = res.json().data;       
+        this.studioIdData = res.json().data;
       }
     })
 
-    this.cols = [      
+    this.cols = [
       { field: 'first_name', header: 'First Name' },
       { field: 'last_name', header: 'Last Name' },
       { field: 'fullname', header: 'User Name' },
@@ -76,6 +78,14 @@ export class UsersComponent implements OnInit {
   }
 
   userSearchData() {
+    if (!this.studioId) {
+      this.messageService.errorToast("Please Select Studio");
+      return;
+    }
+    if (!this.locationId) {
+      this.messageService.errorToast("Please Select Location")
+      return;
+    }
     this.setPage(1);
   }
 

@@ -8,7 +8,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
-import { AuthGuard } from '../../common-session/session.check'
+import { AuthGuard } from '../../common-session/session.check';
+import { ToastyModule } from 'ng2-toasty';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { AuthGuard } from '../../common-session/session.check'
     UsersRoutingModule,
     FormsModule,
     AlertModule,
+    ToastyModule,
     ModalModule,
     NgxSpinnerModule,
     NgxPaginationModule,
