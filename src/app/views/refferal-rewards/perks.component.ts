@@ -95,19 +95,23 @@ export class PerksComponent implements OnInit {
       modelClose.click();
       if (res.json().status == true) {
         if (!this.perksData.rewardpoint_id) {
+          if (JSON.parse(localStorage.getItem('perksData'))) {
+            this.perk = JSON.parse(localStorage.getItem('perksData'))
+          }
           this.perk.push(res.json().data);
           this.perk = this.perk.slice();
-          this.completeService.addPerksData(this.perk);
+          this.completeService.addPerksData([]);
           this.messageService.successToast("Perks Added Successfully")
         } else {
           if (this.perksData.rewardpoint_status == '0') {
             this.perk.splice(this.perksData["index"], 1);
             this.perk = this.perk.slice();
-            this.completeService.addPerksData(this.perk);
+            localStorage.setItem('perksData', JSON.stringify(this.perk))
+            this.completeService.addPerksData([]);
             this.messageService.successToast("Perks Inactive Successfully")
           } else {
             this.perk[this.perksData["index"]] = res.json().data;
-            this.completeService.addPerksData(this.perk);
+            this.completeService.addPerksData([]);
             this.messageService.successToast("Perks Updated Successfully")
           }
         }
@@ -138,7 +142,9 @@ export class PerksComponent implements OnInit {
     this.service.addOrEditPerksList({ rewardpoint_id: this.deleteRecord["rewardpoint_id"], rewardpoint_status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         this.perk.splice(this.deleteRecord["index"], 1);
-        this.completeService.addPerksData(this.perk);
+        this.completeService.addPerksData([]);
+        localStorage.setItem('perksData', JSON.stringify(this.perk))
+
         this.messageService.successToast("Perks Deleted Successfully")
       } else {
         this.messageService.errorToast("Perks not Deleted")

@@ -7,7 +7,8 @@ export class AuthGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         localStorage.removeItem('faq');
         localStorage.removeItem('employee');
-        localStorage.removeItem('activityData')
+        localStorage.removeItem('activityData');
+        localStorage.removeItem('perksData');
         if (localStorage.getItem('loginDetails')) {
             return true;
         } else {
