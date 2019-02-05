@@ -169,18 +169,18 @@ export class UserActivitiesComponent implements OnInit {
           }
           this.userActivitiesData.push(res.json().data)
           this.userActivitiesData = this.userActivitiesData.slice();
-          this.completeService.addUserActivity(this.userActivitiesData);
+          this.completeService.addUserActivity([]);
           this.messageService.successToast("User Activity Added Successfully")
         } else {
           if (this.userActivity.activity_status == '0') {
             this.userActivitiesData.splice(this.userActivity["index"], 1);
             this.userActivitiesData = this.userActivitiesData.slice();
             localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
-            this.completeService.addUserActivity(this.userActivitiesData);
+            this.completeService.addUserActivity([]);
             this.messageService.successToast("User Activity Inactive Successfully")
           } else {
             this.userActivitiesData[this.userActivity["index"]] = res.json().data;
-            this.completeService.addUserActivity(this.userActivitiesData);
+            this.completeService.addUserActivity([]);
             this.messageService.successToast("User Activity Updated Successfully")
           }
         }
@@ -221,7 +221,7 @@ export class UserActivitiesComponent implements OnInit {
       this.spinner.hide();
       if (res.json().status == true) {
         this.userActivitiesData.splice(this.deleteRecord["index"], 1);
-        this.completeService.addUserActivity(this.userActivitiesData);
+        this.completeService.addUserActivity([]);
         localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
         this.messageService.successToast("User Activity Deleted Successfully")
       } else {

@@ -119,11 +119,11 @@ export class MindbodyCouponsComponent implements OnInit {
       if (res.json().status == true) {
         if (this.couponsDetails.coupons_status == '0') {
           this.couponsData.splice(this.couponsDetails["index"], 1);
-          this.completeService.addCoupons(this.couponsData);
+          this.completeService.addCoupons([]);
           this.messageService.successToast("Coupons Inactive Successfully")
         } else {
           this.couponsData[this.couponsDetails["index"]] = res.json().data;
-          this.completeService.addCoupons(this.couponsData);
+          this.completeService.addCoupons([]);
           if (this.couponsData[this.couponsDetails["index"]].coupons_status) {
             this.couponsData[this.couponsDetails["index"]].coupons_status = 'active'
           }
@@ -146,7 +146,7 @@ export class MindbodyCouponsComponent implements OnInit {
       this.spinner.hide();
       if (res.json().status == true) {
         this.couponsData.splice(this.deleteRecord["index"], 1);
-        this.completeService.addCoupons(this.couponsData);
+        this.completeService.addCoupons([]);
         this.messageService.successToast("Coupons Deleted Successfully")
       } else {
         this.messageService.errorToast("Coupons Not Deleted")
