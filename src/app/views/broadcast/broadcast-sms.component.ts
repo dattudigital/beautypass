@@ -59,7 +59,7 @@ export class broadcastSmsComponent implements OnInit {
   }
 
   selectedLocationId(val) {
-    this.sendBroadcastSms()
+  
   }
 
   sendBroadcastSms() {
