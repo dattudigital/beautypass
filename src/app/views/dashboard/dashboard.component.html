@@ -3,8 +3,8 @@
 </ngx-spinner>
 <div class="animated fadeIn">
   <div class="row">
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-primary">
+    <div class="col-sm-6 col-lg-3" style="cursor: pointer">
+      <div class="card text-white bg-primary" routerLink="/users">
         <div class="card-body pb-0">
           <div class="text-value" *ngIf="completeDashboardData">{{this.completeDashboardData.totaluser }}</div>
           <div>Total Users</div>
@@ -83,8 +83,8 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card text-white bg-warning">
+    <div class="col-sm-6 col-lg-3" style="cursor: pointer">
+      <div class="card text-white bg-warning" routerLink="/testmonials/written" [queryParams]="{ rating: 2 }">
         <div class="card-body pb-0">
           <div class="text-value" *ngIf="completeDashboardData">{{completeDashboardData.writtentotal}}</div>
           <div>Total Testmonials Rating < 3 </div> </div> <div class="chart-wrapper mt-3" style="height:70px;">
@@ -97,7 +97,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-sm-5">
-            <h4 class="card-title mb-0">Refferal Rewards Reports</h4>
+            <h4 class="card-title mb-0">Refferal Rewards Points For Last 30 Days</h4>
           </div>
           <div class="col-sm-7 d-none d-md-block">
             <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">

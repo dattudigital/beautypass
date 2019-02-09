@@ -8,14 +8,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-  completeDashboardData:any
-  garphData: any;
-  mainChartData1: Array<number> = [];;
-  mainChartData1Test: Array<number> = [];
+  completeDashboardData: any
+  public mainChartData1: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   constructor(private spinner: NgxSpinnerService, private service: DashboardService) {
   }
-  
+
   ngOnInit() {
     this.spinner.show();
     this.service.getallCountForDashboard().subscribe(res => {
@@ -23,54 +21,40 @@ export class DashboardComponent implements OnInit {
       this.completeDashboardData = res.json().data;
     })
     this.service.getGraphdata().subscribe(response => {
-      this.garphData = response.json().data;
-      this.mainChartData1Test = this.transformJsonToCustomFormat(response.json().data);
-      this.mainChartLabels = this.transformJsonToCustomFormat1(response.json().data);
+      console.log(response.json())
+      let days = [];
+      let dayName = [];
+      let i = 0;
+      let j = 0;
+      let graphData = response.json().data;
+      for (i = 29; i >= 0; i--) {
+        var dateOffset = (24 * 60 * 60 * 1000) * i;
+        var myDate = new Date();
+        myDate.setTime(myDate.getTime() - dateOffset);
+        days.push(myDate.getDate())
+        var weekday = ["S", "M", "T", "W", "T", "F", "S"];
+        dayName.push(myDate.getDate() + "-" + (myDate.getMonth() + 1) + "-" + weekday[myDate.getDay()])
+        if (i == 0) {
+          this.mainChartLabels = dayName;
+        }
+      }
+      for (i = 0; i < graphData.length; i++) {
+        let _index = days.indexOf(graphData[i].day)
+        if (_index) {
+          this.mainChartData1[_index] = graphData[i].total
+        }
+      }
     });
-     this.mainChartData1.push(1,1,2,2,1,1,1,2,2,2,4,3,1,1,3,3,2,1,2,2,2,1); 
   }
 
-  transformJsonToCustomFormat(input: any[]) {
-    const response = [];
-    input.forEach(item => {
-      response.push(item.count);
-    });
-    return response;
-  }
-
-  transformJsonToCustomFormat1(input: any[]) {
-    const response = [];
-    input.forEach(item => {
-      response.push(item.dayname);
-    });
-    return response;
-  }
-
-  // mainChart
-
-  public mainChartElements = 30;
-
-
-  public mainChartData2: Array<number> = [];
-  public mainChartData3: Array<number> = [];
 
   public mainChartData: Array<any> = [
     {
       data: this.mainChartData1,
-      label: 'Current'
-    },
-    {
-      data: this.mainChartData2,
-      label: 'Previous'
-    },
-    {
-      data: this.mainChartData3,
-      label: 'BEP'
+      label: 'Points'
     }
   ];
-  /* tslint:disable:max-line-length */
   public mainChartLabels: Array<any> = [];
-  /* tslint:enable:max-line-length */
   public mainChartOptions: any = {
     tooltips: {
       enabled: false,
@@ -92,17 +76,15 @@ export class DashboardComponent implements OnInit {
           drawOnChartArea: false,
         },
         ticks: {
+          beginAtZero: true,
           callback: function (value: any) {
-            return value.charAt(0);
+            return value;
           }
         }
       }],
       yAxes: [{
         ticks: {
-          beginAtZero: true,
-          maxTicksLimit: 5,
-          stepSize: Math.ceil(50 / 5),
-          max: 50
+          beginAtZero: true
         }
       }]
     },
