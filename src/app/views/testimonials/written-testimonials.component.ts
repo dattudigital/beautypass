@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TestmonialsService } from '../../services/TestmonialsService';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -31,8 +31,11 @@ export class WrittenTestimonialsComponent implements OnInit {
   testimonialForm: FormGroup;
   submitted = false;
   copiedRow: '';
-
-  constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private messageService: ToastMessageService, private completeService: CompleteBeautypassService) { }
+  URLquery: any;
+  constructor(private spinner: NgxSpinnerService, private activeRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private messageService: ToastMessageService, private completeService: CompleteBeautypassService) {
+    console.log(this.activeRoute.snapshot.queryParams);
+    this.URLquery = this.activeRoute.snapshot.queryParams;
+  }
   backToDashBoard() {
     this.router.navigate(['reports'])
   }
@@ -43,22 +46,33 @@ export class WrittenTestimonialsComponent implements OnInit {
   }
 
   ngOnInit() {
-    let _written = this.completeService.getWrittenTestmonials()
-    if (Object.keys(_written).length) {
-      this.testmonials = _written;
-    } else {
+
+    if (this.URLquery.rating) {
       this.spinner.show();
-      this.service.getWrittenTestmonials().subscribe(response => {
+      this.service.getWrittenTestmonials('?rating=3').subscribe(response => {
         this.spinner.hide();
         if (response.json().status == true) {
           this.testmonials = response.json().data;
-          this.completeService.addWrittenTestmonials(response.json().data);
+          // this.completeService.addWrittenTestmonials(response.json().data);
+        } else {
+          this.testmonials = [];
+        }
+        this.userData = JSON.parse(localStorage.getItem('loginDetails'));
+      });
+    } else {
+      this.spinner.show();
+      this.service.getWrittenTestmonials('').subscribe(response => {
+        this.spinner.hide();
+        if (response.json().status == true) {
+          this.testmonials = response.json().data;
+          // this.completeService.addWrittenTestmonials(response.json().data);
         } else {
           this.testmonials = [];
         }
         this.userData = JSON.parse(localStorage.getItem('loginDetails'));
       });
     }
+
 
     this.cols = [
       { field: 'fullname', header: 'User Name' },
@@ -127,7 +141,7 @@ export class WrittenTestimonialsComponent implements OnInit {
         console.log(this.testimonialData.coupons_status)
         if (this.testimonialData.coupons_status == '0') {
           // this.testmonials.splice(this.testimonialData["index"], 1);
-          this.completeService.addWrittenTestmonials([]);
+          // this.completeService.addWrittenTestmonials([]);
           this.messageService.successToast("Written Testmonials inactive successfully")
         } else {
           console.log(res.json().data)
@@ -135,7 +149,7 @@ export class WrittenTestimonialsComponent implements OnInit {
           this.testmonials[this.testimonialData["index"]].locationName = this.testimonialData.locationName;
           this.testmonials[this.testimonialData["index"]].studioName = this.testimonialData.studioName
 
-          this.completeService.addWrittenTestmonials([]);
+          // this.completeService.addWrittenTestmonials([]);
 
           this.messageService.successToast("Written Testmonials Updated successfully")
           this.testmonials[this.testimonialData["index"]].fullname = this.testimonialData.fullname;
@@ -156,7 +170,7 @@ export class WrittenTestimonialsComponent implements OnInit {
     this.service.editWrittenTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], status: 0 }).subscribe(res => {
       if (res.json().status == true) {
         // this.testmonials.splice(this.deleteRecord["index"], 1)
-        this.completeService.addWrittenTestmonials([]);
+        // this.completeService.addWrittenTestmonials([]);
         this.messageService.successToast("Written Testmonials Deleted successfully")
       } else {
         this.messageService.errorToast("Written Testmonials not Updated ")
@@ -166,11 +180,19 @@ export class WrittenTestimonialsComponent implements OnInit {
 
   reloadClick() {
     this.spinner.show();
-    this.service.getWrittenTestmonials().subscribe(response => {
+    var url = '';
+    this.URLquery = this.activeRoute.snapshot.queryParams;
+    console.log(this.URLquery.rating)
+    if (this.URLquery.rating) {
+      url = '?rating=3';
+    } else {
+      url = '' ;
+    }
+    this.service.getWrittenTestmonials(url).subscribe(response => {
       this.spinner.hide();
       if (response.json().status == true) {
         this.testmonials = response.json().data;
-        this.completeService.addWrittenTestmonials(response.json().data);
+        // this.completeService.addWrittenTestmonials(response.json().data);
       } else {
         this.testmonials = [];
       }

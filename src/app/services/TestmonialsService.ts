@@ -9,8 +9,8 @@ export class TestmonialsService {
   public editWrittenTestmonials(data: any) {
     return this.http.post(environment.host + 'written-testimonials', data);
   }
-  public getWrittenTestmonials() {
-    return this.http.get(environment.host + 'written-testimonials');
+  public getWrittenTestmonials(url:any) {
+    return this.http.get(environment.host + 'written-testimonials'+url);
   }
   public editVideoTestmonials(data: any) {
     return this.http.post(environment.host + 'video-testimonials', data);
