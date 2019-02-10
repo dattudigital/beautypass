@@ -33,7 +33,6 @@ export class WrittenTestimonialsComponent implements OnInit {
   copiedRow: '';
   URLquery: any;
   constructor(private spinner: NgxSpinnerService, private activeRoute: ActivatedRoute, private cdr: ChangeDetectorRef, private router: Router, private service: TestmonialsService, private formBuilder: FormBuilder, private messageService: ToastMessageService, private completeService: CompleteBeautypassService) {
-    console.log(this.activeRoute.snapshot.queryParams);
     this.URLquery = this.activeRoute.snapshot.queryParams;
   }
   backToDashBoard() {
@@ -104,8 +103,6 @@ export class WrittenTestimonialsComponent implements OnInit {
   editTestimonials(data, index) {
     this.copiedRow = Object.assign({}, data);
     this.testimonialData = data;
-    console.log(this.testimonialData)
-    console.log(this.testimonialData.studioName)
     this.testimonialData["index"] = index;
   }
 
@@ -133,18 +130,15 @@ export class WrittenTestimonialsComponent implements OnInit {
       status: this.testimonialData.status,
       updatedempid: this.userData.employee_id
     }
-    console.log(data);
     let modelClose = document.getElementById("CloseWritten");
     this.service.editWrittenTestmonials(data).subscribe(res => {
       modelClose.click();
       if (res.json().status == true) {
-        console.log(this.testimonialData.coupons_status)
         if (this.testimonialData.coupons_status == '0') {
           // this.testmonials.splice(this.testimonialData["index"], 1);
           // this.completeService.addWrittenTestmonials([]);
           this.messageService.successToast("Written Testmonials inactive successfully")
         } else {
-          console.log(res.json().data)
           this.testmonials[this.testimonialData["index"]] = res.json().data;
           this.testmonials[this.testimonialData["index"]].locationName = this.testimonialData.locationName;
           this.testmonials[this.testimonialData["index"]].studioName = this.testimonialData.studioName
@@ -182,7 +176,6 @@ export class WrittenTestimonialsComponent implements OnInit {
     this.spinner.show();
     var url = '';
     this.URLquery = this.activeRoute.snapshot.queryParams;
-    console.log(this.URLquery.rating)
     if (this.URLquery.rating) {
       url = '?rating=3';
     } else {

@@ -46,7 +46,6 @@ export class VideoTestimonialsComponent {
         this.spinner.hide();
         if (response.json().status == true) {
           this.videoTestimonials = response.json().data;
-          console.log(this.videoTestimonials)
           this.completeService.addVideoTestmonials(this.videoTestimonials);
         } else {
           this.videoTestimonials = [];

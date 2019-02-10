@@ -21,7 +21,6 @@ export class DashboardComponent implements OnInit {
       this.completeDashboardData = res.json().data;
     })
     this.service.getGraphdata().subscribe(response => {
-      console.log(response.json())
       let days = [];
       let dayName = [];
       let i = 0;

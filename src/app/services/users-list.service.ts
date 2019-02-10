@@ -26,7 +26,6 @@ export class UsersListService {
   }
 
   public getUsers(url: any) {
-    console.log(environment.host + 'users-limit' + url)
     return this.http.get(environment.host + 'users-limit' + url)
   }
 

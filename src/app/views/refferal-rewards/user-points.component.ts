@@ -62,7 +62,6 @@ export class UserPointsComponent {
 
   getUserData(val) {
     this.selectedValue = val.alldetails;
-    console.log(val);
     let URL = '';
     if (val.mindbody_id) {
       URL = URL + '/' + val.mindbody_id
@@ -72,13 +71,11 @@ export class UserPointsComponent {
     }
     this.spinner.show();
     this.service.getUserHistory(URL).subscribe(res => {
-      console.log(res.json())
       this.spinner.hide();
       if (res.json().status == true) {
         this.popupStatus = false;
         this.tableStatus = true;
         this.selectedOption = res.json().data;
-        console.log(this.selectedOption)
         let credit = 0, debit = 0;
         this.selectedOption.forEach(element => {
           credit = credit + element.points;
