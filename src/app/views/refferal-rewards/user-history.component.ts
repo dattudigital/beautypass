@@ -32,7 +32,7 @@ export class UserHistoryComponent {
       { field: 'locationName', header: 'Location Name' },
       { field: 'studioid', header: 'Studio Id' },
       { field: 'studioName', header: 'StudioName' },
-      { field: 'reward_for', header: 'Reward For' },
+      { field: 'reward_for', header: 'Remarks' },
       { field: 'points', header: 'Credit' },
       { field: 'debit', header: 'Debit' },
       { field: 'rewarddate', header: 'Purchase Date', type: this.dp }
