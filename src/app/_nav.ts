@@ -25,7 +25,7 @@ export const navItems = [
     icon: 'icon-plus'
   },
   {
-    name: 'Beauty Tips',
+    name: 'Beauty Tips/ Hot Deals',
     url: '/beauty-tips',
     icon: 'icon-user-female'
   },

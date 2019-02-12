@@ -104,6 +104,7 @@ export class VideoTestimonialsComponent {
       if (res.json().status == true) {
         if (this.videoTestimonialData.rec_status == '0') {
           // this.videoTestimonials.splice(this.videoTestimonialData["index"], 1);
+          this.videoTestimonials[this.videoTestimonialData["index"]].rec_status = "0";
           this.completeService.addVideoTestmonials([]);
           this.messageService.successToast("Video Testmonials inactive successfully")
         } else {

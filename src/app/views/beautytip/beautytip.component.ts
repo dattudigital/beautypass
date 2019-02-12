@@ -108,7 +108,7 @@ export class BeautyTipsComponent implements OnInit {
             this.messageService.successToast("BeautyTip added Successfully")
           } else {
             if (this.beautytips.rec_status == '0') {
-              this.tipsData.splice(this._index, 1);
+              // this.tipsData.splice(this._index, 1);
               this.completeService.addBeautyTip([])
               this.messageService.successToast("BeautyTip Inactive Successfully")
             } else {

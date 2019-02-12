@@ -9,7 +9,7 @@
     <div class="col-6 col-sm-4 col-md text-center">
       <button (click)="addOrUpdateBeautyTip.show();removeFields()" class="btn btn-primary" style="float: right;"><i
           class="fa fa-lightbulb-o" name="createtip" id="createtip"></i>&nbsp;Create
-        Tip</button>
+        Tip / Hot Deal</button>
     </div>
     <div class=" col-sm-1">
       <i class="fas fa-sync-alt" (click)="reloadClick()" style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
@@ -65,8 +65,8 @@
         <div class="col-md-12">
           <div class="card" style="margin-bottom: 0;">
             <div class="card-header">
-              <strong *ngIf="!beautytips.tip_id">Add Beautytip</strong>
-              <strong *ngIf="beautytips.tip_id">Edit Beautytip</strong>
+              <strong *ngIf="!beautytips.tip_id">Add Beautytip / Hot Deal</strong>
+              <strong *ngIf="beautytips.tip_id">Edit Beautytip / Hot Deal</strong>
               <button type="button" class="close" (click)="addOrUpdateBeautyTip.hide();backupData()">&times;</button>
             </div>
             <div class="card-body">
@@ -171,7 +171,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> Beauty Tips List
+          <i class="fa fa-align-justify"></i> Beauty Tips / Hot Deal List
         </div>
         <div class="card-body">
           <table class="table table-bordered table-striped table-sm">
