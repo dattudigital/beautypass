@@ -173,7 +173,7 @@ export class EmployeesComponent implements OnInit {
 
   deleteAlert() {
     this.spinner.show();
-    this.service.addOrUpdateEmployee({ employee_id: this.deleteRecord["employee_id"], emp_status: 0 }).subscribe(res => {
+    this.service.addOrUpdateEmployee({ employee_id: this.deleteRecord["employee_id"], emp_status: 2 }).subscribe(res => {
       this.spinner.hide();
       if (res.json().status == true) {
         this.employeeDetails.splice(this.deleteRecord["index"], 1);

@@ -79,7 +79,7 @@ export class UserPointsComponent {
         let credit = 0, debit = 0;
         this.selectedOption.forEach(element => {
           credit = credit + element.points;
-          debit = debit + element.debit;          
+          debit = debit + element.debit;
         });
         this.totalPoints = credit - debit;
       }
@@ -94,17 +94,18 @@ export class UserPointsComponent {
       this.tableStatus = false;
       this.popupStatus = true;
       this.spinner.show();
-      this.service.getUserlistForHistory(val).subscribe(res => {
-        this.spinner.hide();
-        if (res.json().status == false) {
-          this.userInfo = [];
-          this.noResult = true;
-        } else {
-          this.noResult = false;
-          this.userInfo = res.json().data;
-        }
-      })
-
+      setTimeout(() => {
+        this.service.getUserlistForHistory(val).subscribe(res => {
+          this.spinner.hide();
+          if (res.json().status == false) {
+            this.userInfo = [];
+            this.noResult = true;
+          } else {
+            this.noResult = false;
+            this.userInfo = res.json().data;
+          }
+        })
+      }, 2500);
     } else {
       this.tableStatus = false;
       this.noResult = false;

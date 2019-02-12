@@ -46,6 +46,7 @@ export class VideoTestimonialsComponent {
         this.spinner.hide();
         if (response.json().status == true) {
           this.videoTestimonials = response.json().data;
+          console.log(this.videoTestimonials)
           this.completeService.addVideoTestmonials(this.videoTestimonials);
         } else {
           this.videoTestimonials = [];
@@ -128,7 +129,7 @@ export class VideoTestimonialsComponent {
   }
 
   deleteAlert() {
-    this.service.editVideoTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], rec_status: 0 }).subscribe(res => {
+    this.service.editVideoTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], rec_status: 2 }).subscribe(res => {
       if (res.json().status == true) {
         // this.videoTestimonials.splice(this.deleteRecord["index"], 1)
         this.completeService.addVideoTestmonials([]);

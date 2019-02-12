@@ -217,7 +217,7 @@ export class UserActivitiesComponent implements OnInit {
 
   deleteAlert() {
     this.spinner.show();
-    this.service._addOrEditRefferalActivities({ activity_id: this.deleteRecord["activity_id"], activity_status: 0 }).subscribe(res => {
+    this.service._addOrEditRefferalActivities({ activity_id: this.deleteRecord["activity_id"], activity_status: 2 }).subscribe(res => {
       this.spinner.hide();
       if (res.json().status == true) {
         this.userActivitiesData.splice(this.deleteRecord["index"], 1);

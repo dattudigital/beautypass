@@ -154,7 +154,7 @@ export class BeautyTipsComponent implements OnInit {
 
   deleteAlert() {
     this.spinner.show()
-    this.service.AddOrEditBeautyTip({ tip_id: this.deleteRecord["tip_id"], rec_status: 0 }).subscribe(res => {
+    this.service.AddOrEditBeautyTip({ tip_id: this.deleteRecord["tip_id"], rec_status: 2 }).subscribe(res => {
       this.spinner.hide();
       if (res.json().status == true) {
         let _index = ((this.currentPage - 1) * 3) + this.deleteRecord["index"]

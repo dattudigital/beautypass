@@ -161,7 +161,7 @@ export class WrittenTestimonialsComponent implements OnInit {
   }
 
   deleteAlert() {
-    this.service.editWrittenTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], status: 0 }).subscribe(res => {
+    this.service.editWrittenTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], status: 2 }).subscribe(res => {
       if (res.json().status == true) {
         // this.testmonials.splice(this.deleteRecord["index"], 1)
         // this.completeService.addWrittenTestmonials([]);
