@@ -11,8 +11,10 @@ export class BeautyTipsService {
   public getBeautyTipsList() {
     return this.http.get(environment.host + 'beauty-tips');
   }
-  public AddOrEditBeautyTip(data:any) {
+  public AddOrEditBeautyTip(data: any) {
     return this.http.post(environment.host + 'beauty-tips', data);
   }
-  
+  public DeleteBeautyTip(id: any) {
+    return this.http.delete(environment.host + 'beauty-tips/'+id);
+  }
 }

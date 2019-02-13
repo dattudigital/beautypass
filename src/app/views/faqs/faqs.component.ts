@@ -136,7 +136,7 @@ export class FaqsComponent implements OnInit {
 
   deleteAlert() {
     this.spinner.show()
-    this.service.addOrUpdateFaq({ faq_id: this.deleteRecord["faq_id"], faq_status: 2 }).subscribe(res => {
+    this.service.deleteFaq(this.deleteRecord["faq_id"]).subscribe(res => {
       this.spinner.hide()
       if (res.json().status == true) {
         this.faqData.splice(this.deleteRecord["index"], 1);

@@ -142,7 +142,7 @@ export class MindbodyCouponsComponent implements OnInit {
 
   deleteAlert() {
     this.spinner.show();
-    this.service.addoreditMindBodyCoupons({ coupons_id: this.deleteRecord["coupons_id"], coupons_status: 2 }).subscribe(res => {
+    this.service.deleteMindBodyCoupons(this.deleteRecord["coupons_id"]).subscribe(res => {
       this.spinner.hide();
       if (res.json().status == true) {
         this.couponsData.splice(this.deleteRecord["index"], 1);

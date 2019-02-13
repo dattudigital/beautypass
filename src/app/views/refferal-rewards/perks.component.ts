@@ -139,7 +139,7 @@ export class PerksComponent implements OnInit {
   }
 
   deleteAlert() {
-    this.service.addOrEditPerksList({ rewardpoint_id: this.deleteRecord["rewardpoint_id"], rewardpoint_status: 2 }).subscribe(res => {
+    this.service.deletePerksList(this.deleteRecord["rewardpoint_id"]).subscribe(res => {
       if (res.json().status == true) {
         this.perk.splice(this.deleteRecord["index"], 1);
         this.completeService.addPerksData([]);

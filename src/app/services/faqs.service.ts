@@ -15,4 +15,9 @@ export class FaqsService {
   public getList() {
     return this.http.get(environment.host + 'faqs');
   }
+
+  public deleteFaq(id:any){
+    return this.http.delete(environment.host + 'faqs/' + id);
+
+  }
 }
