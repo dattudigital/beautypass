@@ -104,7 +104,7 @@ export class PerksComponent implements OnInit {
           this.messageService.successToast("Perks Added Successfully")
         } else {
           if (this.perksData.rewardpoint_status == '0') {
-            this.perk.splice(this.perksData["index"], 1);
+            // this.perk.splice(this.perksData["index"], 1);
             this.perk = this.perk.slice();
             localStorage.setItem('perksData', JSON.stringify(this.perk))
             this.completeService.addPerksData([]);

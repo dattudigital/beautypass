@@ -7,8 +7,8 @@
 <div class="form-group row">
   <label class="col-md-2 col-form-label" for="select2"><b>Select User</b></label>
   <div class="col-md-4">
-    <input type="text" class="form-control" [(ngModel)]="selectedValue" placeholder="Enter Email Id / Mindbody Id / Mobile"
-      (ngModelChange)='userSearch(selectedValue)' name="" id="">
+    <input type="text" class="form-control" [(ngModel)]="selectedValue"
+      placeholder="Enter Email Id / Mindbody Id / Mobile" (ngModelChange)='userSearch(selectedValue)' name="" id="">
   </div>
   <div style="color:red" *ngIf="noResult">No Results Found</div>
 </div>
@@ -22,7 +22,22 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i>Add User Points
+          <div class="row">
+            <div class="col-sm-3">
+              <i class="fa fa-align-justify"></i>Add User Points
+            </div>
+            <div class="col-sm-4"></div>
+            <div class="col-sm-2 col-md text-center">
+              <button type="button" name="addpoint" id="addpoint" (click)="addPoints.show();getUserId()"
+                class="btn btn-primary" style="float: right;"><i class="far fa-plus-square"></i>&nbsp; Add
+                Points</button>
+            </div>
+            <div class="col-sm-2 col-md text-center">
+              <button type="button" name="removepoint" id="removepoint" (click)="addPoints.show();getUserId()"
+                class="btn btn-primary" style="float: right;"><i class="far fa-minus-square"></i>&nbsp;Remove
+                Points</button>
+            </div>
+          </div>
         </div>
         <div class="card-body">
           <div class="row">
@@ -35,18 +50,18 @@
             <ng-template pTemplate="caption">
               <div style="text-align: right">
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                  style="width:auto">
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
               </div>
             </ng-template>
             <ng-template pTemplate="header">
               <tr>
                 <th *ngFor="let col of cols" [pSortableColumn]="col.field">
                   {{col.header}}
-                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                 </th>
-                <th>Add Points</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
@@ -54,8 +69,6 @@
                 <td *ngFor="let col of cols">
                   {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }}
                 </td>
-                <td href="#" data-toggle="modal" (click)="addPoints.show();getUserId(data,i)"><i class="far fa-plus-square"
-                    style="color:orange;font-size: 20px;text-align:center"></i></td>
               </tr>
             </ng-template>
           </p-table>
@@ -93,7 +106,8 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Location Name<b style="color:red">*</b></label>
+                  <label class="col-md-3 col-form-label" for="text-input">Location Name<b
+                      style="color:red">*</b></label>
                   <div class="col-md-9">
                     <input type="text" maxlength="50" class="form-control" [(ngModel)]="userPointsData.locationName"
                       [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
@@ -116,8 +130,8 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Points<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="Points" class="form-control" [(ngModel)]="userPoints"
-                      [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
+                    <input type="text" maxlength="50" formControlName="Points" class="form-control"
+                      [(ngModel)]="userPoints" [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
                     <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
                       <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>
                     </div>
@@ -127,7 +141,8 @@
                   <label class="col-md-3 col-form-label" for="text-input">Remarks<b style="color:red">*</b></label>
                   <div class="col-md-9">
                     <textarea type="text" maxlength="500" rows="5" class="form-control" formControlName="Remarks"
-                      placeholder=" Enter Remarks" [(ngModel)]="userRemark" [ngClass]="{ 'is-invalid': submitted && f.Remarks.errors }"></textarea>
+                      placeholder=" Enter Remarks" [(ngModel)]="userRemark"
+                      [ngClass]="{ 'is-invalid': submitted && f.Remarks.errors }"></textarea>
                     <div *ngIf="submitted && f.Remarks.errors" class="invalid-feedback">
                       <div *ngIf="f.Remarks.errors.required" style="color:red">Remarks is required</div>
                     </div>
@@ -136,7 +151,8 @@
 
                 <button style="margin-left: 26%;" class="btn btn-primary" (click)="addPoint()">ADD</button>
                 &nbsp;&nbsp;
-                <button type="button" id="CloseButton" class="btn btn-secondary" (click)="addPoints.hide();removeFields()">Close</button>
+                <button type="button" id="CloseButton" class="btn btn-secondary"
+                  (click)="addPoints.hide();removeFields()">Close</button>
               </form>
             </div>
           </div>

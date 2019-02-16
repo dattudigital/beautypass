@@ -4,19 +4,70 @@
 
 <div class="card-body">
   <div class="form-group row">
-    <div class="col-sm-4">
-      <label style="margin-right: 10px;"><b>Start Date :</b></label>
-      <input type="date" [(ngModel)]="startDate" />
+    <label class="col-md-1 col-form-label" for="text-input"><b>Studio</b></label>
+    <div class="col-md-2">
+      <select class="form-control" name="studio" id="studio" [(ngModel)]="studioId" (click)="studioDetails()">
+        <option value="undefined">Select Studio</option>
+        <option *ngFor="let data of studioIdData" [ngValue]="data.studioid">{{data.studioid}}</option>
+      </select>
     </div>
-    <div class="col-sm-4">
-      <label style="margin-right: 10px;"><b>End Date :</b></label>
-      <input type="date" [(ngModel)]="endDate" />
+    <label class="col-md-1 col-form-label" for="text-input"><b>Location</b></label>
+    <div class="col-md-2">
+      <select class="form-control" name="locatio" id="location" [(ngModel)]="locationId">
+        <option value="undefined">Select Location</option>
+        <option *ngFor="let loc of locationIdData" [ngValue]="loc.location">{{loc.location}}</option>
+      </select>
     </div>
-    <div class="col-sm-4">
+    <label class="col-md-1 col-form-label" for="text-input"><b>Start Date</b></label>
+    <div class="col-md-2">
+      <input type="date" class="form-control" [(ngModel)]="startDate" />
+    </div>
+    <label class="col-md-1 col-form-label" for="text-input"><b>End Date</b></label>
+    <div class="col-md-2">
+      <input type="date" class="form-control" [(ngModel)]="endDate" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-md-10"></div>
+    <div class="col-md-2">
       <button class="btn btn-sm btn-primary" (click)="getSearchReports();"><b> Submit </b></button>
     </div>
   </div>
 </div>
+
+<!-- <div class="card-body">
+  <div class="form-group row">
+    <div class="col-sm-3">
+      <label class="col-sm-1 col-form-label" for="text-input"><b>Studio:</b></label>
+      <div class="col-sm-5">
+        <select class="form-control" name="studio" id="studio" [(ngModel)]="studioId" (click)="studioDetails()">
+          <option value="undefined">Select Studio</option>
+          <option *ngFor="let data of studioIdData" [ngValue]="data.studioid">{{data.studioid}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <label class="col-md-1 col-form-label" for="text-input"><b>Location:</b></label>
+      <div class="col-md-2">
+        <select class="form-control" name="locatio" id="location" [(ngModel)]="locationId">
+          <option value="undefined">Select Location</option>
+          <option *ngFor="let loc of locationIdData" [ngValue]="loc.location">{{loc.location}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <label style="margin-right: 10px;"><b>Start Date :</b></label>
+      <input type="date" [(ngModel)]="startDate" />
+    </div>
+    <div class="col-sm-2">
+      <label style="margin-right: 10px;"><b>End Date :</b></label>
+      <input type="date" [(ngModel)]="endDate" />
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-sm btn-primary" (click)="getSearchReports();"><b> Submit </b></button>
+    </div>
+  </div>
+</div> -->
 
 <div class="animated fadeIn">
   <div class="row">
@@ -24,23 +75,26 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-align-justify"></i>Voucher Reports
-          <span> <i (click)="exportAsXLSX()" class="fa fa-file-excel-o" style="font-size:24px;color:blue;margin-right: 20px;cursor: pointer; float:right"></i></span>
-          <span> <i (click)="pdfDownload()" class="fa fa-file-pdf-o" style="font-size:24px;color:red; margin-right: 15px;cursor: pointer; float:right"></i></span>
+          <span> <i (click)="exportAsXLSX()" class="fa fa-file-excel-o"
+              style="font-size:24px;color:blue;margin-right: 20px;cursor: pointer; float:right"></i></span>
+          <span> <i (click)="pdfDownload()" class="fa fa-file-pdf-o"
+              style="font-size:24px;color:red; margin-right: 15px;cursor: pointer; float:right"></i></span>
         </div>
         <div class="card-body">
           <p-table #dt [columns]="cols" [value]="voucherData" [paginator]="true" [rows]="4">
             <ng-template pTemplate="caption">
               <div style="text-align: right">
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                  style="width:auto">
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
               </div>
             </ng-template>
             <ng-template pTemplate="header">
               <tr>
                 <th *ngFor="let col of cols" [pSortableColumn]="col.field">
                   {{col.header}}
-                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                 </th>
               </tr>

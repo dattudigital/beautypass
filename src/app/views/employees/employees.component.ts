@@ -138,7 +138,7 @@ export class EmployeesComponent implements OnInit {
           this.messageService.successToast("Employee Added Successfully")
         } else {
           if (this.employeeData.emp_status == '0') {
-            this.employeeDetails.splice(this.employeeData["index"], 1);
+            // this.employeeDetails.splice(this.employeeData["index"], 1);
             this.employeeDetails = this.employeeDetails.slice();
             localStorage.setItem('employee', JSON.stringify(this.employeeDetails))
             this.completeService.addEmployees([]);

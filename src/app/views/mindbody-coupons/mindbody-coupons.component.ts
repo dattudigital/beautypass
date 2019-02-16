@@ -118,7 +118,7 @@ export class MindbodyCouponsComponent implements OnInit {
       modelClose.click();
       if (res.json().status == true) {
         if (this.couponsDetails.coupons_status == '0') {
-          this.couponsData.splice(this.couponsDetails["index"], 1);
+          // this.couponsData.splice(this.couponsDetails["index"], 1);
           this.completeService.addCoupons([]);
           this.messageService.successToast("Coupons Inactive Successfully")
         } else {

@@ -103,7 +103,7 @@ export class FaqsComponent implements OnInit {
           this.messageService.successToast("Faq Added Successfully")
         } else {
           if (this.faqs.faq_status == '0') {
-            this.faqData.splice(this.faqs["index"], 1);
+            // this.faqData.splice(this.faqs["index"], 1);
             this.faqData = this.faqData.slice();
             localStorage.setItem('faq', JSON.stringify(this.faqData))
             this.completeService.addFaqs([]);

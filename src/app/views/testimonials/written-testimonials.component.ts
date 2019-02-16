@@ -75,11 +75,11 @@ export class WrittenTestimonialsComponent implements OnInit {
 
     this.cols = [
       { field: 'fullname', header: 'User Name' },
-      { field: 'rating_1', header: 'Rating 1' },
-      { field: 'rating_2', header: 'Rating 2' },
-      { field: 'rating_3', header: 'Rating 3' },
-      { field: 'rating_4', header: 'Rating 4' },
-      { field: 'rating_5', header: 'Rating 5' },
+      { field: 'rating_1', header: 'Service Experience' },
+      { field: 'rating_2', header: 'Ambiance' },
+      { field: 'rating_3', header: 'Clieanliness' },
+      { field: 'rating_4', header: 'Reception Service' },
+      { field: 'rating_5', header: 'Overall Rating' },
       { field: 'locationName', header: 'Location Name' },
       { field: 'studioName', header: 'Studio Name' },
       { field: 'empname', header: 'Updated Emp' },
@@ -179,7 +179,7 @@ export class WrittenTestimonialsComponent implements OnInit {
     if (this.URLquery.rating) {
       url = '?rating=3';
     } else {
-      url = '' ;
+      url = '';
     }
     this.service.getWrittenTestmonials(url).subscribe(response => {
       this.spinner.hide();

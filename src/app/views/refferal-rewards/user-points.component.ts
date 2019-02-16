@@ -114,8 +114,9 @@ export class UserPointsComponent {
     }
   }
 
-  getUserId(data) {
-    this.userPointsData = data
+  getUserId() {
+    this.userPointsData = this.selectedOption
+    console.log(this.userPointsData)
   }
 
   removeFields() {
