@@ -84,6 +84,7 @@ export class WrittenTestimonialsComponent implements OnInit {
       { field: 'studioName', header: 'Studio Name' },
       { field: 'empname', header: 'Updated Emp' },
       { field: 'comments', header: 'Description' },
+      { field: 'recomment', header: 'Recomment' },
       { field: 'status', header: 'Status', type: 1 }
     ];
 
