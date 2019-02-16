@@ -5,13 +5,14 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpModule } from '@angular/http';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { ToastyModule } from 'ng2-toasty';
-
+import { JwtInterceptor } from './jwt.interceptor';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -57,7 +58,7 @@ import { CouponsPipe } from './pipe/coupons.pipe';
     AppHeaderModule,
     AppSidebarModule,
     NgxPaginationModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
@@ -65,7 +66,8 @@ import { CouponsPipe } from './pipe/coupons.pipe';
     SimpleNotificationsModule.forRoot(),
     ChartsModule,
     ReactiveFormsModule,
-    ToastyModule
+    ToastyModule,
+    HttpModule
   ],
   declarations: [
     AppComponent,
@@ -75,10 +77,11 @@ import { CouponsPipe } from './pipe/coupons.pipe';
     BeautyTipPipe,
     CouponsPipe
   ],
-  providers: [{
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }],
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

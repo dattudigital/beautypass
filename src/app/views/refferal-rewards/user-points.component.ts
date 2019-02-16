@@ -72,10 +72,10 @@ export class UserPointsComponent {
     this.spinner.show();
     this.service.getUserHistory(URL).subscribe(res => {
       this.spinner.hide();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         this.popupStatus = false;
         this.tableStatus = true;
-        this.selectedOption = res.json().data;
+        this.selectedOption = res["data"];
         let credit = 0, debit = 0;
         this.selectedOption.forEach(element => {
           credit = credit + element.points;
@@ -97,12 +97,12 @@ export class UserPointsComponent {
       setTimeout(() => {
         this.service.getUserlistForHistory(val).subscribe(res => {
           this.spinner.hide();
-          if (res.json().status == false) {
+          if (res["status"] == false) {
             this.userInfo = [];
             this.noResult = true;
           } else {
             this.noResult = false;
-            this.userInfo = res.json().data;
+            this.userInfo = res["data"];
           }
         })
       }, 2500);
@@ -142,7 +142,7 @@ export class UserPointsComponent {
     this.service.addUserPoints(data).subscribe(res => {
       this.spinner.hide();
       modelClose.click();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         this.messageService.successToast("user Points updated Successfully")
       } else {
         this.messageService.errorToast("user Points is not Updated")

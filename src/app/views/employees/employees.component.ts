@@ -48,9 +48,9 @@ export class EmployeesComponent implements OnInit {
       this.spinner.show();
       this.service.getEmpList().subscribe(response => {
         this.spinner.hide();
-        if (response.json().status == true) {
-          this.employeeDetails = response.json().data;
-          this.completeService.addEmployees(response.json().data)
+        if (response["status"] == true) {
+          this.employeeDetails = response["data"];
+          this.completeService.addEmployees(response["data"])
         } else {
           this.employeeDetails = [];
         }
@@ -127,12 +127,12 @@ export class EmployeesComponent implements OnInit {
     this.service.addOrUpdateEmployee(data).subscribe(res => {
       this.spinner.hide();
       modelClose.click();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         if (!this.employeeData.employee_id) {
           if (JSON.parse(localStorage.getItem('employee'))) {
             this.employeeDetails = JSON.parse(localStorage.getItem('employee'))
           }
-          this.employeeDetails.push(res.json().data)
+          this.employeeDetails.push(res["data"])
           this.employeeDetails = this.employeeDetails.slice();
           this.completeService.addEmployees([]);
           this.messageService.successToast("Employee Added Successfully")
@@ -144,7 +144,7 @@ export class EmployeesComponent implements OnInit {
             this.completeService.addEmployees([]);
             this.messageService.successToast("Employee Inactive Successfully")
           } else {
-            this.employeeDetails[this.employeeData["index"]] = res.json().data;
+            this.employeeDetails[this.employeeData["index"]] = res["data"];
             this.completeService.addEmployees([]);
             this.messageService.successToast("Employee Updated Successfully")
           }
@@ -175,7 +175,7 @@ export class EmployeesComponent implements OnInit {
     this.spinner.show();
     this.service.deleteEmployee(this.deleteRecord["employee_id"]).subscribe(res => {
       this.spinner.hide();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         this.employeeDetails.splice(this.deleteRecord["index"], 1);
         this.completeService.addEmployees([])
         localStorage.setItem('employee', JSON.stringify(this.employeeDetails))
@@ -190,9 +190,9 @@ export class EmployeesComponent implements OnInit {
     this.spinner.show();
     this.service.getEmpList().subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.employeeDetails = response.json().data;
-        this.completeService.addEmployees(response.json().data)
+      if (response["status"] == true) {
+        this.employeeDetails = response["data"];
+        this.completeService.addEmployees(response["data"])
       } else {
         this.employeeDetails = [];
       }

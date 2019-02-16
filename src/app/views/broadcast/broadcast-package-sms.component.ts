@@ -42,8 +42,8 @@ export class broadcastPackageSmsComponent implements OnInit {
         this.spinner.show();
         this.service.getBroadcastIdFromMembership().subscribe(res => {
             this.spinner.hide();
-            if (res.json().status == true) {
-                this.broadcastIds = res.json().data;
+            if (res["status"] == true) {
+                this.broadcastIds = res["data"];
             } else {
                 this.broadcastIds = [];
             }

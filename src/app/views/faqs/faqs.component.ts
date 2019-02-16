@@ -40,9 +40,9 @@ export class FaqsComponent implements OnInit {
       this.spinner.show();
       this.service.getList().subscribe(response => {
         this.spinner.hide();
-        if (response.json().status == true) {
-          this.faqData = response.json().data;
-          this.completeService.addFaqs(response.json().data);
+        if (response["status"] == true) {
+          this.faqData = response["data"];
+          this.completeService.addFaqs(response["data"]);
         } else {
           this.faqData = [];
         }
@@ -92,12 +92,12 @@ export class FaqsComponent implements OnInit {
     this.service.addOrUpdateFaq(data).subscribe(res => {
       this.spinner.hide()
       modelClose.click();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         if (!this.faqs.faq_id) {
           if (JSON.parse(localStorage.getItem('faq'))) {
             this.faqData = JSON.parse(localStorage.getItem('faq'))
           }
-          this.faqData.push(res.json().data);
+          this.faqData.push(res["data"]);
           this.faqData = this.faqData.slice();
           this.completeService.addFaqs([]);
           this.messageService.successToast("Faq Added Successfully")
@@ -109,7 +109,7 @@ export class FaqsComponent implements OnInit {
             this.completeService.addFaqs([]);
             this.messageService.successToast("Faq Inactive Successfully")
           } else {
-            this.faqData[this.faqs["index"]] = res.json().data;
+            this.faqData[this.faqs["index"]] = res["data"];
             this.completeService.addFaqs([]);
             this.messageService.successToast("Faq Updated Successfully")
           }
@@ -138,7 +138,7 @@ export class FaqsComponent implements OnInit {
     this.spinner.show()
     this.service.deleteFaq(this.deleteRecord["faq_id"]).subscribe(res => {
       this.spinner.hide()
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         this.faqData.splice(this.deleteRecord["index"], 1);
         this.completeService.addFaqs([]);
         localStorage.setItem('faq', JSON.stringify(this.faqData))
@@ -153,9 +153,9 @@ export class FaqsComponent implements OnInit {
     this.spinner.show();
     this.service.getList().subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.faqData = response.json().data;
-        this.completeService.addFaqs(response.json().data);
+      if (response["status"] == true) {
+        this.faqData = response["data"];
+        this.completeService.addFaqs(response["data"]);
       } else {
         this.faqData = [];
       }

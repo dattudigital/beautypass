@@ -18,14 +18,14 @@ export class DashboardComponent implements OnInit {
     this.spinner.show();
     this.service.getallCountForDashboard().subscribe(res => {
       this.spinner.hide();
-      this.completeDashboardData = res.json().data;
+      this.completeDashboardData = res["data"];
     })
     this.service.getGraphdata().subscribe(response => {
       let days = [];
       let dayName = [];
       let i = 0;
       let j = 0;
-      let graphData = response.json().data;
+      let graphData = response["data"];
       for (i = 29; i >= 0; i--) {
         var dateOffset = (24 * 60 * 60 * 1000) * i;
         var myDate = new Date();

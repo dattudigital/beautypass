@@ -51,10 +51,10 @@ export class UserHistoryComponent {
     this.spinner.show();
     this.service.getUserHistory(URL).subscribe(res => {
       this.spinner.hide();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         this.popupStatus = false;
         this.tableStatus = true;
-        this.selectedOption = res.json().data;
+        this.selectedOption = res["data"];
       }
     }, (err) => {
       this.spinner.hide();
@@ -70,13 +70,13 @@ export class UserHistoryComponent {
       setTimeout(() => {
         this.service.getUserlistForHistory(val).subscribe(res => {
           this.spinner.hide();
-          if (res.json().status == false) {
+          if (res["status"] == false) {
             this.userInfo = [];
             this.noResult = true;
             this.popupStatus = false;
           } else {
             this.noResult = false;
-            this.userInfo = res.json().data;
+            this.userInfo = res["data"];
           }
         })
       }, 2500);

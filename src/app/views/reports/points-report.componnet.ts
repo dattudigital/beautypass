@@ -17,8 +17,8 @@ export class PointsReportComponent implements OnInit {
     this.spinner.show();
     this.service.getVoucherReports(this.url).subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.voucherData = response.json().data;
+      if (response["status"] == true) {
+        this.voucherData = response["data"];
       } else {
         this.voucherData = [];
       }

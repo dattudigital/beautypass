@@ -52,9 +52,9 @@ export class BeautyTipsComponent implements OnInit {
       this.spinner.show();
       this.service.getBeautyTipsList().subscribe(response => {
         this.spinner.hide();
-        if (response.json().status == true) {
-          this.tipsData = this.beautyTipPipe.transform(response.json().data);
-          this.completeService.addBeautyTip(response.json().data)
+        if (response["status"] == true) {
+          this.tipsData = this.beautyTipPipe.transform(response["data"]);
+          this.completeService.addBeautyTip(response["data"])
         } else {
           this.tipsData = [];
         }
@@ -101,9 +101,9 @@ export class BeautyTipsComponent implements OnInit {
       this.service.AddOrEditBeautyTip(data).subscribe(res => {
         this.spinner.hide();
         modelClose.click();
-        if (res.json().status == true) {
+        if (res["status"] == true) {
           if (!this.beautytips.tip_id) {
-            this.tipsData.push(res.json().data)
+            this.tipsData.push(res["data"])
             this.completeService.addBeautyTip([])
             this.messageService.successToast("BeautyTip added Successfully")
           } else {
@@ -112,7 +112,7 @@ export class BeautyTipsComponent implements OnInit {
               this.completeService.addBeautyTip([])
               this.messageService.successToast("BeautyTip Inactive Successfully")
             } else {
-              this.tipsData[this._index] = res.json().data;
+              this.tipsData[this._index] = res["data"];
               if (this.tipsData[this._index].tip_type == 2) {
                 this.tipsData[this._index].tip_type = 'Hot Deal'
               }
@@ -156,7 +156,7 @@ export class BeautyTipsComponent implements OnInit {
     this.spinner.show()
     this.service.DeleteBeautyTip(this.deleteRecord["tip_id"]).subscribe(res => {
       this.spinner.hide();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         let _index = ((this.currentPage - 1) * 3) + this.deleteRecord["index"]
         this.tipsData.splice(_index, 1);
         this.completeService.addBeautyTip([])
@@ -211,9 +211,9 @@ export class BeautyTipsComponent implements OnInit {
     this.spinner.show();
     this.service.getBeautyTipsList().subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.tipsData = this.beautyTipPipe.transform(response.json().data);
-        this.completeService.addBeautyTip(response.json().data)
+      if (response["status"] == true) {
+        this.tipsData = this.beautyTipPipe.transform(response["data"]);
+        this.completeService.addBeautyTip(response["data"])
       } else {
         this.tipsData = [];
       }

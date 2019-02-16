@@ -7,7 +7,7 @@ import { ToastMessageService } from '../../services/toast-message.service';
 
 @Component({
   templateUrl: 'users.component.html',
-  providers: [PagerService,ToastMessageService]
+  providers: [PagerService, ToastMessageService]
 })
 
 export class UsersComponent implements OnInit {
@@ -25,9 +25,9 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.service.getStudioId().subscribe(res => {
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         this.spinner.hide();
-        this.studioIdData = res.json().data;
+        this.studioIdData = res["data"];
       }
     })
 
@@ -50,7 +50,7 @@ export class UsersComponent implements OnInit {
       this.spinner.show()
       this.service.getLocationId(URL).subscribe(res => {
         this.spinner.hide()
-        this.locationIdData = res.json().data;
+        this.locationIdData = res["data"];
       })
     }
   }
@@ -72,8 +72,8 @@ export class UsersComponent implements OnInit {
     this.spinner.show();
     this.service.getUsers(url).subscribe(res => {
       this.spinner.hide();
-      this.pagedItems = res.json().data[1];
-      this.pager = this.pagerService.getPager(res.json().data[0][0].totalusers, page, this.selectedVal);
+      this.pagedItems = res["data"][1];
+      this.pager = this.pagerService.getPager(res["data"][0][0].totalusers, page, this.selectedVal);
     })
   }
 

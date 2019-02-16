@@ -16,8 +16,8 @@ export class EmployeeHistoryComponent implements OnInit {
     this.spinner.show();
     this.service.getEmployeeHistory().subscribe(res => {
       this.spinner.hide();
-      if (res.json().status == true) {
-        this.employeeHistoryData = res.json().data;
+      if (res["status"] == true) {
+        this.employeeHistoryData = res["data"];
       } else {
         this.employeeHistoryData = [];
       }

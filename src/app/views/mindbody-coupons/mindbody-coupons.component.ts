@@ -48,8 +48,8 @@ export class MindbodyCouponsComponent implements OnInit {
       this.spinner.show();
       this.service.getMindBodyCoupons().subscribe(response => {
         this.spinner.hide();
-        if (response.json().status == true) {
-          this.couponsData = this.couponPipe.transform(response.json().data);
+        if (response["status"] == true) {
+          this.couponsData = this.couponPipe.transform(response["data"]);
           this.completeService.addCoupons(this.couponsData)
         } else {
           this.couponsData = [];
@@ -116,13 +116,13 @@ export class MindbodyCouponsComponent implements OnInit {
     this.service.addoreditMindBodyCoupons(data).subscribe(res => {
       this.spinner.hide();
       modelClose.click();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         if (this.couponsDetails.coupons_status == '0') {
           // this.couponsData.splice(this.couponsDetails["index"], 1);
           this.completeService.addCoupons([]);
           this.messageService.successToast("Coupons Inactive Successfully")
         } else {
-          this.couponsData[this.couponsDetails["index"]] = res.json().data;
+          this.couponsData[this.couponsDetails["index"]] = res["data"];
           this.completeService.addCoupons([]);
           if (this.couponsData[this.couponsDetails["index"]].coupons_status) {
             this.couponsData[this.couponsDetails["index"]].coupons_status = 'active'
@@ -144,7 +144,7 @@ export class MindbodyCouponsComponent implements OnInit {
     this.spinner.show();
     this.service.deleteMindBodyCoupons(this.deleteRecord["coupons_id"]).subscribe(res => {
       this.spinner.hide();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         this.couponsData.splice(this.deleteRecord["index"], 1);
         this.completeService.addCoupons([]);
         this.messageService.successToast("Coupons Deleted Successfully")
@@ -158,8 +158,8 @@ export class MindbodyCouponsComponent implements OnInit {
     this.spinner.show();
     this.service.getMindBodyCoupons().subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.couponsData = this.couponPipe.transform(response.json().data);
+      if (response["status"] == true) {
+        this.couponsData = this.couponPipe.transform(response["data"]);
         this.completeService.addCoupons(this.couponsData)
       }
     });

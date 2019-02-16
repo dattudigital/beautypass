@@ -21,8 +21,8 @@ export class PerksReportComponent implements OnInit {
     this.spinner.show();
     this.service.getPerksReports().subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.perksData = response.json().data;
+      if (response["status"] == true) {
+        this.perksData = response["data"];
       } else {
         this.perksData = [];
       }

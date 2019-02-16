@@ -72,9 +72,9 @@ export class MindbodyCouponsBulkComponent {
     this.service.addBulkMindBodyCoupons(this.list).subscribe(res => {
       this.spinner.hide();
 
-      if (Object.keys(res.json().errdata).length > 0) {
+      if (Object.keys(res["errdata"]).length > 0) {
         this.completeService.addCoupons([]);
-        this.errorData = res.json().errdata;
+        this.errorData = res["errdata"];
         this.messageService.errorToast("Already Coupons Exists")
       } else {
         this.router.navigate(['mindbody-coupons']);

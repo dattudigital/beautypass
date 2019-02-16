@@ -54,9 +54,9 @@ export class UserActivitiesComponent implements OnInit {
       this.spinner.show();
       this.service.getUserActivitiesList().subscribe(response => {
         this.spinner.hide();
-        if (response.json().status == true) {
-          this.userActivitiesData = response.json().data;
-          this.completeService.addUserActivity(response.json().data)
+        if (response["status"] == true) {
+          this.userActivitiesData = response["data"];
+          this.completeService.addUserActivity(response["data"])
         } else {
           this.userActivitiesData = [];
         }
@@ -162,12 +162,12 @@ export class UserActivitiesComponent implements OnInit {
     this.service._addOrEditRefferalActivities(data).subscribe(res => {
       this.spinner.hide();
       modelClose.click();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         if (!this.userActivity.activity_id) {
           if (JSON.parse(localStorage.getItem('activityData'))) {
             this.userActivitiesData = JSON.parse(localStorage.getItem('activityData'))
           }
-          this.userActivitiesData.push(res.json().data)
+          this.userActivitiesData.push(res["data"])
           this.userActivitiesData = this.userActivitiesData.slice();
           this.completeService.addUserActivity([]);
           this.messageService.successToast("User Activity Added Successfully")
@@ -179,7 +179,7 @@ export class UserActivitiesComponent implements OnInit {
             this.completeService.addUserActivity([]);
             this.messageService.successToast("User Activity Inactive Successfully")
           } else {
-            this.userActivitiesData[this.userActivity["index"]] = res.json().data;
+            this.userActivitiesData[this.userActivity["index"]] = res["data"];
             this.completeService.addUserActivity([]);
             this.messageService.successToast("User Activity Updated Successfully")
           }
@@ -219,7 +219,7 @@ export class UserActivitiesComponent implements OnInit {
     this.spinner.show();
     this.service.deleteRefferalActivities(this.deleteRecord["activity_id"]).subscribe(res => {
       this.spinner.hide();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         this.userActivitiesData.splice(this.deleteRecord["index"], 1);
         this.completeService.addUserActivity([]);
         localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
@@ -245,9 +245,9 @@ export class UserActivitiesComponent implements OnInit {
     this.spinner.show();
     this.service.getUserActivitiesList().subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.userActivitiesData = response.json().data;
-        this.completeService.addUserActivity(response.json().data)
+      if (response["status"] == true) {
+        this.userActivitiesData = response["data"];
+        this.completeService.addUserActivity(response["data"])
       } else {
         this.userActivitiesData = [];
       }

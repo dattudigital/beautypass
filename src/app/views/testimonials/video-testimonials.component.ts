@@ -44,8 +44,8 @@ export class VideoTestimonialsComponent {
       this.spinner.show();
       this.service.getVideoTestmonials().subscribe(response => {
         this.spinner.hide();
-        if (response.json().status == true) {
-          this.videoTestimonials = response.json().data;
+        if (response["status"] == true) {
+          this.videoTestimonials = response["data"];
           console.log(this.videoTestimonials)
           this.completeService.addVideoTestmonials(this.videoTestimonials);
         } else {
@@ -102,14 +102,14 @@ export class VideoTestimonialsComponent {
     let modelClose = document.getElementById("CloseVideo");
     this.service.editVideoTestmonials(data).subscribe(res => {
       modelClose.click();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         if (this.videoTestimonialData.rec_status == '0') {
           // this.videoTestimonials.splice(this.videoTestimonialData["index"], 1);
           this.videoTestimonials[this.videoTestimonialData["index"]].rec_status = "0";
           this.completeService.addVideoTestmonials([]);
           this.messageService.successToast("Video Testmonials inactive successfully")
         } else {
-          this.videoTestimonials[this.videoTestimonialData["index"]] = res.json().data;
+          this.videoTestimonials[this.videoTestimonialData["index"]] = res["data"];
           this.completeService.addVideoTestmonials([]);
           this.messageService.successToast("Video Testmonials Updated successfully")
           this.videoTestimonials[this.videoTestimonialData["index"]].fullname = this.videoTestimonialData.fullname;
@@ -130,7 +130,7 @@ export class VideoTestimonialsComponent {
 
   deleteAlert() {
     this.service.editVideoTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], rec_status: 2 }).subscribe(res => {
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         // this.videoTestimonials.splice(this.deleteRecord["index"], 1)
         this.completeService.addVideoTestmonials([]);
         this.messageService.successToast("Video Testmonials Deleted successfully")
@@ -144,9 +144,9 @@ export class VideoTestimonialsComponent {
     this.spinner.show();
     this.service.getVideoTestmonials().subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.videoTestimonials = response.json().data;
-        this.completeService.addVideoTestmonials(response.json().data);
+      if (response["status"] == true) {
+        this.videoTestimonials = response["data"];
+        this.completeService.addVideoTestmonials(response["data"]);
       } else {
         this.videoTestimonials = [];
       }

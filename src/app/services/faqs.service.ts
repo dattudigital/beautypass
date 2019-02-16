@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 export class FaqsService {
 
  
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
   public addOrUpdateFaq(data:any) {
     return this.http.post(environment.host + 'faqs', data);
   }

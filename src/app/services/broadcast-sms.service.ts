@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http'
+import { HttpClient} from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 })
 export class BroadcastSmsService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   public getBroadcastIds() {
     return this.http.get(environment.host + 'studioids');

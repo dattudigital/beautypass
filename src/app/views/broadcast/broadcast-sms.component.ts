@@ -38,8 +38,8 @@ export class broadcastSmsComponent implements OnInit {
     this.spinner.show();
     this.service.getBroadcastIds().subscribe(res => {
       this.spinner.hide();
-      if (res.json().status == true) {
-        this.broadcastIds = res.json().data;
+      if (res["status"] == true) {
+        this.broadcastIds = res["data"];
       } else {
         this.broadcastIds = [];
       }
@@ -50,8 +50,8 @@ export class broadcastSmsComponent implements OnInit {
     this.spinner.show();
     this.service.locationsId(val).subscribe(res => {
       this.spinner.hide();
-      if (res.json().status == true) {
-        this.locationIds = res.json().data;
+      if (res["status"] == true) {
+        this.locationIds = res["data"];
       } else {
         this.locationIds = [];
       }
@@ -59,7 +59,7 @@ export class broadcastSmsComponent implements OnInit {
   }
 
   selectedLocationId(val) {
-  
+
   }
 
   sendBroadcastSms() {

@@ -21,8 +21,8 @@ export class VoucherComponent implements OnInit {
     this.spinner.show();
     this.service.getVoucherReports(this.url).subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.voucherData = response.json().data;
+      if (response["status"] == true) {
+        this.voucherData = response["data"];
       } else {
         this.voucherData = [];
       }
@@ -47,7 +47,7 @@ export class VoucherComponent implements OnInit {
     this.spinner.show();
     this.service.getVoucherReports(this.url).subscribe(res => {
       this.spinner.hide();
-      this.voucherData = res.json().data;
+      this.voucherData = res["data"];
     })
   }
 

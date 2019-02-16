@@ -32,9 +32,9 @@ export class PerksComponent implements OnInit {
       this.spinner.show();
       this.service.getPerksList().subscribe(response => {
         this.spinner.hide();
-        if (response.json().status == true) {
-          this.perk = response.json().data;
-          this.completeService.addPerksData(response.json().data)
+        if (response["status"] == true) {
+          this.perk = response["data"];
+          this.completeService.addPerksData(response["data"])
         } else {
           this.perk = [];
         }
@@ -93,12 +93,12 @@ export class PerksComponent implements OnInit {
     this.service.addOrEditPerksList(data).subscribe(res => {
       this.spinner.hide();
       modelClose.click();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         if (!this.perksData.rewardpoint_id) {
           if (JSON.parse(localStorage.getItem('perksData'))) {
             this.perk = JSON.parse(localStorage.getItem('perksData'))
           }
-          this.perk.push(res.json().data);
+          this.perk.push(res["data"]);
           this.perk = this.perk.slice();
           this.completeService.addPerksData([]);
           this.messageService.successToast("Perks Added Successfully")
@@ -110,7 +110,7 @@ export class PerksComponent implements OnInit {
             this.completeService.addPerksData([]);
             this.messageService.successToast("Perks Inactive Successfully")
           } else {
-            this.perk[this.perksData["index"]] = res.json().data;
+            this.perk[this.perksData["index"]] = res["data"];
             this.completeService.addPerksData([]);
             this.messageService.successToast("Perks Updated Successfully")
           }
@@ -140,7 +140,7 @@ export class PerksComponent implements OnInit {
 
   deleteAlert() {
     this.service.deletePerksList(this.deleteRecord["rewardpoint_id"]).subscribe(res => {
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         this.perk.splice(this.deleteRecord["index"], 1);
         this.completeService.addPerksData([]);
         localStorage.setItem('perksData', JSON.stringify(this.perk))
@@ -157,9 +157,9 @@ export class PerksComponent implements OnInit {
     this.spinner.show();
     this.service.getPerksList().subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.perk = response.json().data;
-        this.completeService.addPerksData(response.json().data)
+      if (response["status"] == true) {
+        this.perk = response["data"];
+        this.completeService.addPerksData(response["data"])
       } else {
         this.perk = [];
       }

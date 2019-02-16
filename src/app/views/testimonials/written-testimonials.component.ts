@@ -50,8 +50,8 @@ export class WrittenTestimonialsComponent implements OnInit {
       this.spinner.show();
       this.service.getWrittenTestmonials('?rating=3').subscribe(response => {
         this.spinner.hide();
-        if (response.json().status == true) {
-          this.testmonials = response.json().data;
+        if (response["status"] == true) {
+          this.testmonials = response["data"];
           // this.completeService.addWrittenTestmonials(response.json().data);
         } else {
           this.testmonials = [];
@@ -62,8 +62,8 @@ export class WrittenTestimonialsComponent implements OnInit {
       this.spinner.show();
       this.service.getWrittenTestmonials('').subscribe(response => {
         this.spinner.hide();
-        if (response.json().status == true) {
-          this.testmonials = response.json().data;
+        if (response["status"] == true) {
+          this.testmonials = response["data"];
           // this.completeService.addWrittenTestmonials(response.json().data);
         } else {
           this.testmonials = [];
@@ -133,13 +133,13 @@ export class WrittenTestimonialsComponent implements OnInit {
     let modelClose = document.getElementById("CloseWritten");
     this.service.editWrittenTestmonials(data).subscribe(res => {
       modelClose.click();
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         if (this.testimonialData.coupons_status == '0') {
           // this.testmonials.splice(this.testimonialData["index"], 1);
           // this.completeService.addWrittenTestmonials([]);
           this.messageService.successToast("Written Testmonials inactive successfully")
         } else {
-          this.testmonials[this.testimonialData["index"]] = res.json().data;
+          this.testmonials[this.testimonialData["index"]] = res["data"];
           this.testmonials[this.testimonialData["index"]].locationName = this.testimonialData.locationName;
           this.testmonials[this.testimonialData["index"]].studioName = this.testimonialData.studioName
 
@@ -162,7 +162,7 @@ export class WrittenTestimonialsComponent implements OnInit {
 
   deleteAlert() {
     this.service.editWrittenTestmonials({ testimonial_id: this.deleteRecord["testimonial_id"], status: 2 }).subscribe(res => {
-      if (res.json().status == true) {
+      if (res["status"] == true) {
         // this.testmonials.splice(this.deleteRecord["index"], 1)
         // this.completeService.addWrittenTestmonials([]);
         this.messageService.successToast("Written Testmonials Deleted successfully")
@@ -183,8 +183,8 @@ export class WrittenTestimonialsComponent implements OnInit {
     }
     this.service.getWrittenTestmonials(url).subscribe(response => {
       this.spinner.hide();
-      if (response.json().status == true) {
-        this.testmonials = response.json().data;
+      if (response["status"] == true) {
+        this.testmonials = response["data"];
         // this.completeService.addWrittenTestmonials(response.json().data);
       } else {
         this.testmonials = [];
