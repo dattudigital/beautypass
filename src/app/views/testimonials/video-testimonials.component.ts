@@ -52,6 +52,7 @@ export class VideoTestimonialsComponent {
           this.videoTestimonials = [];
         }
         this.userData = JSON.parse(localStorage.getItem('loginDetails'));
+        console.log(this.userData.data[0].employee_id)
       });
     }
 
@@ -97,7 +98,7 @@ export class VideoTestimonialsComponent {
       likes: this.videoTestimonialData.likes,
       video: this.videoTestimonialData.video,
       rec_status: this.videoTestimonialData.rec_status,
-      updatedempid: this.userData.employee_id
+      updatedempid: this.userData.data[0].employee_id
     }
     let modelClose = document.getElementById("CloseVideo");
     this.service.editVideoTestmonials(data).subscribe(res => {
@@ -113,7 +114,7 @@ export class VideoTestimonialsComponent {
           this.completeService.addVideoTestmonials([]);
           this.messageService.successToast("Video Testmonials Updated successfully")
           this.videoTestimonials[this.videoTestimonialData["index"]].fullname = this.videoTestimonialData.fullname;
-          this.videoTestimonials[this.videoTestimonialData["index"]].empname = this.userData.emp_firstname + " " + this.userData.emp_lastname;
+          this.videoTestimonials[this.videoTestimonialData["index"]].empname = this.userData.data[0].emp_firstname + " " + this.userData.data[0].emp_lastname;
           this.videoTestimonials[this.videoTestimonialData["index"]].studioName = this.videoTestimonialData.studioName;
           this.videoTestimonials[this.videoTestimonialData["index"]].locationName = this.videoTestimonialData.locationName;
         }

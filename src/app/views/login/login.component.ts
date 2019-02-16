@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {Http} from '@angular/http';
+import { Http } from '@angular/http';
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'login.component.html'
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   }
   employeeForm: FormGroup;
   submitted = false;
-  constructor(private formBuilder: FormBuilder,private http:Http, private spinner: NgxSpinnerService, private router: Router, private service: LoginService) { }
+  constructor(private formBuilder: FormBuilder, private http: Http, private spinner: NgxSpinnerService, private router: Router, private service: LoginService) { }
 
   ngOnInit() {
     this.employeeForm = this.formBuilder.group({
@@ -40,7 +40,8 @@ export class LoginComponent implements OnInit {
     this.service.loginSubmit(data).subscribe(response => {
       this.spinner.hide();
       if (response["status"] == true) {
-        localStorage.setItem('loginDetails', JSON.stringify(response["data"][0]));
+        console.log(response)
+        localStorage.setItem('loginDetails', JSON.stringify(response));
         this.router.navigate(['dashboard']);
       } else {
         this.errorMeassage = true;

@@ -59,6 +59,7 @@ export class EmployeesComponent implements OnInit {
 
     if (localStorage.loginDetails) {
       this.userData = JSON.parse(localStorage.getItem('loginDetails'));
+      console.log(this.userData.data)
     }
 
     this.employeeForm = this.formBuilder.group({

@@ -55,6 +55,7 @@ export class MindbodyCouponsComponent implements OnInit {
           this.couponsData = [];
         }
         this.userData = JSON.parse(localStorage.getItem('loginDetails'));
+        console.log(this.userData.data[0].employee_id)
       });
     }
 
@@ -107,9 +108,9 @@ export class MindbodyCouponsComponent implements OnInit {
       coupons_status: this.couponsDetails.coupons_status
     }
     if (!this.couponsDetails.coupons_id) {
-      data.createdempid = this.userData.employee_id;
+      data.createdempid = this.userData.data[0].employee_id;
     } else {
-      data.updatedempid = this.userData.employee_id;
+      data.updatedempid = this.userData.data[0].employee_id;
     }
     let modelClose = document.getElementById("CloseButton");
     this.spinner.show();

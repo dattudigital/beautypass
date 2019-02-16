@@ -128,7 +128,7 @@ export class WrittenTestimonialsComponent implements OnInit {
       // studioName: this.testimonialData.studioName,
       // locationName: this.testimonialData.locationName,
       status: this.testimonialData.status,
-      updatedempid: this.userData.employee_id
+      updatedempid: this.userData.data[0].employee_id
     }
     let modelClose = document.getElementById("CloseWritten");
     this.service.editWrittenTestmonials(data).subscribe(res => {
@@ -147,7 +147,7 @@ export class WrittenTestimonialsComponent implements OnInit {
 
           this.messageService.successToast("Written Testmonials Updated successfully")
           this.testmonials[this.testimonialData["index"]].fullname = this.testimonialData.fullname;
-          this.testmonials[this.testimonialData["index"]].empname = this.userData.emp_firstname + " " + this.userData.emp_lastname;
+          this.testmonials[this.testimonialData["index"]].empname = this.userData.data[0].emp_firstname + " " + this.userData.data[0].emp_lastname;
         }
       } else {
         this.messageService.errorToast("Written Testmonials not Updated ")

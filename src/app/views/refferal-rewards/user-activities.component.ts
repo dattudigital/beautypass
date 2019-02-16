@@ -65,6 +65,7 @@ export class UserActivitiesComponent implements OnInit {
 
     if (localStorage.loginDetails) {
       this.userData = JSON.parse(localStorage.getItem('loginDetails'));
+      console.log(this.userData.data[0].employee_id)
     }
 
     this.cols = [
@@ -153,9 +154,9 @@ export class UserActivitiesComponent implements OnInit {
     }
 
     if (!this.userActivity.activity_id) {
-      data.createdemp_id = this.userData.employee_id;
+      data.createdemp_id =this.userData.data[0].employee_id;
     } else {
-      data.updatedempid = this.userData.employee_id;
+      data.updatedempid = this.userData.data[0].employee_id;
     }
     let modelClose = document.getElementById("CloseActivity");
     this.spinner.show();

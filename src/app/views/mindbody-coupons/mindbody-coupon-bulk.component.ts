@@ -24,6 +24,7 @@ export class MindbodyCouponsBulkComponent {
   constructor(private service: RefferalRewardsService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private spinner: NgxSpinnerService, private router: Router) {
     if (localStorage.loginDetails) {
       this.empData = JSON.parse(localStorage.getItem('loginDetails'));
+      console.log(this.empData.data[0].employee_id)
     }
 
     this.cols = [
@@ -65,7 +66,7 @@ export class MindbodyCouponsBulkComponent {
   errorData: any = [];
   addBulkCoupons() {
     this.list.forEach(element => {
-      element.empid = this.empData.employee_id;
+      element.empid = this.empData.data[0].employee_id;
     });
     // coupon point  ,   coupon num
     this.spinner.show();
