@@ -27,24 +27,41 @@
               <i class="fa fa-align-justify"></i>Add User Points
             </div>
             <div class="col-sm-4"></div>
-            <div class="col-sm-2 col-md text-center">
-              <button type="button" name="addpoint" id="addpoint" (click)="addPoints.show();getUserId()"
-                class="btn btn-primary" style="float: right;"><i class="far fa-plus-square"></i>&nbsp; Add
-                Points</button>
-            </div>
-            <div class="col-sm-2 col-md text-center">
-              <button type="button" name="removepoint" id="removepoint" (click)="addPoints.show();getUserId()"
-                class="btn btn-primary" style="float: right;"><i class="far fa-minus-square"></i>&nbsp;Remove
-                Points</button>
-            </div>
+
           </div>
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-8">
               <label><b>Total User Points:</b></label>&nbsp;&nbsp;
               <label style="color: crimson;font-size: 18px;"> {{totalPoints}}</label>
             </div>
+
+            <div class="col-md-2">
+              <button type="button" name="addpoint" id="addpoint" (click)="addPoints.show();getUserId(selectedOption);"
+                class="btn btn-success" style="float: right;padding: 3px;"><i class="far fa-plus-square"></i>&nbsp; Add
+                Points</button>
+            </div>
+            <div class="col-md-2">
+              <button type="button" name="removepoint" id="removepoint" (click)="addPoints.show();getUserId(selectedOption)"
+                class="btn btn-danger" style="float: right;padding: 3px"><i class="far fa-minus-square"></i>&nbsp;Remove
+                Points</button>
+            </div>
+            <!-- 
+            <div class="col-sm-2 col-md text-center">
+              <button type="button" name="addpoint" id="addpoint" (click)="addPoints.show();getUserId();"
+                class="btn btn-success" style="float: right;"><i class="far fa-plus-square"></i>&nbsp; Add
+                Points</button>
+            </div>
+            <div class="col-sm-2 col-md text-center">
+              <button type="button" name="removepoint" id="removepoint" (click)="addPoints.show();getUserId()"
+                class="btn btn-danger" style="float: right;"><i class="far fa-minus-square"></i>&nbsp;Remove
+                Points</button>
+            </div> -->
+
+
+
+
           </div>
           <p-table #dt [columns]="cols" [value]="selectedOption" [paginator]="true" [rows]="4">
             <ng-template pTemplate="caption">
