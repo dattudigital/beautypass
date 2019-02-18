@@ -38,12 +38,12 @@
             </div>
 
             <div class="col-md-2">
-              <button type="button" name="addpoint" id="addpoint" (click)="addPoints.show();getUserId(selectedOption);"
+              <button type="button" name="addpoint" id="addpoint" (click)="addPoints.show();getUserId();"
                 class="btn btn-success" style="float: right;padding: 3px;"><i class="far fa-plus-square"></i>&nbsp; Add
                 Points</button>
             </div>
             <div class="col-md-2">
-              <button type="button" name="removepoint" id="removepoint" (click)="addPoints.show();getUserId(selectedOption)"
+              <button type="button" name="removepoint" id="removepoint" (click)="addPoints.show();getUserId()"
                 class="btn btn-danger" style="float: right;padding: 3px"><i class="far fa-minus-square"></i>&nbsp;Remove
                 Points</button>
             </div>
@@ -141,6 +141,13 @@
                   <label class="col-md-3 col-form-label" for="text-input">Studio Name<b style="color:red">*</b></label>
                   <div class="col-md-9">
                     <input type="text" maxlength="50" class="form-control" [(ngModel)]="userPointsData.studioName"
+                      [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Employee Name<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" class="form-control" [(ngModel)]="userPointsData.employeeName"
                       [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
                   </div>
                 </div>

@@ -30,8 +30,10 @@ export class UserPointsComponent {
     'location': '',
     'locationName': '',
     'studioid': '',
-    'studioName': ''
+    'studioName': '',
+    'employeeName': ''
   }
+  userData: any;
   totalPoints: any = 0;
   constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private dp: DatePipe, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
 
@@ -115,12 +117,14 @@ export class UserPointsComponent {
   }
 
   getUserId() {
-    // console.log(va)
+    this.userData = JSON.parse(localStorage.getItem('loginDetails'));
     this.userPointsData = this.selectedOption
-    console.log(this.userPointsData)
-    console.log(this.userPointsData[0].user_id)
-    this.userPointsData.user_id = this.userPointsData[0].user_id
-
+    this.userPointsData.user_id = this.userPointsData[0].user_id;
+    this.userPointsData.location = this.userPointsData[0].location;
+    this.userPointsData.locationName = this.userPointsData[0].locationName;
+    this.userPointsData.studioid = this.userPointsData[0].studioid;
+    this.userPointsData.studioName = this.userPointsData[0].studioName;
+    this.userPointsData.employeeName = this.userData.data[0].emp_firstname;
   }
 
   removeFields() {
