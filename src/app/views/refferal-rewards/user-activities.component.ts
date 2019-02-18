@@ -75,6 +75,8 @@ export class UserActivitiesComponent implements OnInit {
       { field: 'activity_code', header: 'Code' },
       { field: 'activity_start_date', header: 'Start Date', type: this.dp },
       { field: 'activity_end_date', header: 'End Date', type: this.dp },
+      { field: 'activity_status', header: 'Status' },
+
     ];
     this.activityForm = this.formBuilder.group({
       activityName: ['', Validators.required],

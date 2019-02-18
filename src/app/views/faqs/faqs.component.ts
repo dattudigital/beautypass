@@ -52,6 +52,7 @@ export class FaqsComponent implements OnInit {
     this.cols = [
       { field: 'faq_question', header: 'Question' },
       { field: 'faq_answer', header: 'Answer' },
+      { field: 'faq_status', header: 'Status' },
     ]
 
     this.faqsForm = this.formBuilder.group({

@@ -44,7 +44,8 @@ export class PerksComponent implements OnInit {
 
     this.cols = [
       { field: 'rewardpoint_name', header: 'Reward Point Name' },
-      { field: 'rewardpoint_amount', header: 'Amount' }
+      { field: 'rewardpoint_amount', header: 'Amount' },
+      { field: 'rewardpoint_status', header: 'Status' }
       // { field: 'rewardpoint_start_date', header: 'Start Date', type: this.dp },
       // { field: 'rewardpoint_end_date', header: 'End Date', type: this.dp },
     ];

@@ -27,7 +27,9 @@ export class EmployeeHistoryComponent implements OnInit {
       { field: 'emp_name', header: ' Name' },
       { field: 'operation', header: 'Operation' },
       { field: 'ipaddress', header: 'IpAddress' },
-      { field: 'description', header: 'Description' }
+      { field: 'description', header: 'Description' },
+      { field: 'emp_status', header: 'Status' }
+
     ];
   }
 

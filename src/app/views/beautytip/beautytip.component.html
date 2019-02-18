@@ -12,7 +12,8 @@
         Tip / Hot Deal</button>
     </div>
     <div class=" col-sm-1">
-      <i class="fas fa-sync-alt" (click)="reloadClick()" style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
+      <i class="fas fa-sync-alt" (click)="reloadClick()"
+        style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
     </div>
   </div>
 </div>
@@ -74,8 +75,8 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="select1">Select Category<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <select id="select1" name="select1" class="form-control" formControlName="tipType" [(ngModel)]="beautytips.tip_type"
-                      [ngClass]="{ 'is-invalid': submitted && f.tipType.errors }">
+                    <select id="select1" name="select1" class="form-control" formControlName="tipType"
+                      [(ngModel)]="beautytips.tip_type" [ngClass]="{ 'is-invalid': submitted && f.tipType.errors }">
                       <option value="1">Beauty Tip</option>
                       <option value="2">Hot Deals</option>
                     </select>
@@ -87,15 +88,18 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Tip Name </label>
                   <div class="col-md-9">
-                    <input type="text" name="tipname" id="tipname" maxlength="50" class="form-control" placeholder="Enter Name"
-                      [(ngModel)]="beautytips.tip_title" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" />
+                    <input type="text" name="tipname" id="tipname" maxlength="50" class="form-control"
+                      placeholder="Enter Name" [(ngModel)]="beautytips.tip_title" [(ngModel)]="showMoreControls"
+                      [ngModelOptions]="{standalone: true}" />
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Description <b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <textarea type="text" name="tipdesc" id="tipdesc" rows="5" class="form-control" formControlName="description"
-                      placeholder="Enter Beautytip Description" [(ngModel)]="beautytips.tip_description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                    <textarea type="text" name="tipdesc" id="tipdesc" rows="5" class="form-control"
+                      formControlName="description" placeholder="Enter Beautytip Description"
+                      [(ngModel)]="beautytips.tip_description"
+                      [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
                     <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
                       <div *ngIf="f.description.errors.required" style="color:red">Tip Name is required</div>
                     </div>
@@ -124,16 +128,19 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input"></label>
                   <div class="col-md-9">
-                    <input type="file" name="photo" id="uploadCaptureInputFile" accept="image/*" (change)="getFileDetails($event,'p')" />
-                    <span *ngIf=" submitted == true && beautytips.tip_img == null" style="color:red">Image is Required</span>
+                    <input type="file" name="photo" id="uploadCaptureInputFile" accept="image/*"
+                      (change)="getFileDetails($event,'p')" />
+                    <span *ngIf=" submitted == true && beautytips.tip_img == null" style="color:red">Image is
+                      Required</span>
                   </div>
                 </div>
                 <div *ngIf="beautytips.tip_type!='2'">
                   <div class=" form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Video Url</label>
                     <div class="col-md-9">
-                      <input type="text" name="tipvideo" id="tipvideo" maxlength="50" class="form-control" placeholder="Enter Video Url"
-                        [(ngModel)]="beautytips.tip_video" [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" />
+                      <input type="text" name="tipvideo" id="tipvideo" maxlength="50" class="form-control"
+                        placeholder="Enter Video Url" [(ngModel)]="beautytips.tip_video" [(ngModel)]="showMoreControls"
+                        [ngModelOptions]="{standalone: true}" />
                     </div>
                   </div>
                 </div>
@@ -150,13 +157,16 @@
                   </div>
                 </div>
                 <span *ngIf="!beautytips.tip_id">
-                  <button style="margin-left: 26%;" name="addTip" id="addTip" class="btn btn-primary" (click)="addOrUpdateBeautyTips()">ADD</button>
+                  <button style="margin-left: 26%;" name="addTip" id="addTip" class="btn btn-primary"
+                    (click)="addOrUpdateBeautyTips()">ADD</button>
                 </span>
                 <span *ngIf="beautytips.tip_id">
-                  <button style="margin-left: 26%;" name="updateTip" id="updateTip" class="btn btn-primary" (click)="addOrUpdateBeautyTips()">Update</button>
+                  <button style="margin-left: 26%;" name="updateTip" id="updateTip" class="btn btn-primary"
+                    (click)="addOrUpdateBeautyTips()">Update</button>
                 </span>
                 &nbsp;&nbsp;
-                <button type="button" id="CloseBeautyTip" class="btn btn-secondary" (click)="addOrUpdateBeautyTip.hide();backupData()">Close</button>
+                <button type="button" id="CloseBeautyTip" class="btn btn-secondary"
+                  (click)="addOrUpdateBeautyTip.hide();backupData()">Close</button>
               </form>
             </div>
           </div>
@@ -181,6 +191,7 @@
                 <th>Description</th>
                 <th>Image</th>
                 <th>Type</th>
+                <th>Status</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -191,10 +202,11 @@
                 <td>{{data.tip_description}}</td>
                 <td> <img [src]="data.tip_img" height="50"></td>
                 <td>{{data.tip_type}}</td>
-                <td> <button class="btn-primary" data-toggle="modal" (click)="addOrUpdateBeautyTip.show();editBeautyTip(data,i)"><i
-                      class="fa fa-edit"></i></button></td>
-                <td> <button class="btn-danger" data-toggle="modal" (click)="dangerModal.show();deleteBeautyTips(data,i)"><i
-                      class="fa fa-trash"></i></button></td>
+                <td>{{data.rec_status}}</td>
+                <td> <button class="btn-primary" data-toggle="modal"
+                    (click)="addOrUpdateBeautyTip.show();editBeautyTip(data,i)"><i class="fa fa-edit"></i></button></td>
+                <td> <button class="btn-danger" data-toggle="modal"
+                    (click)="dangerModal.show();deleteBeautyTips(data,i)"><i class="fa fa-trash"></i></button></td>
               </tr>
             </tbody>
           </table>
