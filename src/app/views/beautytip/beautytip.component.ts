@@ -107,21 +107,16 @@ export class BeautyTipsComponent implements OnInit {
             this.completeService.addBeautyTip([])
             this.messageService.successToast("BeautyTip added Successfully")
           } else {
-            if (this.beautytips.rec_status == '0') {
-              // this.tipsData.splice(this._index, 1);
-              this.completeService.addBeautyTip([])
-              this.messageService.successToast("BeautyTip Inactive Successfully")
-            } else {
-              this.tipsData[this._index] = res["data"];
-              if (this.tipsData[this._index].tip_type == 2) {
-                this.tipsData[this._index].tip_type = 'Hot Deal'
-              }
-              if (this.tipsData[this._index].tip_type == 1) {
-                this.tipsData[this._index].tip_type = 'Beauty Tip'
-              }
-              this.completeService.addBeautyTip([])
-              this.messageService.successToast("BeautyTip Updated Successfully")
+            this.tipsData[this._index] = res["data"];
+            if (this.tipsData[this._index].tip_type == 2) {
+              this.tipsData[this._index].tip_type = 'Hot Deal'
             }
+            if (this.tipsData[this._index].tip_type == 1) {
+              this.tipsData[this._index].tip_type = 'Beauty Tip'
+            }
+            this.completeService.addBeautyTip([])
+            this.messageService.successToast("BeautyTip Updated Successfully")
+
           }
         } else {
           this.messageService.errorToast("BeautyTip not  Added")
@@ -188,7 +183,6 @@ export class BeautyTipsComponent implements OnInit {
   _handleReaderLoaded(readerEvt) {
     var binaryString = readerEvt.target.result;
     this.beautytips.tip_img = btoa(binaryString);
-    // this.isShowOriginalImg = true;
     if (this.beautytips.tip_id) {
       this.isShowOriginalImg = true;
     }
