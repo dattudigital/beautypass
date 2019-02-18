@@ -45,7 +45,7 @@ export class PerksComponent implements OnInit {
     this.cols = [
       { field: 'rewardpoint_name', header: 'Reward Point Name' },
       { field: 'rewardpoint_amount', header: 'Amount' },
-      { field: 'rewardpoint_status', header: 'Status' }
+      { field: 'rewardpoint_status', header: 'Status', type: 1 }
       // { field: 'rewardpoint_start_date', header: 'Start Date', type: this.dp },
       // { field: 'rewardpoint_end_date', header: 'End Date', type: this.dp },
     ];
@@ -106,6 +106,7 @@ export class PerksComponent implements OnInit {
         } else {
           if (this.perksData.rewardpoint_status == '0') {
             // this.perk.splice(this.perksData["index"], 1);
+            this.perk[this.perksData["index"]].rewardpoint_status = "0";
             this.perk = this.perk.slice();
             localStorage.setItem('perksData', JSON.stringify(this.perk))
             this.completeService.addPerksData([]);

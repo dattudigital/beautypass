@@ -6,11 +6,12 @@
 <div class="card-body">
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
-      <button type="button" name="createfaq" id="createfaq" (click)="removeFields();addorUpdateFaqs.show();" class="btn btn-primary"
-        style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add Faq's</button>
+      <button type="button" name="createfaq" id="createfaq" (click)="removeFields();addorUpdateFaqs.show();"
+        class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add Faq's</button>
     </div>
     <div class=" col-sm-1">
-      <i class="fas fa-sync-alt" (click)="reloadClick()" style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
+      <i class="fas fa-sync-alt" (click)="reloadClick()"
+        style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
     </div>
   </div>
 </div>
@@ -27,15 +28,16 @@
             <ng-template pTemplate="caption">
               <div style="text-align: right">
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                  style="width:auto">
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
               </div>
             </ng-template>
             <ng-template pTemplate="header">
               <tr>
                 <th *ngFor="let col of cols" [pSortableColumn]="col.field">
                   {{col.header}}
-                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                 </th>
                 <th>Edit</th>
@@ -45,7 +47,8 @@
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
                 <td *ngFor="let col of cols">
-                  {{data[col.field]}}
+                  <!-- {{data[col.field]}} -->
+                  {{ col.type ? (data[col.field] == "1" ? "active" : "Inactive") : data[col.field] }}
                 </td>
                 <td href="#" data-toggle="modal" (click)="addorUpdateFaqs.show();editFaqs(data,i)"><i class="fa fa-edit"
                     style="color:orange;font-size: 20px;text-align:center"></i></td>
@@ -77,8 +80,10 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Question<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <textarea type="text" name="question" id="question" rows="5" maxlength="500" formControlName="Question"
-                      class="form-control" placeholder="Write Question" [(ngModel)]="faqs.faq_question " [ngClass]="{ 'is-invalid': submitted && f.Question.errors }"></textarea>
+                    <textarea type="text" name="question" id="question" rows="5" maxlength="500"
+                      formControlName="Question" class="form-control" placeholder="Write Question"
+                      [(ngModel)]="faqs.faq_question "
+                      [ngClass]="{ 'is-invalid': submitted && f.Question.errors }"></textarea>
                     <div *ngIf="submitted && f.Question.errors" class="invalid-feedback">
                       <div *ngIf="f.Question.errors.required" style="color:red">Question is required</div>
                     </div>
@@ -88,8 +93,10 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Answer<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <textarea type="text" name="faqanswer" id="faqanswer" rows="5" maxlength="500" formControlName="Answer"
-                      class="form-control" placeholder="Write Answer" [(ngModel)]="faqs.faq_answer" [ngClass]="{ 'is-invalid': submitted && f.Answer.errors }"></textarea>
+                    <textarea type="text" name="faqanswer" id="faqanswer" rows="5" maxlength="500"
+                      formControlName="Answer" class="form-control" placeholder="Write Answer"
+                      [(ngModel)]="faqs.faq_answer"
+                      [ngClass]="{ 'is-invalid': submitted && f.Answer.errors }"></textarea>
                     <div *ngIf="submitted && f.Answer.errors" class="invalid-feedback">
                       <div *ngIf="f.Answer.errors.required" style="color:red">Answer is required</div>
                     </div>
@@ -108,13 +115,16 @@
                   </div>
                 </div>
                 <span *ngIf="!faqs.faq_id">
-                  <button style="margin-left: 26%;" name="addfaqs" id="addfaqs" class="btn btn-primary" (click)="addFaqs()">ADD</button>
+                  <button style="margin-left: 26%;" name="addfaqs" id="addfaqs" class="btn btn-primary"
+                    (click)="addFaqs()">ADD</button>
                 </span>
                 <span *ngIf="faqs.faq_id">
-                  <button style="margin-left: 26%;" name="updatefaqs" id="updatefaqs" class="btn btn-primary" (click)="addFaqs()">Update</button>
+                  <button style="margin-left: 26%;" name="updatefaqs" id="updatefaqs" class="btn btn-primary"
+                    (click)="addFaqs()">Update</button>
                 </span>
                 &nbsp;&nbsp;
-                <button type="button" id="CloseFaqs" class="btn btn-secondary" (click)="addorUpdateFaqs.hide();backupData()">Close</button>
+                <button type="button" id="CloseFaqs" class="btn btn-secondary"
+                  (click)="addorUpdateFaqs.hide();backupData()">Close</button>
               </form>
             </div>
           </div>

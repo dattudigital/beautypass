@@ -6,11 +6,12 @@
 <div class="card-body">
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
-      <button type="button" name="createperks" id="createperks" (click)="removeFields();addorUpdatePerks.show();" class="btn btn-primary"
-        style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add Perks</button>
+      <button type="button" name="createperks" id="createperks" (click)="removeFields();addorUpdatePerks.show();"
+        class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add Perks</button>
     </div>
     <div class=" col-sm-1">
-      <i class="fas fa-sync-alt" (click)="reloadClick()" style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
+      <i class="fas fa-sync-alt" (click)="reloadClick()"
+        style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
     </div>
   </div>
 </div>
@@ -32,8 +33,9 @@
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Reward Name<b style="color:red">*</b></label>
                   <div class="col-md-9">
-                    <input type="text" name="rew-name" id="rew-name" maxlength="50" formControlName="rewardName" class="form-control"
-                      placeholder="Reward Points Name" [(ngModel)]="perksData.rewardpoint_name" [ngClass]="{ 'is-invalid': submitted && f.rewardName.errors }"
+                    <input type="text" name="rew-name" id="rew-name" maxlength="50" formControlName="rewardName"
+                      class="form-control" placeholder="Reward Points Name" [(ngModel)]="perksData.rewardpoint_name"
+                      [ngClass]="{ 'is-invalid': submitted && f.rewardName.errors }"
                       (keypress)="only_allow_number($event)">
                     <div *ngIf="submitted && f.rewardName.errors" class="invalid-feedback">
                       <div *ngIf="f.rewardName.errors.required" style="color:red">Reward Name is required</div>
@@ -45,7 +47,8 @@
                   <div class="col-md-9">
                     <input type="text" name="rew-amount" id="rew-amount" maxlength="50" formControlName="rewardAmount"
                       class="form-control" placeholder="Reward Amount" [(ngModel)]="perksData.rewardpoint_amount"
-                      [ngClass]="{ 'is-invalid': submitted && f.rewardAmount.errors }" (keypress)="only_allow_number($event)">
+                      [ngClass]="{ 'is-invalid': submitted && f.rewardAmount.errors }"
+                      (keypress)="only_allow_number($event)">
                     <div *ngIf="submitted && f.rewardAmount.errors" class="invalid-feedback">
                       <div *ngIf="f.rewardAmount.errors.required" style="color:red">Reward Amount is required</div>
                     </div>
@@ -55,8 +58,9 @@
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Status</label>
                     <div class="col-md-9">
-                      <select class="form-control" name="perksstatus" id="perksstatus" [(ngModel)]="perksData.rewardpoint_status"
-                        [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
+                      <select class="form-control" name="perksstatus" id="perksstatus"
+                        [(ngModel)]="perksData.rewardpoint_status" [(ngModel)]="showMoreControls"
+                        [ngModelOptions]="{standalone: true}">
                         <option value="1">Active</option>
                         <option value="0">In active</option>
                       </select>
@@ -64,13 +68,16 @@
                   </div>
                 </div>
                 <span *ngIf="!perksData.rewardpoint_id">
-                  <button style="margin-left: 26%;" name="addperks" id="addperks" class="btn btn-primary" (click)="addOrUpdatePerk(perksData)">ADD</button>
+                  <button style="margin-left: 26%;" name="addperks" id="addperks" class="btn btn-primary"
+                    (click)="addOrUpdatePerk(perksData)">ADD</button>
                 </span>
                 <span *ngIf="perksData.rewardpoint_id">
-                  <button style="margin-left: 26%;" name="updateperks" id="updateperks" class="btn btn-primary" (click)="addOrUpdatePerk(perksData)">Update</button>
+                  <button style="margin-left: 26%;" name="updateperks" id="updateperks" class="btn btn-primary"
+                    (click)="addOrUpdatePerk(perksData)">Update</button>
                 </span>
                 &nbsp;&nbsp;
-                <button type="button" id="ClosePerks" class="btn btn-secondary" (click)="addorUpdatePerks.hide();backupData() ">Close</button>
+                <button type="button" id="ClosePerks" class="btn btn-secondary"
+                  (click)="addorUpdatePerks.hide();backupData() ">Close</button>
               </form>
             </div>
           </div>
@@ -92,15 +99,16 @@
             <ng-template pTemplate="caption">
               <div style="text-align: right">
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                  style="width:auto">
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
               </div>
             </ng-template>
             <ng-template pTemplate="header">
               <tr>
                 <th *ngFor="let col of cols" [pSortableColumn]="col.field">
                   {{col.header}}
-                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                 </th>
                 <th>Edit</th>
@@ -110,10 +118,11 @@
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
                 <td *ngFor="let col of cols">
-                  {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }}
+                  <!-- {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }} -->
+                  {{ col.type ? (data[col.field] == "1" ? "active" : "Inactive") : data[col.field] }}
                 </td>
-                <td href="#" data-toggle="modal" (click)="addorUpdatePerks.show();editPerk(data,i)"><i class="fa fa-edit"
-                    style="color:orange;font-size: 20px;text-align:center"></i></td>
+                <td href="#" data-toggle="modal" (click)="addorUpdatePerks.show();editPerk(data,i)"><i
+                    class="fa fa-edit" style="color:orange;font-size: 20px;text-align:center"></i></td>
                 <td href="#" data-toggle="modal" (click)="deletePerks.show();deletePerk(data,i)"><i class="fa fa-trash"
                     style="color:red;font-size: 20px"></i></td>
               </tr>
@@ -155,7 +164,8 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" id="deleteCloseButton" class="btn btn-secondary" (click)="deletePerks.hide()">Close</button>
+        <button type="button" id="deleteCloseButton" class="btn btn-secondary"
+          (click)="deletePerks.hide()">Close</button>
         <button type="button" class="btn btn-danger" (click)="deletePerks.hide();deleteAlert();">Delete</button>
       </div>
     </div>
