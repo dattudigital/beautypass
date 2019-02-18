@@ -10,12 +10,17 @@ export class JwtInterceptor implements HttpInterceptor {
         // let currentUser = {token:'*********'};
         let currentUser = JSON.parse(localStorage.getItem('loginDetails'));
         console.log(currentUser)
+        console.log(currentUser.data[0].emp_email)
+        console.log(currentUser.data[0].emp_password)
         if (currentUser) {
             if (currentUser.token) {
                 console.log(currentUser.token)
                 request = request.clone({
                     setHeaders: {
-                        'x-access-token': currentUser.token
+                        'x-access-token': currentUser.token,
+                        'username': "sh_br_ba",
+                        'password': "sh@sh.com"
+
                     }
                 });
             }
