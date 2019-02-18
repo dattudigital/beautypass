@@ -9,13 +9,7 @@ export class JwtInterceptor implements HttpInterceptor {
         // console.log(request);
         // let currentUser = {token:'*********'};
         let currentUser = JSON.parse(localStorage.getItem('loginDetails'));
-<<<<<<< HEAD
-        // console.log(currentUser)
-=======
         console.log(currentUser)
-        console.log(currentUser.data[0].emp_email)
-        console.log(currentUser.data[0].emp_password)
->>>>>>> 508a6229938bfc21922477648a6e28cf455a1549
         if (currentUser) {
             if (currentUser.token) {
                 // console.log(currentUser.token)
