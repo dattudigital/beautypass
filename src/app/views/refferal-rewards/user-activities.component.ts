@@ -5,6 +5,8 @@ import { ExcelService } from '../../services/excel.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 declare var jsPDF: any;
 import { DatePipe } from '@angular/common';
+import { ActivitiesPipe } from '../../pipe/activities.pipe';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { ToastMessageService } from '../../services/toast-message.service';
@@ -14,7 +16,8 @@ import { CompleteBeautypassService } from '../../services/complete-beautypass.se
   templateUrl: 'user-activities.component.html',
   providers: [
     DatePipe,
-    ToastMessageService
+    ToastMessageService,
+    ActivitiesPipe
   ]
 })
 
@@ -40,7 +43,7 @@ export class UserActivitiesComponent implements OnInit {
   deleteRecord: '';
   randomNumber: any;
 
-  constructor(private spinner: NgxSpinnerService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
+  constructor(private spinner: NgxSpinnerService, private activityPipe: ActivitiesPipe, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private router: Router, private excelService: ExcelService, private service: RefferalRewardsService, private dp: DatePipe) { }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -49,13 +52,13 @@ export class UserActivitiesComponent implements OnInit {
   ngOnInit() {
     let _useractivity = this.completeService.getUserActivity()
     if (Object.keys(_useractivity).length) {
-      this.userActivitiesData = _useractivity;
+      this.userActivitiesData = this.activityPipe.transform(_useractivity);
     } else {
       this.spinner.show();
       this.service.getUserActivitiesList().subscribe(response => {
         this.spinner.hide();
         if (response["status"] == true) {
-          this.userActivitiesData = response["data"];
+          this.userActivitiesData = this.activityPipe.transform(response["data"]);
           this.completeService.addUserActivity(response["data"])
         } else {
           this.userActivitiesData = [];
@@ -156,7 +159,7 @@ export class UserActivitiesComponent implements OnInit {
     }
 
     if (!this.userActivity.activity_id) {
-      data.createdemp_id =this.userData.data[0].employee_id;
+      data.createdemp_id = this.userData.data[0].employee_id;
     } else {
       data.updatedempid = this.userData.data[0].employee_id;
     }
@@ -170,22 +173,40 @@ export class UserActivitiesComponent implements OnInit {
           if (JSON.parse(localStorage.getItem('activityData'))) {
             this.userActivitiesData = JSON.parse(localStorage.getItem('activityData'))
           }
+          console.log(res["data"].activity_status)
+          if (res["data"].activity_status == 1) {
+            res["data"].activity_status = "Active"
+          }
           this.userActivitiesData.push(res["data"])
           this.userActivitiesData = this.userActivitiesData.slice();
           this.completeService.addUserActivity([]);
           this.messageService.successToast("User Activity Added Successfully")
         } else {
-          if (this.userActivity.activity_status == '0') {
-            // this.userActivitiesData.splice(this.userActivity["index"], 1);
-            this.userActivitiesData = this.userActivitiesData.slice();
-            localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
-            this.completeService.addUserActivity([]);
-            this.messageService.successToast("User Activity Inactive Successfully")
-          } else {
-            this.userActivitiesData[this.userActivity["index"]] = res["data"];
-            this.completeService.addUserActivity([]);
-            this.messageService.successToast("User Activity Updated Successfully")
+          this.userActivitiesData = this.userActivitiesData.slice();
+          localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
+          this.userActivitiesData[this.userActivity["index"]] = res["data"];
+          console.log(res["data"].activity_status)
+          if (res["data"].activity_status == 1) {
+            res["data"].activity_status = "Active"
           }
+          if (res["data"].activity_status == 0) {
+            res["data"].activity_status = "In Active"
+          }
+          this.completeService.addUserActivity([]);
+          this.messageService.successToast("User Activity Updated Successfully")
+
+          // if (this.userActivity.activity_status == '0') {
+          //   // this.userActivitiesData.splice(this.userActivity["index"], 1);
+          //   this.userActivitiesData = this.userActivitiesData.slice();
+          //   localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
+          //   this.completeService.addUserActivity([]);
+          //   this.messageService.successToast("User Activity Inactive Successfully")
+          // } else {
+          //   this.userActivitiesData[this.userActivity["index"]] = res["data"];
+          //   console.log(res["data"].activity_status)
+          //   this.completeService.addUserActivity([]);
+          //   this.messageService.successToast("User Activity Updated Successfully")
+          // }
         }
       } else {
         this.messageService.successToast("User Activity not Added ")
@@ -204,6 +225,11 @@ export class UserActivitiesComponent implements OnInit {
     if (this.userActivity.activity_end_date) {
       let newDate = moment(this.userActivity.activity_end_date).format('YYYY-MM-DD').toString();
       this.userActivity.activity_end_date = newDate;
+    }
+    if (this.userActivity.activity_status == "Active") {
+      this.userActivity.activity_status = "1"
+    } else {
+      this.userActivity.activity_status = "0"
     }
     this.userActivity['index'] = index;
   }
@@ -249,7 +275,7 @@ export class UserActivitiesComponent implements OnInit {
     this.service.getUserActivitiesList().subscribe(response => {
       this.spinner.hide();
       if (response["status"] == true) {
-        this.userActivitiesData = response["data"];
+        this.userActivitiesData = this.activityPipe.transform(response["data"]);
         this.completeService.addUserActivity(response["data"])
       } else {
         this.userActivitiesData = [];

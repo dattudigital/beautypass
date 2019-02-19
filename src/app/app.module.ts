@@ -46,6 +46,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BeautyTipPipe } from './pipe/beauty-tip.pipe';
 import { CouponsPipe } from './pipe/coupons.pipe';
+import { ActivitiesPipe } from './pipe/activities.pipe';
 @NgModule({
   imports: [
     BrowserModule,
@@ -75,7 +76,8 @@ import { CouponsPipe } from './pipe/coupons.pipe';
     LoginComponent,
     RegisterComponent,
     BeautyTipPipe,
-    CouponsPipe
+    CouponsPipe,
+    ActivitiesPipe
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
