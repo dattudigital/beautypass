@@ -13,7 +13,7 @@ export class ReportsService {
     return this.http.get(environment.host + 'reports/vocher'+url);
   }
 
-  public getPerksReports() {
-    return this.http.get(environment.host + 'reports/perks');
+  public getPerksReports(url:any) {
+    return this.http.get(environment.host + 'reports/perks'+url);
   }
 }
