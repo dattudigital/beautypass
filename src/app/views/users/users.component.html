@@ -77,7 +77,7 @@
             <li class="disable-text" [ngClass]="{disabled:pager.currentPage === 1}">
               <a (click)="setPage(1)">First</a>
             </li>
-            <li  class="disable-text" [ngClass]="{disabled:pager.currentPage === 1}">
+            <li class="disable-text" [ngClass]="{disabled:pager.currentPage === 1}">
               <a (click)="setPage(pager.currentPage - 1)">Previous</a>
             </li>
             <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
@@ -180,5 +180,4 @@
     background-color: #fff;
     border: 1px solid #ddd;
   }
-
 </style>

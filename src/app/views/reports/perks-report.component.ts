@@ -43,8 +43,6 @@ export class PerksReportComponent implements OnInit {
     this.cols = [
       { field: 'user_id', header: 'User Id' },
       { field: 'coupon_status', header: 'Status' },
-      { field: 'location_id', header: 'Location Id' },
-      { field: 'location_name', header: 'Location Name' },
       { field: 'studio_id', header: 'Studio Id' },
       { field: 'studio_name', header: 'Studio Name' },
       { field: 'coupons_for', header: 'Coupon Value' },
@@ -58,14 +56,33 @@ export class PerksReportComponent implements OnInit {
 
   getSearchReports() {
     this.url = '';
+    var count = 0;
     if (this.startDate) {
-      this.url = this.url + '?startdate=' + this.startDate;
+      if (count == 0) {
+        count++
+        this.url = this.url + "?";
+      } else {
+        this.url = this.url + "&";
+      }
+      this.url = this.url + 'startdate=' + this.startDate;
     }
     if (this.endDate) {
-      this.url = this.url + '&enddate=' + this.endDate;
+      if (count == 0) {
+        count++
+        this.url = this.url + "?";
+      } else {
+        this.url = this.url + "&";
+      }
+      this.url = this.url + 'enddate=' + this.endDate;
     }
     if (this.studioId) {
-      this.url = this.url + '&studioid=' + this.studioId
+      if (count == 0) {
+        count++
+        this.url = this.url + "?";
+      } else {
+        this.url = this.url + "&";
+      }
+      this.url = this.url + 'studioid=' + this.studioId
     }
     console.log(this.url);
     this.spinner.show();
