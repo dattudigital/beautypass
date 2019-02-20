@@ -38,31 +38,17 @@
             </div>
 
             <div class="col-md-2">
-              <button type="button" name="addpoint" id="addpoint" (click)="addPoints.show();getUserId();"
+              <button type="button" name="addpoint" id="addpoint" (click)="addPoints.show();getUserId();add('1')"
                 class="btn btn-success" style="float: right;padding: 3px;"><i class="far fa-plus-square"></i>&nbsp; Add
                 Points</button>
             </div>
             <div class="col-md-2">
-              <button type="button" name="removepoint" id="removepoint" (click)="addPoints.show();getUserId()"
+              <button type="button" name="removepoint" id="removepoint" (click)="addPoints.show();getUserId();add('0')"
                 class="btn btn-danger" style="float: right;padding: 3px"><i class="far fa-minus-square"></i>&nbsp;Remove
                 Points</button>
             </div>
-            <!-- 
-            <div class="col-sm-2 col-md text-center">
-              <button type="button" name="addpoint" id="addpoint" (click)="addPoints.show();getUserId();"
-                class="btn btn-success" style="float: right;"><i class="far fa-plus-square"></i>&nbsp; Add
-                Points</button>
-            </div>
-            <div class="col-sm-2 col-md text-center">
-              <button type="button" name="removepoint" id="removepoint" (click)="addPoints.show();getUserId()"
-                class="btn btn-danger" style="float: right;"><i class="far fa-minus-square"></i>&nbsp;Remove
-                Points</button>
-            </div> -->
-
-
-
-
           </div>
+
           <p-table #dt [columns]="cols" [value]="selectedOption" [paginator]="true" [rows]="4">
             <ng-template pTemplate="caption">
               <div style="text-align: right">
@@ -103,7 +89,8 @@
         <div class="col-md-12">
           <div class="card" style="margin-bottom: 0;">
             <div class="card-header">
-              <strong>Add Points</strong>
+              <strong *ngIf="toAdd">Add Points</strong>
+              <strong *ngIf="toRemove">Remove Points</strong>
               <button type="button" class="close" (click)="addPoints.hide();removeFields()">&times;</button>
             </div>
             <div class="card-body">
@@ -145,22 +132,42 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Employee Name<b style="color:red">*</b></label>
+                  <label class="col-md-3 col-form-label" for="text-input">Employee Name
+                    <b style="color:red">*</b></label>
                   <div class="col-md-9">
                     <input type="text" maxlength="50" class="form-control" [(ngModel)]="userPointsData.employeeName"
                       [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}" readonly>
                   </div>
                 </div>
-                <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Points<b style="color:red">*</b></label>
-                  <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="Points" class="form-control"
-                      [(ngModel)]="userPoints" [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
-                    <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
-                      <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>
+
+                <div *ngIf="toAdd">
+                  <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="text-input">Add Points<b style="color:red">*</b></label>
+                    <div class="col-md-9">
+                      <input type="text" maxlength="50" formControlName="Points" class="form-control"
+                        [(ngModel)]="addUserPoints" [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
+                      <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
+                        <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                  <div *ngIf="toRemove">
+                    <div class="form-group row">
+                      <label class="col-md-3 col-form-label" for="text-input">Remove Points<b
+                          style="color:red">*</b></label>
+                      <div class="col-md-9">
+                        <input type="text" maxlength="50" formControlName="Points" class="form-control"
+                          [(ngModel)]="removeUserPoints" [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
+                        <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
+                          <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Remarks<b style="color:red">*</b></label>
                   <div class="col-md-9">
@@ -172,8 +179,9 @@
                     </div>
                   </div>
                 </div>
-
-                <button style="margin-left: 26%;" class="btn btn-primary" (click)="addPoint()">ADD</button>
+                 <button style="margin-left: 26%;" class="btn btn-primary" *ngIf="toAdd" (click)="addPoint()">ADD</button>
+ 
+                 <button style="margin-left: 26%;" class="btn btn-danger" *ngIf="toRemove" (click)="addPoint()">Remove</button>
                 &nbsp;&nbsp;
                 <button type="button" id="CloseButton" class="btn btn-secondary"
                   (click)="addPoints.hide();removeFields()">Close</button>
