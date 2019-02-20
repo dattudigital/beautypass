@@ -20,7 +20,8 @@ export class UserPointsComponent {
   noResult = false;
   selectedOption: any = [];
   cols: any = [];
-  userPoints: '';
+  addUserPoints: any;
+  removeUserPoints: any;
   userRemark: '';
   pointsForm: FormGroup;
   submitted = false;
@@ -31,8 +32,11 @@ export class UserPointsComponent {
     'locationName': '',
     'studioid': '',
     'studioName': '',
-    'employeeName': ''
+    'employeeName': '',
+    'empId': ''
   }
+  toAdd = false
+  toRemove = false
   userData: any;
   totalPoints: any = 0;
   constructor(private spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private dp: DatePipe, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: RefferalRewardsService) { }
@@ -58,6 +62,7 @@ export class UserPointsComponent {
 
     this.pointsForm = this.formBuilder.group({
       Points: ['', Validators.required],
+      // Pointsr: ['', Validators.required],
       Remarks: ['', Validators.required],
     })
   }
@@ -71,6 +76,7 @@ export class UserPointsComponent {
     if (val.studioid) {
       URL = URL + '/' + val.studioid
     }
+    URL = URL + '/1'
     this.spinner.show();
     this.service.getUserHistory(URL).subscribe(res => {
       this.spinner.hide();
@@ -78,12 +84,14 @@ export class UserPointsComponent {
         this.popupStatus = false;
         this.tableStatus = true;
         this.selectedOption = res["data"];
+        console.log(this.selectedOption)
         let credit = 0, debit = 0;
         this.selectedOption.forEach(element => {
           credit = credit + element.points;
           debit = debit + element.debit;
         });
         this.totalPoints = credit - debit;
+        console.log(this.totalPoints)
       }
     }, (err) => {
       this.spinner.hide();
@@ -118,17 +126,33 @@ export class UserPointsComponent {
 
   getUserId() {
     this.userData = JSON.parse(localStorage.getItem('loginDetails'));
-    this.userPointsData = this.selectedOption
+    this.userPointsData = this.selectedOption;
     this.userPointsData.user_id = this.userPointsData[0].user_id;
     this.userPointsData.location = this.userPointsData[0].location;
     this.userPointsData.locationName = this.userPointsData[0].locationName;
     this.userPointsData.studioid = this.userPointsData[0].studioid;
     this.userPointsData.studioName = this.userPointsData[0].studioName;
-    this.userPointsData.employeeName = this.userData.data[0].emp_firstname;
+    this.userPointsData.employeeName = this.userData.data[0].emp_firstname + " " + this.userData.data[0].emp_lastname;
+    this.userPointsData.empId = this.userData.data[0].employee_id;
+  }
+
+  add(val) {
+    if (val == 1) {
+      this.removeUserPoints = 0;
+      this.toAdd = true;
+      this.toRemove = false
+    }
+    if (val == 0) {
+      this.addUserPoints = 0;
+      this.toAdd = false;
+      this.toRemove = true;
+    }
   }
 
   removeFields() {
-    this.userPoints = '';
+    this.submitted = false;
+    this.addUserPoints = '';
+    this.removeUserPoints = '';
     this.userRemark = '';
   }
 
@@ -142,11 +166,20 @@ export class UserPointsComponent {
     var data: any = {
       user_id: this.userPointsData.user_id,
       studio_id: this.userPointsData.studioid,
-      points: this.userPoints,
+      points: this.addUserPoints,
+      debit: this.removeUserPoints,
+      emp_name: this.userPointsData.employeeName,
+      emp_id: this.userPointsData.empId,
       reward_for: this.userRemark
     }
     let modelClose = document.getElementById("CloseButton");
     this.spinner.show();
+    if (data.points) {
+      this.totalPoints = this.totalPoints * 1 + data.points * 1;
+    }
+    if (data.debit) {
+      this.totalPoints = this.totalPoints * 1 - data.debit * 1;
+    }
     this.service.addUserPoints(data).subscribe(res => {
       this.spinner.hide();
       modelClose.click();
