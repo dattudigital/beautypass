@@ -4,16 +4,17 @@ import { NgModule } from '@angular/core';
 
 // Alert Component
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { AlertModule} from 'ngx-bootstrap/alert';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import { broadcastPackageSmsComponent } from './broadcast-package-sms.component';
 import { broadcastSmsComponent } from './broadcast-sms.component';
+import { BroadcastNotificationComponent } from './broadcast-notification.component'
 import { BroadcastRoutingModule } from './broadcast-routing.module';
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { AuthGuard } from '../../common-session/session.check'
+import { AuthGuard } from '../../common-session/session.check';
 
 @NgModule({
   imports: [
@@ -29,8 +30,9 @@ import { AuthGuard } from '../../common-session/session.check'
   ],
   declarations: [
     broadcastPackageSmsComponent,
-    broadcastSmsComponent
+    broadcastSmsComponent,
+    BroadcastNotificationComponent
   ],
-  providers:[AuthGuard]
+  providers: [AuthGuard]
 })
 export class BroadcastModule { }

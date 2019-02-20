@@ -60,6 +60,12 @@ export const navItems = [
         name: 'Broadcast Memberships',
         url: '/admin/broadcast-packages',
         icon: 'icon-note'
+      },
+      {
+        name: 'Broadcast Notifications',
+        url: '/admin/broadcast-notifications',
+        icon: 'icon-note'
+
       }]
   },
   {

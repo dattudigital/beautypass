@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { broadcastSmsComponent } from './broadcast-sms.component';
 import { broadcastPackageSmsComponent } from './broadcast-package-sms.component';
+import { BroadcastNotificationComponent } from './broadcast-notification.component';
 import { AuthGuard } from '../../common-session/session.check'
 
 const routes: Routes = [
@@ -30,6 +31,14 @@ const routes: Routes = [
           title: 'Broadcast Packages'
         },
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'broadcast-notifications',
+        component: BroadcastNotificationComponent,
+        data: {
+          title: 'Broadcast Notifications'
+        },
+        canActivate: [AuthGuard]
       }
     ]
   }
@@ -40,4 +49,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class BroadcastRoutingModule {}
+export class BroadcastRoutingModule { }
