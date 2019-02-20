@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReportsService } from '../../services/reports.service';
 import { ExcelService } from '../../services/excel.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { UsersListService } from '../../services/users-list.service';
 declare var jsPDF: any;
 
 @Component({
@@ -14,8 +15,11 @@ export class VoucherComponent implements OnInit {
   endDate: any;
   cols: any = [];
   url: any = '';
+  studioIdData: any;
+  studioId: '';
+  locationIdData: any;
 
-  constructor(private spinner: NgxSpinnerService, private service: ReportsService, private excelService: ExcelService) { }
+  constructor(private spinner: NgxSpinnerService, private userlist: UsersListService, private service: ReportsService, private excelService: ExcelService) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -28,6 +32,13 @@ export class VoucherComponent implements OnInit {
       }
     });
 
+    this.userlist.getStudioId().subscribe(res => {
+      if (res["status"] == true) {
+        this.spinner.hide();
+        this.studioIdData = res["data"];
+      }
+    })
+
     this.cols = [
       { field: 'coupons_for', header: 'Coupons For' },
       { field: 'Used', header: 'Used' },
@@ -38,17 +49,43 @@ export class VoucherComponent implements OnInit {
 
   getSearchReports() {
     this.url = '';
+    var count = 0
     if (this.startDate) {
-      this.url = this.url + '?startdate=' + this.startDate;
+      if (count == 0) {
+        count++
+        this.url = this.url + "?";
+      } else {
+        this.url = this.url + "&";
+      }
+      this.url = this.url + 'startdate=' + this.startDate;
     }
     if (this.endDate) {
-      this.url = this.url + '&enddate=' + this.endDate;
+      if (count == 0) {
+        count++
+        this.url = this.url + "?";
+      } else {
+        this.url = this.url + "&";
+      }
+      this.url = this.url + 'enddate=' + this.endDate;
     }
+    if (this.studioId) {
+      if (count == 0) {
+        count++
+        this.url = this.url + "?";
+      } else {
+        this.url = this.url + "&";
+      }
+      this.url = this.url + 'studioid=' + this.studioId
+    }
+    console.log(this.url);
     this.spinner.show();
     this.service.getVoucherReports(this.url).subscribe(res => {
       this.spinner.hide();
       this.voucherData = res["data"];
     })
+  }
+  studioDetails() {
+    console.log(this.studioId)
   }
 
   exportAsXLSX(): void {

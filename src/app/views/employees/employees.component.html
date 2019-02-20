@@ -7,12 +7,13 @@
 <div class="card-body">
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
-      <button name="createemployee" id="addemployee" (click)=" removeFields();addOrUpdateEmployee.show()" class="btn btn-primary"
-        style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add
+      <button name="createemployee" id="addemployee" (click)=" removeFields();addOrUpdateEmployee.show()"
+        class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add
         Employee</button>
     </div>
     <div class=" col-sm-1">
-      <i class="fas fa-sync-alt" (click)="reloadClick()" style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
+      <i class="fas fa-sync-alt" (click)="reloadClick()"
+        style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
     </div>
   </div>
 </div>
@@ -29,15 +30,16 @@
             <ng-template pTemplate="caption">
               <div style="text-align: right">
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                  style="width:auto">
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
               </div>
             </ng-template>
             <ng-template pTemplate="header">
               <tr>
                 <th *ngFor="let col of cols" [pSortableColumn]="col.field">
                   {{col.header}}
-                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                 </th>
                 <th>Edit</th>
@@ -47,12 +49,13 @@
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
                 <td *ngFor="let col of cols">
-                  {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }}
+                  <!-- {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }} -->
+                  {{ col.type ? (data[col.field] == "1" ? "active" : "Inactive") : data[col.field] }}
                 </td>
-                <td href="#" data-toggle="modal" (click)="addOrUpdateEmployee.show();editEmployee(data,i)"><i class="fa fa-edit"
-                    style="color:orange;font-size: 20px;text-align:center"></i></td>
-                <td href="#" data-toggle="modal" (click)="dangerModal.show();DeleteEmployee(data,i)"><i class="fa fa-trash"
-                    style="color:red;font-size: 20px"></i></td>
+                <td href="#" data-toggle="modal" (click)="addOrUpdateEmployee.show();editEmployee(data,i)"><i
+                    class="fa fa-edit" style="color:orange;font-size: 20px;text-align:center"></i></td>
+                <td href="#" data-toggle="modal" (click)="dangerModal.show();DeleteEmployee(data,i)"><i
+                    class="fa fa-trash" style="color:red;font-size: 20px"></i></td>
               </tr>
             </ng-template>
           </p-table>
@@ -81,7 +84,8 @@
                     <span class="input-group-text">First Name</span>
                   </div>
                   <input type="text" name="fstname" id="fstname" formControlName="employeeFirstName" maxlength="50"
-                    class="form-control" placeholder="First Name" [(ngModel)]="employeeData.emp_firstname" [ngClass]="{ 'is-invalid': submitted && f.employeeFirstName.errors }">
+                    class="form-control" placeholder="First Name" [(ngModel)]="employeeData.emp_firstname"
+                    [ngClass]="{ 'is-invalid': submitted && f.employeeFirstName.errors }">
                   <div *ngIf="submitted && f.employeeFirstName.errors" class="invalid-feedback">
                     <div *ngIf="f.employeeFirstName.errors.required" style="color:red">First Name is required</div>
                   </div>
@@ -91,7 +95,8 @@
                     <span class="input-group-text">Last Name</span>
                   </div>
                   <input type="text" name="lstname" id="lstname" formControlName="employeeLastName" maxlength="50"
-                    class="form-control" placeholder="Last Name" [(ngModel)]="employeeData.emp_lastname" [ngClass]="{ 'is-invalid': submitted && f.employeeLastName.errors }">
+                    class="form-control" placeholder="Last Name" [(ngModel)]="employeeData.emp_lastname"
+                    [ngClass]="{ 'is-invalid': submitted && f.employeeLastName.errors }">
                   <div *ngIf="submitted && f.employeeLastName.errors" class="invalid-feedback">
                     <div *ngIf="f.employeeLastName.errors.required" style="color:red">Last Name is required</div>
                   </div>
@@ -100,8 +105,9 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">Mobile </span>
                   </div>
-                  <input type="number" maxlength="12" name="mobile" id="mobile" formControlName="Phone" class="form-control"
-                    placeholder="Mobile" [(ngModel)]="employeeData.emp_mobile" [ngClass]="{ 'is-invalid': submitted && f.Phone.errors }">
+                  <input type="number" maxlength="12" name="mobile" id="mobile" formControlName="Phone"
+                    class="form-control" placeholder="Mobile" [(ngModel)]="employeeData.emp_mobile"
+                    [ngClass]="{ 'is-invalid': submitted && f.Phone.errors }">
                   <div *ngIf="submitted && f.Phone.errors" class="invalid-feedback">
                     <div *ngIf="f.Phone.errors.required" style="color:red">Phone Number is required</div>
                   </div>
@@ -110,8 +116,9 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">Branch Name </span>
                   </div>
-                  <input type="text" name="branchname" id="branchname" formControlName="employeeBranch" class="form-control"
-                    placeholder="Branch Name" [(ngModel)]="employeeData.emp_branch" [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }">
+                  <input type="text" name="branchname" id="branchname" formControlName="employeeBranch"
+                    class="form-control" placeholder="Branch Name" [(ngModel)]="employeeData.emp_branch"
+                    [ngClass]="{ 'is-invalid': submitted && f.employeeBranch.errors }">
                   <div *ngIf="submitted && f.employeeBranch.errors" class="invalid-feedback">
                     <div *ngIf="f.employeeBranch.errors.required" style="color:red">Employee Branch is required</div>
                   </div>
@@ -122,7 +129,8 @@
                     <span class="input-group-text">Address</span>
                   </div>
                   <textarea type="text" name="address" id="address" maxlength="500" formControlName="employeeAddress"
-                    rows="5" class="form-control" placeholder="Address" name="emp_address" [(ngModel)]="employeeData.emp_address"
+                    rows="5" class="form-control" placeholder="Address" name="emp_address"
+                    [(ngModel)]="employeeData.emp_address"
                     [ngClass]="{ 'is-invalid': submitted && f.employeeAddress.errors }" required></textarea>
                   <div *ngIf="submitted && f.employeeAddress.errors" class="invalid-feedback">
                     <div *ngIf="f.employeeAddress.errors.required" style="color:red">Employee Address is required</div>
@@ -134,7 +142,8 @@
                     <span class="input-group-text">Email</span>
                   </div>
                   <input type="text" name="email" id="email" maxlength="50" class="form-control" formControlName="Email"
-                    placeholder="Email" [(ngModel)]="employeeData.emp_email" [ngClass]="{ 'is-invalid': submitted &&f.Email.errors }">
+                    placeholder="Email" [(ngModel)]="employeeData.emp_email"
+                    [ngClass]="{ 'is-invalid': submitted &&f.Email.errors }">
                   <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
                     <div *ngIf="f.Email.errors.required" style="color:red">Email is required</div>
                   </div>
@@ -143,8 +152,9 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">Password</span>
                   </div>
-                  <input type="password" name="pwd" id="pwd" maxlength="50" class="form-control" formControlName="Password"
-                    placeholder="Password" [(ngModel)]="employeeData.emp_password" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }">
+                  <input type="password" name="pwd" id="pwd" maxlength="50" class="form-control"
+                    formControlName="Password" placeholder="Password" [(ngModel)]="employeeData.emp_password"
+                    [ngClass]="{ 'is-invalid': submitted && f.Password.errors }">
                   <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
                     <div *ngIf="f.Password.errors.required" style="color:red">Password is required</div>
                   </div>
@@ -153,8 +163,9 @@
                   <div class="form-group row">
                     <label class="col-md-2 col-form-label" for="text-input">Status</label>
                     <div class="col-md-9">
-                      <select class="form-control" name="employeestatus" id="employeestatus" [(ngModel)]="employeeData.emp_status"
-                        [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
+                      <select class="form-control" name="employeestatus" id="employeestatus"
+                        [(ngModel)]="employeeData.emp_status" [(ngModel)]="showMoreControls"
+                        [ngModelOptions]="{standalone: true}">
                         <option value="1">Active</option>
                         <option value="0">In active</option>
                       </select>
@@ -163,14 +174,17 @@
                 </div>
                 <div class="form-group pull-right">
                   <span *ngIf="!employeeData.employee_id">
-                    <button name="addemployee" id="addemployee" class="btn btn-success" (click)="addOrUpdateEmployees()">Add</button>
+                    <button name="addemployee" id="addemployee" class="btn btn-success"
+                      (click)="addOrUpdateEmployees()">Add</button>
                     &nbsp; &nbsp;
                   </span>
                   <span *ngIf="employeeData.employee_id">
-                    <button name="updateemployee" id="updateemployee" class="btn btn-success" (click)="addOrUpdateEmployees()">Update</button>&nbsp;
+                    <button name="updateemployee" id="updateemployee" class="btn btn-success"
+                      (click)="addOrUpdateEmployees()">Update</button>&nbsp;
                     &nbsp;
                   </span>
-                  <button type="button" id="CloseEmployee" class="btn btn-secondary" (click)="addOrUpdateEmployee.hide();backupData()">Close</button>
+                  <button type="button" id="CloseEmployee" class="btn btn-secondary"
+                    (click)="addOrUpdateEmployee.hide();backupData()">Close</button>
                 </div>
               </form>
             </div>

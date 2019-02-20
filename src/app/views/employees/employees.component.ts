@@ -73,7 +73,8 @@ export class EmployeesComponent implements OnInit {
       { field: 'emp_address', header: 'Address' },
       { field: 'emp_mobile', header: 'Mobile' },
       { field: 'emp_email', header: 'Email' },
-      { field: 'emp_branch', header: 'Branch' }
+      { field: 'emp_branch', header: 'Branch' },
+      { field: 'emp_status', header: 'Status', type: 1 }
     ];
 
   }
@@ -135,6 +136,7 @@ export class EmployeesComponent implements OnInit {
         } else {
           if (this.employeeData.emp_status == '0') {
             // this.employeeDetails.splice(this.employeeData["index"], 1);
+            this.employeeDetails[this.employeeData["index"]].emp_status = "0";
             this.employeeDetails = this.employeeDetails.slice();
             localStorage.setItem('employee', JSON.stringify(this.employeeDetails))
             this.completeService.addEmployees([]);
@@ -147,6 +149,12 @@ export class EmployeesComponent implements OnInit {
         }
       } else {
         this.messageService.errorToast('Employee not added')
+      }
+    }, err => {
+      this.spinner.hide();
+      console.log(err)
+      if (err["error"]["err"]) {
+        this.messageService.errorToast(err["error"]["err"].result)
       }
     })
   }
