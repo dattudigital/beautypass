@@ -4,18 +4,11 @@
 
 <div class="card-body">
   <div class="form-group row">
-    <label class="col-md-1 col-form-label" for="text-input"><b>Studio</b></label>
+    <!-- <label class="col-md-1 col-form-label" for="text-input"><b>Studio</b></label>
     <div class="col-md-2">
       <select class="form-control" name="studio" id="studio" [(ngModel)]="studioId" (ngModelChange)="studioDetails()">
         <option value="undefined">Select Studio</option>
         <option *ngFor="let data of studioIdData" [ngValue]="data.studioid">{{data.studioid}}</option>
-      </select>
-    </div>
-    <!-- <label class="col-md-1 col-form-label" for="text-input"><b>Location</b></label>
-    <div class="col-md-2">
-      <select class="form-control" name="locatio" id="location" [(ngModel)]="locationId">
-        <option value="undefined">Select Location</option>
-        <option *ngFor="let loc of locationIdData" [ngValue]="loc.location">{{loc.location}}</option>
       </select>
     </div> -->
     <label class="col-md-1 col-form-label" for="text-input" style="padding-left:5px"><b>Start Date</b></label>
@@ -26,48 +19,14 @@
     <div class="col-md-2">
       <input type="date" class="form-control" [(ngModel)]="endDate" />
     </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-md-10"></div>
-    <div class="col-md-2">
-      <button class="btn btn-sm btn-primary" (click)="getSearchReports();" style="padding:8px"><b> Submit </b></button>
+    <div class="col-md-1">
+      <button class="btn btn-sm btn-primary" (click)="getSearchReports();" style="padding:5px"><b> Submit </b></button>
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-sm btn-warning" (click)="detailsReset()" style="padding:7px"><b> Reset </b></button>
     </div>
   </div>
 </div>
-
-<!-- <div class="card-body">
-  <div class="form-group row">
-    <div class="col-sm-3">
-      <label class="col-sm-1 col-form-label" for="text-input"><b>Studio:</b></label>
-      <div class="col-sm-5">
-        <select class="form-control" name="studio" id="studio" [(ngModel)]="studioId" (click)="studioDetails()">
-          <option value="undefined">Select Studio</option>
-          <option *ngFor="let data of studioIdData" [ngValue]="data.studioid">{{data.studioid}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <label class="col-md-1 col-form-label" for="text-input"><b>Location:</b></label>
-      <div class="col-md-2">
-        <select class="form-control" name="locatio" id="location" [(ngModel)]="locationId">
-          <option value="undefined">Select Location</option>
-          <option *ngFor="let loc of locationIdData" [ngValue]="loc.location">{{loc.location}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-sm-2">
-      <label style="margin-right: 10px;"><b>Start Date :</b></label>
-      <input type="date" [(ngModel)]="startDate" />
-    </div>
-    <div class="col-sm-2">
-      <label style="margin-right: 10px;"><b>End Date :</b></label>
-      <input type="date" [(ngModel)]="endDate" />
-    </div>
-    <div class="col-sm-2">
-      <button class="btn btn-sm btn-primary" (click)="getSearchReports();"><b> Submit </b></button>
-    </div>
-  </div>
-</div> -->
 
 <div class="animated fadeIn">
   <div class="row">

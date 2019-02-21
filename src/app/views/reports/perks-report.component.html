@@ -2,7 +2,7 @@
   <div class="form-group row">
     <label class="col-md-1 col-form-label" for="text-input"><b>Studio</b></label>
     <div class="col-md-2">
-      <select class="form-control" name="studio" id="studio" [(ngModel)]="studioId" >
+      <select class="form-control" name="studio" id="studio" [(ngModel)]="studioId">
         <option value="undefined">Select Studio</option>
         <option *ngFor="let data of studioIdData" [ngValue]="data.studioid">{{data.studioid}}</option>
       </select>
@@ -22,11 +22,11 @@
     <div class="col-md-2">
       <input type="date" class="form-control" [(ngModel)]="endDate" />
     </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-md-10"></div>
-    <div class="col-md-2">
-      <button class="btn btn-sm btn-primary" (click)="getSearchReports();" style="padding:8px"><b> Submit </b></button>
+    <div class="col-md-1">
+      <button class="btn btn-sm btn-primary" (click)="getSearchReports();" style="padding:7px"><b> Submit </b></button>
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-sm btn-warning" (click)="detailsReset()" style="padding:7px"><b> Reset </b></button>
     </div>
   </div>
 </div>
