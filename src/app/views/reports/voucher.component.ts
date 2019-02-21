@@ -22,15 +22,7 @@ export class VoucherComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService, private userlist: UsersListService, private service: ReportsService, private excelService: ExcelService) { }
 
   ngOnInit() {
-    this.spinner.show();
-    this.service.getVoucherReports(this.url).subscribe(response => {
-      this.spinner.hide();
-      if (response["status"] == true) {
-        this.voucherData = response["data"];
-      } else {
-        this.voucherData = [];
-      }
-    });
+    this.getReports();
 
     this.userlist.getStudioId().subscribe(res => {
       if (res["status"] == true) {
@@ -45,6 +37,19 @@ export class VoucherComponent implements OnInit {
       { field: 'Unused', header: 'Unused' },
       { field: 'Expired', header: 'Expired' }
     ]
+  }
+
+  getReports() {
+    this.url = '';
+    this.spinner.show();
+    this.service.getVoucherReports(this.url).subscribe(response => {
+      this.spinner.hide();
+      if (response["status"] == true) {
+        this.voucherData = response["data"];
+      } else {
+        this.voucherData = [];
+      }
+    });
   }
 
   getSearchReports() {
@@ -90,6 +95,12 @@ export class VoucherComponent implements OnInit {
 
   exportAsXLSX(): void {
     this.excelService.exportAsExcelFile(this.voucherData, 'Voucher-Reports');
+  }
+
+  detailsReset() {
+    this.startDate = '';
+    this.endDate = '';
+    this.getReports();
   }
 
   pdfDownload() {

@@ -23,15 +23,7 @@ export class PerksReportComponent implements OnInit {
   constructor(private service: ReportsService, private userlist: UsersListService, private dp: DatePipe, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    this.spinner.show();
-    this.service.getPerksReports(this.url).subscribe(response => {
-      this.spinner.hide();
-      if (response["status"] == true) {
-        this.perksData = response["data"];
-      } else {
-        this.perksData = [];
-      }
-    });
+    this.getReports();
 
     this.userlist.getStudioId().subscribe(res => {
       if (res["status"] == true) {
@@ -52,6 +44,19 @@ export class PerksReportComponent implements OnInit {
       { field: 'mobile', header: 'Mobile' },
       { field: 'coupon_createddate', header: 'Coupon Created', type: this.dp }
     ]
+  }
+
+  getReports() {
+    this.url = '';
+    this.spinner.show();
+    this.service.getPerksReports(this.url).subscribe(response => {
+      this.spinner.hide();
+      if (response["status"] == true) {
+        this.perksData = response["data"];
+      } else {
+        this.perksData = [];
+      }
+    });
   }
 
   getSearchReports() {
@@ -90,6 +95,13 @@ export class PerksReportComponent implements OnInit {
       this.spinner.hide();
       this.perksData = res["data"];
     })
+  }
+
+  detailsReset() {
+    this.studioId = undefined;
+    this.startDate = '';
+    this.endDate = '';
+    this.getReports();
   }
 
 }
