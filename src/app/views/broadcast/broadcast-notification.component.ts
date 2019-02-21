@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BroadcastSmsService } from '../../services/broadcast-sms.service'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-broadcast-notification',
@@ -13,8 +14,10 @@ export class BroadcastNotificationComponent implements OnInit {
   broadcastSelectedId: any = undefined;
   locationSelectedId: any = undefined;
   textToSend: any;
+  notificationForm: FormGroup;
+  submitted = false;
 
-  constructor(private spinner: NgxSpinnerService, private service: BroadcastSmsService) { }
+  constructor(private spinner: NgxSpinnerService, private formBuilder: FormBuilder, private service: BroadcastSmsService) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -26,7 +29,14 @@ export class BroadcastNotificationComponent implements OnInit {
       } else {
         this.broadcastIds = [];
       }
-    })
+    });
+
+    this.notificationForm = this.formBuilder.group({
+      pushStudio: ['', Validators.required],
+      pushTitle: ['', Validators.required],
+      pushText: ['', Validators.required]
+
+    });
   }
 
   selectedBroadcastId(val) {
@@ -41,14 +51,20 @@ export class BroadcastNotificationComponent implements OnInit {
     })
   }
 
-  sendNotification(){
+  get f() { return this.notificationForm.controls; }
+
+  sendNotification() {
+    this.submitted = true;
+    if (this.notificationForm.invalid) {
+      return;
+    }
     var data = {
       studio_id: this.broadcastSelectedId,
       locationid: this.locationSelectedId,
-      title:this.title,
+      title: this.title,
       desc: this.textToSend
     }
-    this.service.broadcastNotification(data).subscribe(res => {});
+    this.service.broadcastNotification(data).subscribe(res => { });
   }
 
 
