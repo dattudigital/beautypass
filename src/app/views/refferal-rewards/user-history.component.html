@@ -6,7 +6,7 @@
   <label class="col-md-2 col-form-label" for="select2"><b>Select User</b></label>
   <div class="col-md-4">
     <input type="text" class="form-control" [(ngModel)]="selectedValue" placeholder="Enter Email Id / Mindbody Id / Mobile"
-      (ngModelChange)='userSearch(selectedValue)' name="" id="">
+    (keyup)='doDelayedSearch(selectedValue)' name="" id="">
   </div>
   <div style="color:red" *ngIf="noResult">No Results Found</div>
 </div>
