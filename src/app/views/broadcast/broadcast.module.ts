@@ -11,10 +11,11 @@ import { BroadcastNotificationComponent } from './broadcast-notification.compone
 import { BroadcastRoutingModule } from './broadcast-routing.module';
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AuthGuard } from '../../common-session/session.check';
+
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { AuthGuard } from '../../common-session/session.check';
     NgxSpinnerModule,
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    ReactiveFormsModule
   ],
   declarations: [
     broadcastPackageSmsComponent,

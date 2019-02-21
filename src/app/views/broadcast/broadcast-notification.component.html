@@ -10,55 +10,71 @@
           Broad Cast For Notification
         </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-6">
-              <div class="row form-group">
-                <label class="col-sm-3">Studio</label>
-                <div class="col-sm-6">
-                  <select name="broadcastid" id="broadcastid" [(ngModel)]="broadcastSelectedId"
-                    (ngModelChange)="selectedBroadcastId(broadcastSelectedId)" style="padding-right: 13px">
-                    <option [ngValue]="undefined" disabled>Select Studio id</option>
-                    <option *ngFor=" let broadcast of broadcastIds " [ngValue]="broadcast.studioid">
-                      {{broadcast.studioid}}</option>
-                  </select>
+          <form name="form" [formGroup]="notificationForm">
+            <div class="row">
+              <div class="col-sm-2"></div>
+              <div class="col-sm-6">
+                <div class="row form-group">
+                  <label class="col-sm-3">Studio</label>
+                  <div class="col-sm-6">
+                    <select id="broadcastid" class="form-control" formControlName="pushStudio"
+                      [(ngModel)]="broadcastSelectedId" (ngModelChange)="selectedBroadcastId(broadcastSelectedId)"
+                      style="padding-right: 13px" [ngClass]="{ 'is-invalid': submitted && f.pushStudio.errors }">
+                      <option [ngValue]="undefined" disabled>Select Studio id</option>
+                      <option *ngFor=" let broadcast of broadcastIds " [ngValue]="broadcast.studioid">
+                        {{broadcast.studioid}}</option>
+                    </select>
+                    <div *ngIf="submitted && f.pushStudio.errors" class="invalid-feedback">
+                      <div *ngIf="f.pushStudio.errors.required" style="color:red">Please select studioId</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="row form-group" *ngIf="broadcastSelectedId">
-                <label class="col-sm-3">Location</label>
-                <div class="col-sm-5">
-                  <select name="locationid" id="locationid" [(ngModel)]="locationSelectedId"
-                    (ngModelChange)="selectedLocationId(locationSelectedId)">
-                    <option [ngValue]="undefined" disabled>Select Location id</option>
-                    <option *ngFor=" let locationId of locationIds " [ngValue]="locationId.location">
-                      {{locationId.location}}</option>
-                  </select>
+                <div class="row form-group" *ngIf="broadcastSelectedId">
+                  <label class="col-sm-3">Location</label>
+                  <div class="col-sm-5">
+                    <select name="locationid" id="locationid" [(ngModel)]="locationSelectedId"
+                      [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
+                      <option [ngValue]="undefined" disabled>Select Location id</option>
+                      <option *ngFor=" let locationId of locationIds " [ngValue]="locationId.location">
+                        {{locationId.location}}</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-3">Title</label>
-                <div class="col-sm-5">
-                  <input name="titlr" id="title" placeholder="Title" [(ngModel)]="title">
+                <div class="row form-group">
+                  <label class="col-sm-3">Title</label>
+                  <div class="col-sm-5">
+                    <input id="title" name="title" class="form-control" formControlName="pushTitle" placeholder="Title"
+                      [(ngModel)]="title" [ngClass]="{ 'is-invalid': submitted && f.pushTitle.errors }">
+                    <div *ngIf="submitted && f.pushTitle.errors" class="invalid-feedback">
+                      <div *ngIf="f.pushTitle.errors.required" style="color:red">Title is required</div>
+                    </div>
+                  </div>
+
                 </div>
-              </div>
-              <div class="row form-group">
-                <label class="col-sm-3">Text</label>
-                <div class="col-sm-5">
-                  <textarea name="text-to-send" id="text-to-send" placeholder="Write Notification Text" id="" cols="42"
-                    rows="6" [(ngModel)]="textToSend"></textarea>
-                  <small class="form-text text-muted"><code *ngIf="textToSend">{{textToSend.length}}</code><code
-                      *ngIf="!textToSend">0</code> of <code>160</code> characters</small>
+                <div class="row form-group">
+                  <label class="col-sm-3">Text</label>
+                  <div class="col-sm-5">
+                    <textarea name="text-to-send" id="text-to-send" class="form-control" formControlName="pushText"
+                      placeholder="Write Notification Text" cols="42" rows="6" [(ngModel)]="textToSend"
+                      [ngClass]="{ 'is-invalid': submitted && f.pushText.errors }"></textarea>
+                    <small class="form-text text-muted"><code *ngIf="textToSend">{{textToSend.length}}</code><code
+                        *ngIf="!textToSend">0</code> of <code>160</code> characters</small>
+                    <div *ngIf="submitted && f.pushText.errors" class="invalid-feedback">
+                      <div *ngIf="f.pushText.errors.required" style="color:red">Text is required</div>
+                    </div>
+                  </div>
+
                 </div>
-              </div>
-              <div class="row form-group">
-                <div class="col-md-2"></div>
-                <div class="col-md-3">
-                  <button type="submit" name="sendsms" id="sendsms" class="btn btn-primary" style="margin-left: 42px"
-                    (click)="sendNotification()" value="Submite">Send</button>
+                <div class="row form-group">
+                  <div class="col-md-2"></div>
+                  <div class="col-md-3">
+                    <button type="submit" name="sendsms" id="sendsms" class="btn btn-primary" style="margin-left: 42px"
+                      (click)="sendNotification()" value="Submite">Send</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
