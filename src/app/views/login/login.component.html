@@ -14,7 +14,8 @@
                       <span class="input-group-text"><i class="icon-user"></i></span>
                     </div>
                     <input type="email" name="userId" id="userId" formControlName="Email" class="form-control"
-                      placeholder="Enter Email" [(ngModel)]="loginData.emailid " [ngClass]="{ 'is-invalid': submitted && f.Email.errors }">
+                      placeholder="Enter Email" [(ngModel)]="loginData.emailid "
+                      [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" (ngModelChange)="removeErrorMessage()">
                     <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
                       <div *ngIf="f.Email.errors.required" style="color:red">Email is required</div>
                     </div>
@@ -24,14 +25,17 @@
                       <span class="input-group-text"><i class="icon-lock"></i></span>
                     </div>
                     <input type="password" name="userpwd" id="userpwd" formControlName="Password" class="form-control"
-                      placeholder="Enter Password" [(ngModel)]="loginData.password" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }">
+                      placeholder="Enter Password" [(ngModel)]="loginData.password"
+                      [ngClass]="{ 'is-invalid': submitted && f.Password.errors }"
+                      (ngModelChange)="removeErrorMessage()">
                     <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
                       <div *ngIf="f.Password.errors.required" style="color:red">Password is required</div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-6">
-                      <button id="userlogin" name="userlogin" class="btn btn-primary px-4" (click)="onSubmit()">Login</button>
+                      <button id="userlogin" name="userlogin" class="btn btn-primary px-4"
+                        (click)="onSubmit()">Login</button>
                     </div>
                     <div *ngIf="errorMeassage" class="col-6">
                       <span style="color:red">Invalid Credentials</span>

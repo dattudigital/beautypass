@@ -48,6 +48,7 @@ export class UserHistoryComponent {
     if (val.studioid) {
       URL = URL + '/' + val.studioid
     }
+    URL = URL + '/1'
     this.spinner.show();
     this.service.getUserHistory(URL).subscribe(res => {
       this.spinner.hide();

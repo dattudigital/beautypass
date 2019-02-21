@@ -57,7 +57,9 @@ export class UserPointsComponent {
       { field: 'studioName', header: 'StudioName' },
       { field: 'points', header: 'Credit' },
       { field: 'debit', header: 'Debit' },
-      { field: 'reward_for', header: 'Remarks' }
+      { field: 'reward_for', header: 'Remarks' },
+      { field: 'emp_name', header: 'Employee Name' }
+
     ];
 
     this.pointsForm = this.formBuilder.group({

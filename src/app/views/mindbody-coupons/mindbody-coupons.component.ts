@@ -5,13 +5,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ToastMessageService } from '../../services/toast-message.service';
-import { CouponsPipe } from '../../pipe/coupons.pipe';
 import { CompleteBeautypassService } from '../../services/complete-beautypass.service';
 @Component({
   templateUrl: 'mindbody-coupons.component.html',
   providers: [
     DatePipe,
-    CouponsPipe,
     ToastMessageService
   ]
 })
@@ -118,16 +116,13 @@ export class MindbodyCouponsComponent implements OnInit {
       modelClose.click();
       if (res["status"] == true) {
         if (this.couponsDetails.coupons_status == '0') {
-          // this.couponsData.splice(this.couponsDetails["index"], 1);
-          this.couponsData[this.couponsDetails["index"]].coupons_status = "0";
+          this.couponsData.splice(this.couponsDetails["index"], 1);
+          // this.couponsData[this.couponsDetails["index"]].coupons_status = "0";
           this.completeService.addCoupons([]);
           this.messageService.successToast("Coupons Inactive Successfully")
         } else {
           this.couponsData[this.couponsDetails["index"]] = res["data"];
           this.completeService.addCoupons([]);
-          // if (this.couponsData[this.couponsDetails["index"]].coupons_status) {
-          //   this.couponsData[this.couponsDetails["index"]].coupons_status = 'active'
-          // }
           this.messageService.successToast("Coupons Updated Successfully")
         }
       } else {

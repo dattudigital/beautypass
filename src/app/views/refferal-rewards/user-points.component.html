@@ -144,7 +144,7 @@
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Add Points<b style="color:red">*</b></label>
                     <div class="col-md-9">
-                      <input type="text" maxlength="50" formControlName="Points" class="form-control"
+                      <input type="text" maxlength="50" formControlName="Points" class="form-control" placeholder="Add Points"
                         [(ngModel)]="addUserPoints" [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
                       <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
                         <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>

@@ -49,7 +49,10 @@ export class LoginComponent implements OnInit {
     }, err => {
       this.spinner.hide();
     });
+  }
 
+  removeErrorMessage() {
+    this.errorMeassage = false;
   }
 
 }

@@ -45,7 +45,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BeautyTipPipe } from './pipe/beauty-tip.pipe';
-import { CouponsPipe } from './pipe/coupons.pipe';
 import { ActivitiesPipe } from './pipe/activities.pipe';
 @NgModule({
   imports: [
@@ -76,14 +75,13 @@ import { ActivitiesPipe } from './pipe/activities.pipe';
     LoginComponent,
     RegisterComponent,
     BeautyTipPipe,
-    CouponsPipe,
     ActivitiesPipe
   ],
-  providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    {
-      provide: LocationStrategy,
-      useClass: HashLocationStrategy
-    }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  {
+    provide: LocationStrategy,
+    useClass: HashLocationStrategy
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
