@@ -8,7 +8,11 @@ import { BroadcastSmsService } from '../../services/broadcast-sms.service'
 })
 export class BroadcastNotificationComponent implements OnInit {
   broadcastIds: any;
-
+  locationIds: any;
+  title: any;
+  broadcastSelectedId: any = undefined;
+  locationSelectedId: any = undefined;
+  textToSend: any;
 
   constructor(private spinner: NgxSpinnerService, private service: BroadcastSmsService) { }
 
@@ -24,5 +28,28 @@ export class BroadcastNotificationComponent implements OnInit {
       }
     })
   }
+
+  selectedBroadcastId(val) {
+    this.spinner.show();
+    this.service.locationsId(val).subscribe(res => {
+      this.spinner.hide();
+      if (res["status"] == true) {
+        this.locationIds = res["data"];
+      } else {
+        this.locationIds = [];
+      }
+    })
+  }
+
+  sendNotification(){
+    var data = {
+      studio_id: this.broadcastSelectedId,
+      locationid: this.locationSelectedId,
+      title:this.title,
+      desc: this.textToSend
+    }
+    this.service.broadcastNotification(data).subscribe(res => {});
+  }
+
 
 }

@@ -14,20 +14,38 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-6">
               <div class="row form-group">
-                <label class="col-sm-3">Studio Id</label>
+                <label class="col-sm-3">Studio</label>
                 <div class="col-sm-6">
-                  <select name="studioid" id="studioid" [(ngModel)]="broadcastSelectedId">
+                  <select name="broadcastid" id="broadcastid" [(ngModel)]="broadcastSelectedId"
+                    (ngModelChange)="selectedBroadcastId(broadcastSelectedId)" style="padding-right: 13px">
                     <option [ngValue]="undefined" disabled>Select Studio id</option>
                     <option *ngFor=" let broadcast of broadcastIds " [ngValue]="broadcast.studioid">
                       {{broadcast.studioid}}</option>
                   </select>
                 </div>
               </div>
-              <div class="row form-group">
-                <label class="col-sm-3">Text to Send</label>
+              <div class="row form-group" *ngIf="broadcastSelectedId">
+                <label class="col-sm-3">Location</label>
                 <div class="col-sm-5">
-                  <textarea name="text-send" id="text-send" placeholder="Write Sms Text" id="" cols="42" rows="6"
-                    [(ngModel)]="textToSend"></textarea>
+                  <select name="locationid" id="locationid" [(ngModel)]="locationSelectedId"
+                    (ngModelChange)="selectedLocationId(locationSelectedId)">
+                    <option [ngValue]="undefined" disabled>Select Location id</option>
+                    <option *ngFor=" let locationId of locationIds " [ngValue]="locationId.location">
+                      {{locationId.location}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row form-group">
+                <label class="col-sm-3">Title</label>
+                <div class="col-sm-5">
+                  <input name="titlr" id="title" placeholder="Title" [(ngModel)]="title">
+                </div>
+              </div>
+              <div class="row form-group">
+                <label class="col-sm-3">Text</label>
+                <div class="col-sm-5">
+                  <textarea name="text-to-send" id="text-to-send" placeholder="Write Notification Text" id="" cols="42"
+                    rows="6" [(ngModel)]="textToSend"></textarea>
                   <small class="form-text text-muted"><code *ngIf="textToSend">{{textToSend.length}}</code><code
                       *ngIf="!textToSend">0</code> of <code>160</code> characters</small>
                 </div>
@@ -36,7 +54,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-3">
                   <button type="submit" name="sendsms" id="sendsms" class="btn btn-primary" style="margin-left: 42px"
-                    (click)="sendBroadcastSmsToMembership()" value="Submite">Send Notofication</button>
+                    (click)="sendNotification()" value="Submite">Send</button>
                 </div>
               </div>
             </div>

@@ -21,6 +21,10 @@ export class BroadcastSmsService {
    return this.http.post(environment.host + 'group-sms',data)
   }
 
+  public broadcastNotification(data:any){
+    return this.http.post(environment.host + 'notifications',data)
+   }
+
   public getBroadcastIdFromMembership(){
     return this.http.get(environment.host + 'studioid-memberships')
    }
