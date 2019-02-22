@@ -100,24 +100,35 @@ export class UserPointsComponent {
     })
   }
 
+  timeout: any = null;
+  doDelayedSearch(val) {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+    var self = this;
+    this.timeout = setTimeout(function () {
+      self.userSearch(val);
+      console.log(val)
+    }, 500);
+  }
+
   userSearch(val) {
     this.noDataFound = false;
     if (val.length > 2) {
       this.tableStatus = false;
       this.popupStatus = true;
       this.spinner.show();
-      setTimeout(() => {
-        this.service.getUserlistForHistory(val).subscribe(res => {
-          this.spinner.hide();
-          if (res["status"] == false) {
-            this.userInfo = [];
-            this.noResult = true;
-          } else {
-            this.noResult = false;
-            this.userInfo = res["data"];
-          }
-        })
-      }, 2500);
+      this.service.getUserlistForHistory(val).subscribe(res => {
+        this.spinner.hide();
+        if (res["status"] == false) {
+          this.userInfo = [];
+          this.noResult = true;
+          this.popupStatus = false;
+        } else {
+          this.noResult = false;
+          this.userInfo = res["data"];
+        }
+      })
     } else {
       this.tableStatus = false;
       this.noResult = false;

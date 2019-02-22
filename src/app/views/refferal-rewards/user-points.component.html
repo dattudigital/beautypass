@@ -8,7 +8,7 @@
   <label class="col-md-2 col-form-label" for="select2"><b>Select User</b></label>
   <div class="col-md-4">
     <input type="text" class="form-control" [(ngModel)]="selectedValue"
-      placeholder="Enter Email Id / Mindbody Id / Mobile" (ngModelChange)='userSearch(selectedValue)' name="" id="">
+      placeholder="Enter Email Id / Mindbody Id / Mobile" (keyup)='doDelayedSearch(selectedValue)' name="" id="">
   </div>
   <div style="color:red" *ngIf="noResult">No Results Found</div>
 </div>
@@ -144,8 +144,9 @@
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Add Points<b style="color:red">*</b></label>
                     <div class="col-md-9">
-                      <input type="text" maxlength="50" formControlName="Points" class="form-control" placeholder="Add Points"
-                        [(ngModel)]="addUserPoints" [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
+                      <input type="text" maxlength="50" formControlName="Points" class="form-control"
+                        placeholder="Add Points" [(ngModel)]="addUserPoints"
+                        [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
                       <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
                         <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>
                       </div>
@@ -153,19 +154,19 @@
                   </div>
                 </div>
 
-                  <div *ngIf="toRemove">
-                    <div class="form-group row">
-                      <label class="col-md-3 col-form-label" for="text-input">Remove Points<b
-                          style="color:red">*</b></label>
-                      <div class="col-md-9">
-                        <input type="text" maxlength="50" formControlName="Points" class="form-control"
-                          [(ngModel)]="removeUserPoints" [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
-                        <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
-                          <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>
-                        </div>
+                <div *ngIf="toRemove">
+                  <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="text-input">Remove Points<b
+                        style="color:red">*</b></label>
+                    <div class="col-md-9">
+                      <input type="text" maxlength="50" formControlName="Points" class="form-control"
+                        [(ngModel)]="removeUserPoints" [ngClass]="{ 'is-invalid': submitted && f.Points.errors }">
+                      <div *ngIf="submitted && f.Points.errors" class="invalid-feedback">
+                        <div *ngIf="f.Points.errors.required" style="color:red">Points is required</div>
                       </div>
                     </div>
                   </div>
+                </div>
 
 
                 <div class="form-group row">
@@ -179,9 +180,11 @@
                     </div>
                   </div>
                 </div>
-                 <button style="margin-left: 26%;" class="btn btn-primary" *ngIf="toAdd" (click)="addPoint()">ADD</button>
- 
-                 <button style="margin-left: 26%;" class="btn btn-danger" *ngIf="toRemove" (click)="addPoint()">Remove</button>
+                <button style="margin-left: 26%;" class="btn btn-primary" *ngIf="toAdd"
+                  (click)="addPoint()">ADD</button>
+
+                <button style="margin-left: 26%;" class="btn btn-danger" *ngIf="toRemove"
+                  (click)="addPoint()">Remove</button>
                 &nbsp;&nbsp;
                 <button type="button" id="CloseButton" class="btn btn-secondary"
                   (click)="addPoints.hide();removeFields()">Close</button>
