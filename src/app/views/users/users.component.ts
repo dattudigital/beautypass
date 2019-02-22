@@ -11,8 +11,6 @@ import { ToastMessageService } from '../../services/toast-message.service';
 })
 
 export class UsersComponent implements OnInit {
-  userData: any;
-  cols: any[];
   studioIdData: any;
   locationIdData: any;
   studioId: '';
@@ -20,6 +18,7 @@ export class UsersComponent implements OnInit {
   selectedVal: number = 50;
   pager: any = {};
   pagedItems: any[];
+
   constructor(private spinner: NgxSpinnerService, private pagerService: PagerService, private service: UsersListService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService) { }
 
   ngOnInit() {
@@ -30,17 +29,6 @@ export class UsersComponent implements OnInit {
         this.studioIdData = res["data"];
       }
     })
-
-    this.cols = [
-      { field: 'first_name', header: 'First Name' },
-      { field: 'last_name', header: 'Last Name' },
-      { field: 'fullname', header: 'User Name' },
-      { field: 'email_id', header: 'Email ID' },
-      { field: 'mobile', header: 'Mobile' },
-      { field: 'gender', header: 'Gender' },
-      { field: 'locationName', header: 'Location Name' },
-      { field: 'studioName', header: 'Studio Name' }
-    ];
   }
 
   studioDetails() {

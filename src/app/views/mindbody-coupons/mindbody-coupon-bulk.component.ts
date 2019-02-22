@@ -20,6 +20,7 @@ export class MindbodyCouponsBulkComponent {
   cols: any = [];
   uploadStyle = 'hidden';
   errorMessage = false;
+  errorData: any = [];
 
   constructor(private service: RefferalRewardsService, private completeService: CompleteBeautypassService, private messageService: ToastMessageService, private spinner: NgxSpinnerService, private router: Router) {
     if (localStorage.loginDetails) {
@@ -63,7 +64,7 @@ export class MindbodyCouponsBulkComponent {
     }
     fileReader.readAsArrayBuffer(this.file);
   }
-  errorData: any = [];
+
   addBulkCoupons() {
     this.list.forEach(element => {
       element.empid = this.empData.data[0].employee_id;

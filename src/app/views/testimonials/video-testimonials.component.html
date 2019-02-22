@@ -43,7 +43,7 @@
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
                 <td *ngFor="let col of cols">
-                  {{ col.type ? (data[col.field] == "1" ? "active" : "Inactive") : data[col.field] }}
+                  {{ col.type ? (data[col.field] == "1" ? "Active" : "In Active") : data[col.field] }}
                 </td>
                 <td>
                   <span><a style="color:blue;" target="_blank" href="{{data.video}}">Click Here For Video</a></span>

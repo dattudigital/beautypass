@@ -105,10 +105,14 @@ export class VideoTestimonialsComponent {
       modelClose.click();
       if (res["status"] == true) {
         if (this.videoTestimonialData.rec_status == '0') {
-          // this.videoTestimonials.splice(this.videoTestimonialData["index"], 1);
           this.videoTestimonials[this.videoTestimonialData["index"]].rec_status = "0";
+          this.videoTestimonials[this.videoTestimonialData["index"]] = res["data"];
           this.completeService.addVideoTestmonials([]);
           this.messageService.successToast("Video Testmonials inactive successfully")
+          this.videoTestimonials[this.videoTestimonialData["index"]].fullname = this.videoTestimonialData.fullname;
+          this.videoTestimonials[this.videoTestimonialData["index"]].empname = this.userData.data[0].emp_firstname + " " + this.userData.data[0].emp_lastname;
+          this.videoTestimonials[this.videoTestimonialData["index"]].studioName = this.videoTestimonialData.studioName;
+          this.videoTestimonials[this.videoTestimonialData["index"]].locationName = this.videoTestimonialData.locationName;
         } else {
           this.videoTestimonials[this.videoTestimonialData["index"]] = res["data"];
           this.completeService.addVideoTestmonials([]);

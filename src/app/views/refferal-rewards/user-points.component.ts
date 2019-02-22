@@ -54,7 +54,7 @@ export class UserPointsComponent {
       { field: 'location', header: 'Location Id' },
       { field: 'locationName', header: 'Location Name' },
       { field: 'studioid', header: 'Studio Id' },
-      { field: 'studioName', header: 'StudioName' },
+      { field: 'studioName', header: 'Studio Name' },
       { field: 'points', header: 'Credit' },
       { field: 'debit', header: 'Debit' },
       { field: 'reward_for', header: 'Remarks' },

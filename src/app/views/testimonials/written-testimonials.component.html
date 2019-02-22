@@ -46,7 +46,7 @@
                 <td *ngFor="let col of cols">
                   <!-- {{data[col.field]}} -->
                   <!-- {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }} -->
-                  {{ col.type ? (data[col.field] == "1" ? "active" : "Inactive") : data[col.field] }}
+                  {{ col.type ? (data[col.field] == "1" ? "Active" : "In Active") : data[col.field] }}
                 </td>
                 <td href="#" data-toggle="modal" (click)="updateTestimonial.show();editTestimonials(data,i)"><i
                     class="fa fa-edit" style="color:orange;font-size: 20px;text-align:center"></i></td>

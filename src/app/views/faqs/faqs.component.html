@@ -1,6 +1,7 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
+
 <ng2-toasty></ng2-toasty>
 
 <div class="card-body">
@@ -47,8 +48,7 @@
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
                 <td *ngFor="let col of cols">
-                  <!-- {{data[col.field]}} -->
-                  {{ col.type ? (data[col.field] == "1" ? "active" : "Inactive") : data[col.field] }}
+                  {{ col.type ? (data[col.field] == "1" ? "Active" : "In Active") : data[col.field] }}
                 </td>
                 <td href="#" data-toggle="modal" (click)="addorUpdateFaqs.show();editFaqs(data,i)"><i class="fa fa-edit"
                     style="color:orange;font-size: 20px;text-align:center"></i></td>
@@ -89,7 +89,6 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Answer<b style="color:red">*</b></label>
                   <div class="col-md-9">

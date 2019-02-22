@@ -107,15 +107,28 @@ export class BeautyTipsComponent implements OnInit {
             this.completeService.addBeautyTip([])
             this.messageService.successToast("BeautyTip added Successfully")
           } else {
-            this.tipsData[this._index] = res["data"];
-            if (this.tipsData[this._index].tip_type == 2) {
-              this.tipsData[this._index].tip_type = 'Hot Deal'
+            if (this.beautytips.rec_status == '0') {
+              this.tipsData.splice(this._index, 1);
+              this.tipsData[this._index] = res["data"];
+              if (this.tipsData[this._index].tip_type == 2) {
+                this.tipsData[this._index].tip_type = 'Hot Deal'
+              }
+              if (this.tipsData[this._index].tip_type == 1) {
+                this.tipsData[this._index].tip_type = 'Beauty Tip'
+              }
+              this.completeService.addBeautyTip([])
+              this.messageService.successToast("BeautyTip Inactive Successfully")
+            } else {
+              this.tipsData[this._index] = res["data"];
+              if (this.tipsData[this._index].tip_type == 2) {
+                this.tipsData[this._index].tip_type = 'Hot Deal'
+              }
+              if (this.tipsData[this._index].tip_type == 1) {
+                this.tipsData[this._index].tip_type = 'Beauty Tip'
+              }
+              this.completeService.addBeautyTip([])
+              this.messageService.successToast("BeautyTip Updated Successfully")
             }
-            if (this.tipsData[this._index].tip_type == 1) {
-              this.tipsData[this._index].tip_type = 'Beauty Tip'
-            }
-            this.completeService.addBeautyTip([])
-            this.messageService.successToast("BeautyTip Updated Successfully")
 
           }
         } else {

@@ -68,7 +68,6 @@
             <div class="card-header">
               <strong>Edit MindBody Coupons</strong>
               <button type="button" class="close" (click)="editCoupon.hide(); backupData()">&times;</button>
-
             </div>
             <div class="card-body">
               <form [formGroup]="couponsForm">
@@ -95,7 +94,6 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="form-group row">
                   <label class="col-md-3 col-form-label" for="text-input">Status</label>
                   <div class="col-md-9">
@@ -118,9 +116,9 @@
           </div>
         </div>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 <div class="animated fadeIn">
   <div class="row">
@@ -153,7 +151,6 @@
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
                 <td *ngFor="let col of cols">
-                  <!-- {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }} -->
                   {{ col.type ? (data[col.field] == "1" ? "active" : "Inactive") : data[col.field] }}
                 </td>
                 <td href="#" data-toggle="modal" (click)="editCoupon.show();editCoupons(data,i)"><i class="fa fa-edit"

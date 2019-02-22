@@ -202,7 +202,7 @@
                 <td>{{data.tip_description}}</td>
                 <td> <img [src]="data.tip_img" height="50"></td>
                 <td>{{data.tip_type}}</td>
-                <td>{{data.rec_status == "1" ? "active" : "Inactive"}}</td>
+                <td>{{data.rec_status == "1" ? "Active" : "In Active"}}</td>
                 <td> <button class="btn-primary" data-toggle="modal"
                     (click)="addOrUpdateBeautyTip.show();editBeautyTip(data,i)"><i class="fa fa-edit"></i></button></td>
                 <td> <button class="btn-danger" data-toggle="modal"

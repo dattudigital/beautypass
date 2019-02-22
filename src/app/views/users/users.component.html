@@ -1,9 +1,9 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
+
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
-<!-- <button class="btn btn-primary submit-button" (click)="clockInTime();" [disabled]="true ">Clock
-  In</button> -->
+
 <div class="card-body">
   <div class="form-group row">
     <label class="col-md-1 col-form-label" for="text-input"><b>Studio:</b></label>
@@ -23,7 +23,6 @@
     <label class="col-md-1 col-form-label" for="text-input"><b>Record:</b></label>
     <div class="col-md-2">
       <select class="form-control" name="record" id="record" [(ngModel)]="selectedVal">
-        <!-- <option value="undefined">Page Per Record</option> -->
         <option value="50">50</option>
         <option value="100">100</option>
         <option value="150">150</option>
@@ -50,7 +49,7 @@
                 <th>Last Name</th>
                 <th>Full Name</th>
                 <th>Email </th>
-                <th>mobile</th>
+                <th>Mobile</th>
                 <th>Gender</th>
                 <th>City</th>
                 <th>Location Name</th>
@@ -184,5 +183,6 @@
   .table th,
   .table td {
     padding: 2px;
+    text-align: center;
   }
 </style>

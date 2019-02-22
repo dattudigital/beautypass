@@ -49,8 +49,7 @@
             <ng-template pTemplate="body" let-i="rowIndex" let-data>
               <tr>
                 <td *ngFor="let col of cols">
-                  <!-- {{ col.type ? col.type.transform(data[col.field], col.arg1, col.arg2, col.arg3) : data[col.field] }} -->
-                  {{ col.type ? (data[col.field] == "1" ? "active" : "Inactive") : data[col.field] }}
+                  {{ col.type ? (data[col.field] == "1" ? "Active" : "In Active") : data[col.field] }}
                 </td>
                 <td href="#" data-toggle="modal" (click)="addOrUpdateEmployee.show();editEmployee(data,i)"><i
                     class="fa fa-edit" style="color:orange;font-size: 20px;text-align:center"></i></td>
@@ -160,16 +159,16 @@
                   </div>
                 </div>
                 <div *ngIf="employeeData.employee_id">
-                  <div class="form-group row">
-                    <label class="col-md-2 col-form-label" for="text-input">Status</label>
-                    <div class="col-md-9">
-                      <select class="form-control" name="employeestatus" id="employeestatus"
-                        [(ngModel)]="employeeData.emp_status" [(ngModel)]="showMoreControls"
-                        [ngModelOptions]="{standalone: true}">
-                        <option value="1">Active</option>
-                        <option value="0">In active</option>
-                      </select>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Status</span>
                     </div>
+                    <select class="form-control" name="employeestatus" id="employeestatus"
+                      [(ngModel)]="employeeData.emp_status" [(ngModel)]="showMoreControls"
+                      [ngModelOptions]="{standalone: true}">
+                      <option value="1">Active</option>
+                      <option value="0">In active</option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-group pull-right">

@@ -104,8 +104,8 @@ export class FaqsComponent implements OnInit {
           this.messageService.successToast("Faq Added Successfully")
         } else {
           if (this.faqs.faq_status == '0') {
-            // this.faqData.splice(this.faqs["index"], 1);
             this.faqData[this.faqs["index"]].faq_status = "0";
+            this.faqData[this.faqs["index"]] = res["data"];
             this.faqData = this.faqData.slice();
             localStorage.setItem('faq', JSON.stringify(this.faqData))
             this.completeService.addFaqs([]);
@@ -127,10 +127,12 @@ export class FaqsComponent implements OnInit {
     this.faqs = data;
     this.faqs["index"] = index;
   }
+
   backupData() {
     let _index = this.faqs["index"];
     this.faqData[_index] = this.copiedRow;
   }
+
   deleteFaqs(val, index) {
     this.deleteRecord = val;
     this.deleteRecord["index"] = index

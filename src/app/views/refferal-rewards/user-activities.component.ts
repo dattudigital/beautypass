@@ -182,31 +182,29 @@ export class UserActivitiesComponent implements OnInit {
           this.completeService.addUserActivity([]);
           this.messageService.successToast("User Activity Added Successfully")
         } else {
-          this.userActivitiesData = this.userActivitiesData.slice();
-          localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
-          this.userActivitiesData[this.userActivity["index"]] = res["data"];
-          console.log(res["data"].activity_status)
-          if (res["data"].activity_status == 1) {
-            res["data"].activity_status = "Active"
+          if (this.userActivity.activity_status == '0') {
+            this.userActivitiesData = this.userActivitiesData.slice();
+            localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
+            this.userActivitiesData[this.userActivity["index"]] = res["data"];
+            if (res["data"].activity_status == 1) {
+              res["data"].activity_status = "Active"
+            }
+            if (res["data"].activity_status == 0) {
+              res["data"].activity_status = "In Active"
+            }
+            this.completeService.addUserActivity([]);
+            this.messageService.successToast("User Activity Inactive Successfully")
+          } else {
+            this.userActivitiesData[this.userActivity["index"]] = res["data"];
+            if (res["data"].activity_status == 1) {
+              res["data"].activity_status = "Active"
+            }
+            if (res["data"].activity_status == 0) {
+              res["data"].activity_status = "In Active"
+            }
+            this.completeService.addUserActivity([]);
+            this.messageService.successToast("User Activity Updated Successfully")
           }
-          if (res["data"].activity_status == 0) {
-            res["data"].activity_status = "In Active"
-          }
-          this.completeService.addUserActivity([]);
-          this.messageService.successToast("User Activity Updated Successfully")
-
-          // if (this.userActivity.activity_status == '0') {
-          //   // this.userActivitiesData.splice(this.userActivity["index"], 1);
-          //   this.userActivitiesData = this.userActivitiesData.slice();
-          //   localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
-          //   this.completeService.addUserActivity([]);
-          //   this.messageService.successToast("User Activity Inactive Successfully")
-          // } else {
-          //   this.userActivitiesData[this.userActivity["index"]] = res["data"];
-          //   console.log(res["data"].activity_status)
-          //   this.completeService.addUserActivity([]);
-          //   this.messageService.successToast("User Activity Updated Successfully")
-          // }
         }
       } else {
         this.messageService.successToast("User Activity not Added ")

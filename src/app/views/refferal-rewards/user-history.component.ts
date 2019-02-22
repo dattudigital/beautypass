@@ -31,7 +31,7 @@ export class UserHistoryComponent {
       { field: 'location', header: 'Location Id' },
       { field: 'locationName', header: 'Location Name' },
       { field: 'studioid', header: 'Studio Id' },
-      { field: 'studioName', header: 'StudioName' },
+      { field: 'studioName', header: 'Studio Name' },
       { field: 'reward_for', header: 'Remarks' },
       { field: 'points', header: 'Credit' },
       { field: 'debit', header: 'Debit' },

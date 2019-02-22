@@ -135,16 +135,16 @@ export class WrittenTestimonialsComponent implements OnInit {
       modelClose.click();
       if (res["status"] == true) {
         if (this.testimonialData.coupons_status == '0') {
-          // this.testmonials.splice(this.testimonialData["index"], 1);
-          // this.completeService.addWrittenTestmonials([]);
+          this.testmonials[this.testimonialData["index"]] = res["data"];
+          this.testmonials[this.testimonialData["index"]].locationName = this.testimonialData.locationName;
+          this.testmonials[this.testimonialData["index"]].studioName = this.testimonialData.studioName;
+          this.testmonials[this.testimonialData["index"]].fullname = this.testimonialData.fullname;
+          this.testmonials[this.testimonialData["index"]].empname = this.userData.data[0].emp_firstname + " " + this.userData.data[0].emp_lastname;
           this.messageService.successToast("Written Testmonials inactive successfully")
         } else {
           this.testmonials[this.testimonialData["index"]] = res["data"];
           this.testmonials[this.testimonialData["index"]].locationName = this.testimonialData.locationName;
           this.testmonials[this.testimonialData["index"]].studioName = this.testimonialData.studioName
-
-          // this.completeService.addWrittenTestmonials([]);
-
           this.messageService.successToast("Written Testmonials Updated successfully")
           this.testmonials[this.testimonialData["index"]].fullname = this.testimonialData.fullname;
           this.testmonials[this.testimonialData["index"]].empname = this.userData.data[0].emp_firstname + " " + this.userData.data[0].emp_lastname;
