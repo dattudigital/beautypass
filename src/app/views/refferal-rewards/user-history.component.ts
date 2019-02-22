@@ -71,7 +71,7 @@ export class UserHistoryComponent {
     this.timeout = setTimeout(function () {
       self.userSearch(val);
       console.log(val)
-    }, 500);
+    }, 1000);
   }
 
   userSearch(val) {
