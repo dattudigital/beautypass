@@ -11,11 +11,11 @@
         <option *ngFor="let data of studioIdData" [ngValue]="data.studioid">{{data.studioid}}</option>
       </select>
     </div> -->
-    <label class="col-md-1 col-form-label" for="text-input" style="padding-left:5px"><b>Start Date</b></label>
+    <label class="col-md-1 col-form-label" for="text-input" style="padding-left:5px"><b>From</b></label>
     <div class="col-md-2">
       <input type="date" class="form-control" [(ngModel)]="startDate" />
     </div>
-    <label class="col-md-1 col-form-label" for="text-input"><b>End Date</b></label>
+    <label class="col-md-1 col-form-label" for="text-input"><b>To</b></label>
     <div class="col-md-2">
       <input type="date" class="form-control" [(ngModel)]="endDate" />
     </div>
