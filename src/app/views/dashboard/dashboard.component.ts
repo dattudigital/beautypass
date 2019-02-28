@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class DashboardComponent implements OnInit {
   completeDashboardData: any
   public mainChartData1: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  public mainChartData2: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   constructor(private spinner: NgxSpinnerService, private service: DashboardService) {
   }
@@ -41,6 +42,7 @@ export class DashboardComponent implements OnInit {
         let _index = days.indexOf(graphData[i].day)
         if (_index) {
           this.mainChartData1[_index] = graphData[i].total
+          this.mainChartData2[_index] = graphData[i].debit
         }
       }
     });
@@ -50,7 +52,11 @@ export class DashboardComponent implements OnInit {
   public mainChartData: Array<any> = [
     {
       data: this.mainChartData1,
-      label: 'Points'
+      label: 'Credit'
+    },
+    {
+      data: this.mainChartData2,
+      label: 'Debit'
     }
   ];
   public mainChartLabels: Array<any> = [];
