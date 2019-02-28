@@ -8,7 +8,7 @@
   <div class="form-group row">
     <label class="col-md-1 col-form-label" for="text-input"><b>Studio:</b></label>
     <div class="col-md-2">
-      <select class="form-control" name="studio" id="studio" [(ngModel)]="studioId" (click)="studioDetails()">
+      <select class="form-control" name="studio" id="studio" [(ngModel)]="studioId" (ngModelChange)="studioDetails()">
         <option value="undefined">Select Studio</option>
         <option *ngFor="let data of studioIdData" [ngValue]="data.studioid">{{data.studioid}}</option>
       </select>
