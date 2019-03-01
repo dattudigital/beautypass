@@ -153,9 +153,12 @@ export class UserActivitiesComponent implements OnInit {
           i = 0;
         }
         if (i + 1 == this.userActivitiesData.length) {
+          this.randomCode();
           data.activity_code = this.randomNumber;
         }
       }
+    } else {
+      data.activity_code = this.userActivity.activity_code
     }
 
     if (!this.userActivity.activity_id) {
@@ -164,6 +167,7 @@ export class UserActivitiesComponent implements OnInit {
       data.updatedempid = this.userData.data[0].employee_id;
     }
     let modelClose = document.getElementById("CloseActivity");
+    console.log(data);
     this.spinner.show();
     this.service._addOrEditRefferalActivities(data).subscribe(res => {
       this.spinner.hide();
@@ -182,6 +186,7 @@ export class UserActivitiesComponent implements OnInit {
           this.completeService.addUserActivity([]);
           this.messageService.successToast("User Activity Added Successfully")
         } else {
+          console.log(res["data"])
           if (this.userActivity.activity_status == '0') {
             this.userActivitiesData = this.userActivitiesData.slice();
             localStorage.setItem('activityData', JSON.stringify(this.userActivitiesData))
@@ -195,6 +200,7 @@ export class UserActivitiesComponent implements OnInit {
             this.completeService.addUserActivity([]);
             this.messageService.successToast("User Activity Inactive Successfully")
           } else {
+            console.log(res["data"])
             this.userActivitiesData[this.userActivity["index"]] = res["data"];
             if (res["data"].activity_status == 1) {
               res["data"].activity_status = "Active"
