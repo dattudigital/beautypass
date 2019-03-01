@@ -197,6 +197,17 @@ export class UserPointsComponent {
       this.spinner.hide();
       modelClose.click();
       if (res["status"] == true) {
+        var temp = res["data"];
+        temp.fullname =this.userPointsData[0].fullname;
+        temp.email_id =this.userPointsData[0].email_id;
+        temp.dob =this.userPointsData[0].dob;
+        temp.location = this.userPointsData[0].location;
+        temp.locationName = this.userPointsData[0].locationName;
+        temp.studioid = this.userPointsData[0].studioid;
+        temp.studioName = this.userPointsData[0].studioName;
+        console.log(temp)
+        this.selectedOption.push(temp);
+
         this.messageService.successToast("user Points updated Successfully")
       } else {
         this.messageService.errorToast("user Points is not Updated")

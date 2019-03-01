@@ -128,6 +128,9 @@
                   <th>Email ID</th>
                   <th>Mobile</th>
                   <th>Gender</th>
+                  <th>Studio Name</th>
+                  <th>User Id</th>
+                  <th>Registred Date</th>
                 </tr>
               </thead>
               <tbody *ngIf="completeDashboardData">
@@ -136,6 +139,9 @@
                   <td>{{recentUsers.email_id}}</td>
                   <td>{{recentUsers.mobile}}</td>
                   <td>{{recentUsers.gender}}</td>
+                  <td>{{recentUsers.studioName}}</td>
+                  <td>{{recentUsers.mindbody_id}}</td>
+                  <td>{{recentUsers.dateCreated | date: 'dd/MM/yyyy'}}</td>
                 </tr>
                 <tr *ngIf="!completeDashboardData.userlist || completeDashboardData.userlist.length ==0">
                   No Records Found

@@ -35,7 +35,7 @@ export class UserHistoryComponent {
       { field: 'reward_for', header: 'Remarks' },
       { field: 'points', header: 'Credit' },
       { field: 'debit', header: 'Debit' },
-      { field: 'rewarddate', header: 'Purchase Date', type: this.dp }
+      { field: 'rewarddate', header: 'Credit/Debit Date', type: this.dp }
     ];
   }
 
