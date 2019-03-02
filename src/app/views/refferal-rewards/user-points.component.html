@@ -5,8 +5,8 @@
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
 
 <div class="form-group row">
-  <label class="col-md-2 col-form-label" for="select2"><b>Select User</b></label>
-  <div class="col-md-4">
+  <label class="col-sm-2 col-form-label" for="select2"><b>Select User</b></label>
+  <div class="col-sm-4">
     <input type="text" class="form-control" [(ngModel)]="selectedValue"
       placeholder="Enter Email Id / Mindbody Id / Mobile" (keyup)='doDelayedSearch(selectedValue)' name="" id="">
   </div>
@@ -198,7 +198,7 @@
 </div><!-- /.modal -->
 
 <div class="form-popup" *ngIf="popupStatus" style="display:contents">
-  <form class="form-container" style="margin-left: 185px;
+  <form class="form-container" style="margin-left: 188px;
     margin-top: -16px;">
     <table>
       <thead>
@@ -270,8 +270,8 @@
 
   /* Add styles to the form container */
   .form-container {
-    max-width: 300px;
-    padding: 10px;
+    max-width: 340px;
+    padding: 3px;
     background-color: white;
   }
 
