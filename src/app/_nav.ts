@@ -30,6 +30,11 @@ export const navItems = [
     icon: 'icon-user-female'
   },
   {
+    name: 'Packages',
+    url: '/mindbody-packages',
+    icon: 'icon-note'
+  },
+  {
     name: 'Testmonials',
     url: '/testmonials',
     icon: 'icon-note',

@@ -1,0 +1,308 @@
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+
+<div class="card-body">
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label" for="text-input"><b>Studio</b></label>
+    <div class="col-md-4">
+      <select class="form-control" name="studio" id="studio" [(ngModel)]="siteId">
+        <option value="undefined">Select Studio</option>
+        <option *ngFor="let data of siteData" [ngValue]="data.studioId">
+          {{data.studioId}}-{{data.studioName}}
+        </option>
+      </select>
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-sm btn-primary" (click)="getSearchReports();" style="padding:5px"><b> Submit </b></button>
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-sm btn-warning" (click)="detailsReset()" style="padding:7px"><b> Reset </b></button>
+    </div>
+  </div>
+</div>
+
+<div class="card-body">
+  <div class="row">
+    <div class="col-6 col-sm-4 col-md text-center">
+      <button name="createemployee" id="addemployee" (click)="addOrUpdatePackages.show()" class="btn btn-primary"
+        style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add
+        Packages</button>
+    </div>
+    <div class=" col-sm-1">
+      <i class="fas fa-sync-alt" (click)="reloadClick()"
+        style="color:orange;font-size: 20px;text-align:center;padding:5px;border:1px solid black;background: #ffff;border-radius: 5px;"></i>
+    </div>
+  </div>
+</div>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>MindBody Packages List
+        </div>
+        <div class="card-body">
+          <p-table #dt [columns]="cols" [value]="packageData" [paginator]="true" [rows]="4">
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Global Filter"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i="rowIndex" let-data>
+              <tr>
+                <td *ngFor="let col of cols">
+                  {{ col.type ? (data[col.field] == "1" ? "Active" : "In Active") : data[col.field] }}
+                </td>
+                <td href="#" data-toggle="modal" (click)="addOrUpdatePackages.show();editPackage(data,i)"><i
+                    class="fa fa-edit" style="color:orange;font-size: 20px;text-align:center"></i></td>
+                <td href="#" data-toggle="modal" (click)="dangerModal.show();DeletePackage(data,i)"><i
+                    class="fa fa-trash" style="color:red;font-size: 20px"></i></td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #addOrUpdatePackages="bs-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static'}">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card" style="margin-bottom: 0;">
+            <div class="card-header">
+              <strong *ngIf="!packagesDetails.mb_pack_id">Add Package</strong>
+              <strong *ngIf="packagesDetails.mb_pack_id">Edit Package</strong>
+              <button type="button" class="close" (click)="addOrUpdatePackages.hide();backupData()">&times;</button>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="packagesForm">
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Package Name<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="packageName" class="form-control"
+                      placeholder="Package Name" [(ngModel)]="packagesDetails.mb_pack_name"
+                      [ngClass]="{ 'is-invalid': submitted && f.packageName.errors }">
+                    <div *ngIf="submitted && f.packageName.errors" class="invalid-feedback">
+                      <div *ngIf="f.packageName.errors.required" style="color:red">packageName is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Description<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <textarea type="text" name="desc" id="desc" rows="5" maxlength="500" formControlName="description"
+                      class="form-control" placeholder="description" [(ngModel)]="packagesDetails.mb_pack_desc"
+                      [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                    <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                      <div *ngIf="f.description.errors.required" style="color:red">description is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Studio<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <select class="form-control" formControlName="site" [(ngModel)]="packagesDetails.studio_id"
+                      [ngClass]="{ 'is-invalid': submitted && f.site.errors }">
+                      <option value="undefined">Select Studio</option>
+                      <option *ngFor="let data of siteData" [ngValue]="data.studioId">
+                        {{data.studioId}}-{{data.studioName}}
+                      </option>
+                      <div *ngIf="submitted && f.site.errors" class="invalid-feedback">
+                        <div *ngIf="f.site.errors.required" style="color:red">studioId is required</div>
+                      </div>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Price<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="price" class="form-control" placeholder="Price"
+                      [(ngModel)]="packagesDetails.mb_pack_price"
+                      [ngClass]="{ 'is-invalid': submitted && f.price.errors }">
+                    <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                      <div *ngIf="f.price.errors.required" style="color:red">price is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Online Price<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="onlinePrice" class="form-control"
+                      placeholder=" online Price" [(ngModel)]="packagesDetails.mb_pack_online_price"
+                      [ngClass]="{ 'is-invalid': submitted && f.onlinePrice.errors }">
+                    <div *ngIf="submitted && f.onlinePrice.errors" class="invalid-feedback">
+                      <div *ngIf="f.onlinePrice.errors.required" style="color:red">onlinePrice is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">SeriesId<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="seriesId" class="form-control"
+                      placeholder=" online Price" [(ngModel)]="packagesDetails.mb_series_id"
+                      [ngClass]="{ 'is-invalid': submitted && f.seriesId.errors }">
+                    <div *ngIf="submitted && f.seriesId.errors" class="invalid-feedback">
+                      <div *ngIf="f.seriesId.errors.required" style="color:red">seriesId is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">ProductId<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="productId" class="form-control"
+                      placeholder="product Id" [(ngModel)]="packagesDetails.mb_product_id"
+                      [ngClass]="{ 'is-invalid': submitted && f.productId.errors }">
+                    <div *ngIf="submitted && f.productId.errors" class="invalid-feedback">
+                      <div *ngIf="f.productId.errors.required" style="color:red">productId is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">ProgramId<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="programId" class="form-control"
+                      placeholder="programId" [(ngModel)]="packagesDetails.mb_program_id"
+                      [ngClass]="{ 'is-invalid': submitted && f.programId.errors }">
+                    <div *ngIf="submitted && f.programId.errors" class="invalid-feedback">
+                      <div *ngIf="f.programId.errors.required" style="color:red">programId is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">PackageId<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="packageId" class="form-control"
+                      placeholder="packageId" [(ngModel)]="packagesDetails.mb_pack_mb_id"
+                      [ngClass]="{ 'is-invalid': submitted && f.packageId.errors }">
+                    <div *ngIf="submitted && f.packageId.errors" class="invalid-feedback">
+                      <div *ngIf="f.packageId.errors.required" style="color:red">packageId is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Package Tax<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="packageTax" class="form-control"
+                      placeholder="Package Tax" [(ngModel)]="packagesDetails.mb_pack_tax"
+                      [ngClass]="{ 'is-invalid': submitted && f.packageTax.errors }">
+                    <div *ngIf="submitted && f.packageTax.errors" class="invalid-feedback">
+                      <div *ngIf="f.packageTax.errors.required" style="color:red">packageTax is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Package Count<b
+                      style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="programCount" class="form-control"
+                      placeholder=" package count" [(ngModel)]="packagesDetails.mb_pack_count"
+                      [ngClass]="{ 'is-invalid': submitted && f.programCount.errors }">
+                    <div *ngIf="submitted && f.programCount.errors" class="invalid-feedback">
+                      <div *ngIf="f.programCount.errors.required" style="color:red">programCount is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="text-input">Validity<b style="color:red">*</b></label>
+                  <div class="col-md-9">
+                    <input type="text" maxlength="50" formControlName="validity" class="form-control"
+                      placeholder="validity" [(ngModel)]="packagesDetails.mb_pack_validity"
+                      [ngClass]="{ 'is-invalid': submitted && f.validity.errors }">
+                    <div *ngIf="submitted && f.validity.errors" class="invalid-feedback">
+                      <div *ngIf="f.validity.errors.required" style="color:red">validity is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="packagesDetails.mb_pack_id">
+                  <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="text-input">Status</label>
+                    <div class="col-md-9">
+                      <select class="form-control" name="status" id="status" [(ngModel)]="packagesDetails.rec_status"
+                        [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
+                        <option value="1">Active</option>
+                        <option value="0">In active</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group pull-right">
+                  <span *ngIf="!packagesDetails.mb_pack_id">
+                    <button name="addpackage" id="addpackage" class="btn btn-success"
+                      (click)="addOrUpdatePackage()">Add</button>
+                    &nbsp; &nbsp;
+                  </span>
+                  <span *ngIf="packagesDetails.mb_pack_id">
+                    <button name="updateemployee" id="updateemployee" class="btn btn-success"
+                      (click)="addOrUpdatePackage()">Update</button>&nbsp;
+                    &nbsp;
+                  </span>
+                  <button type="button" id="ClosePackage" class="btn btn-secondary"
+                    (click)="addOrUpdatePackages.hide();backupData()">Close</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static'}">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#EC8D8D">
+        <h4 class="modal-title">Delete packages</h4>
+        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to Delete ?</p>
+      </div>
+      <div class="container">
+        <table class="table table-bordered table-striped table-sm" style="padding:10px;">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="deleteRecord">
+              <td>{{deleteRecord.mb_pack_name}}</td>
+              <td>{{deleteRecord.mb_pack_desc}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="dangerModal.hide();deleteAlert();">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -30,7 +30,7 @@ export const routes: Routes = [
     data: {
       title: 'Home'
     },
-    children: [      
+    children: [
       {
         path: 'dashboard',
         loadChildren: './views/dashboard/dashboard.module#DashboardModule'
@@ -55,6 +55,11 @@ export const routes: Routes = [
       {
         path: 'beauty-tips',
         loadChildren: './views/beautytip/beautytip.module#BeautytipModule'
+      },
+      {
+        path: 'mindbody-packages',
+        loadChildren: './views/mindbody-packages/mindbody-packages.module#MindbodyPackagesModule'
+
       },
       {
         path: 'testmonials',
