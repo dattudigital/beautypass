@@ -62,11 +62,6 @@ export class MindbodyPackagesComponent implements OnInit {
       price: ['', Validators.required],
       onlinePrice: ['', Validators.required],
       validity: ['', Validators.required],
-      productId: ['', Validators.required],
-      packageId: ['', Validators.required],
-      programId: ['', Validators.required],
-      packageTax: ['', Validators.required],
-      programCount: ['', Validators.required],
       seriesId: ['', Validators.required],
       site: ['', Validators.required]
     });
@@ -182,6 +177,22 @@ export class MindbodyPackagesComponent implements OnInit {
     this.deleteRecord["index"] = index;
   }
 
+  removeFields() {
+    this.submitted = false;
+    this.packagesDetails.mb_pack_name = '';
+    this.packagesDetails.mb_pack_desc = '';
+    this.packagesDetails.studio_id = undefined;
+    this.packagesDetails.mb_pack_price = '';
+    this.packagesDetails.mb_pack_online_price = '';
+    this.packagesDetails.mb_series_id = '';
+    this.packagesDetails.mb_product_id = '';
+    this.packagesDetails.mb_program_id = '';
+    this.packagesDetails.mb_pack_mb_id = '';
+    this.packagesDetails.mb_pack_tax = '';
+    this.packagesDetails.mb_pack_count = '';
+    this.packagesDetails.mb_pack_validity = '';
+  }
+
   deleteAlert() {
     this.spinner.show()
     this.service.deletePackages(this.deleteRecord["mb_pack_id"]).subscribe(res => {
@@ -212,6 +223,10 @@ export class MindbodyPackagesComponent implements OnInit {
   detailsReset() {
     this.siteId = undefined;
     this.getPackages()
+  }
+  only_allow_number(event) {
+    var k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return (k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 0 || k == 36);
   }
 
 }

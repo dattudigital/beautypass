@@ -27,8 +27,8 @@
 <div class="card-body">
   <div class="row">
     <div class="col-6 col-sm-4 col-md text-center">
-      <button name="createemployee" id="addemployee" (click)="addOrUpdatePackages.show()" class="btn btn-primary"
-        style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add
+      <button name="createemployee" id="addemployee" (click)="addOrUpdatePackages.show(); removeFields() "
+        class="btn btn-primary" style="float: right;"><i class="fa fa-lightbulb-o"></i>&nbsp;Add
         Packages</button>
     </div>
     <div class=" col-sm-1">
@@ -140,7 +140,7 @@
                   <div class="col-md-9">
                     <input type="text" maxlength="50" formControlName="price" class="form-control" placeholder="Price"
                       [(ngModel)]="packagesDetails.mb_pack_price"
-                      [ngClass]="{ 'is-invalid': submitted && f.price.errors }">
+                      [ngClass]="{ 'is-invalid': submitted && f.price.errors }" (keypress)="only_allow_number($event)">
                     <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
                       <div *ngIf="f.price.errors.required" style="color:red">price is required</div>
                     </div>
@@ -151,7 +151,8 @@
                   <div class="col-md-9">
                     <input type="text" maxlength="50" formControlName="onlinePrice" class="form-control"
                       placeholder=" online Price" [(ngModel)]="packagesDetails.mb_pack_online_price"
-                      [ngClass]="{ 'is-invalid': submitted && f.onlinePrice.errors }">
+                      [ngClass]="{ 'is-invalid': submitted && f.onlinePrice.errors }"
+                      (keypress)="only_allow_number($event)">
                     <div *ngIf="submitted && f.onlinePrice.errors" class="invalid-feedback">
                       <div *ngIf="f.onlinePrice.errors.required" style="color:red">onlinePrice is required</div>
                     </div>
@@ -161,7 +162,8 @@
                   <label class="col-md-3 col-form-label" for="text-input">SeriesId<b style="color:red">*</b></label>
                   <div class="col-md-9">
                     <input type="text" maxlength="50" formControlName="seriesId" class="form-control"
-                      placeholder=" online Price" [(ngModel)]="packagesDetails.mb_series_id"
+                      placeholder="series id" [(ngModel)]="packagesDetails.mb_series_id"
+                      (keypress)="only_allow_number($event)"
                       [ngClass]="{ 'is-invalid': submitted && f.seriesId.errors }">
                     <div *ngIf="submitted && f.seriesId.errors" class="invalid-feedback">
                       <div *ngIf="f.seriesId.errors.required" style="color:red">seriesId is required</div>
@@ -169,59 +171,44 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">ProductId<b style="color:red">*</b></label>
+                  <label class="col-md-3 col-form-label" for="text-input">ProductId</label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="productId" class="form-control"
-                      placeholder="product Id" [(ngModel)]="packagesDetails.mb_product_id"
-                      [ngClass]="{ 'is-invalid': submitted && f.productId.errors }">
-                    <div *ngIf="submitted && f.productId.errors" class="invalid-feedback">
-                      <div *ngIf="f.productId.errors.required" style="color:red">productId is required</div>
-                    </div>
+                    <input type="text" maxlength="50" class="form-control" placeholder="product Id"
+                      [(ngModel)]="packagesDetails.mb_product_id" [(ngModel)]="showMoreControls"
+                      [ngModelOptions]="{standalone: true}" (keypress)="only_allow_number($event)">
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">ProgramId<b style="color:red">*</b></label>
+                  <label class="col-md-3 col-form-label" for="text-input">ProgramId</label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="programId" class="form-control"
-                      placeholder="programId" [(ngModel)]="packagesDetails.mb_program_id"
-                      [ngClass]="{ 'is-invalid': submitted && f.programId.errors }">
-                    <div *ngIf="submitted && f.programId.errors" class="invalid-feedback">
-                      <div *ngIf="f.programId.errors.required" style="color:red">programId is required</div>
-                    </div>
+                    <input type="text" maxlength="50" class="form-control" placeholder="programId"
+                      [(ngModel)]="packagesDetails.mb_program_id" [(ngModel)]="showMoreControls"
+                      [ngModelOptions]="{standalone: true}" (keypress)="only_allow_number($event)">
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">PackageId<b style="color:red">*</b></label>
+                  <label class="col-md-3 col-form-label" for="text-input">PackageId</label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="packageId" class="form-control"
-                      placeholder="packageId" [(ngModel)]="packagesDetails.mb_pack_mb_id"
-                      [ngClass]="{ 'is-invalid': submitted && f.packageId.errors }">
-                    <div *ngIf="submitted && f.packageId.errors" class="invalid-feedback">
-                      <div *ngIf="f.packageId.errors.required" style="color:red">packageId is required</div>
-                    </div>
+                    <input type="text" maxlength="50" class="form-control" placeholder="packageId"
+                      [(ngModel)]="packagesDetails.mb_pack_mb_id" [(ngModel)]="showMoreControls"
+                      [ngModelOptions]="{standalone: true}" (keypress)="only_allow_number($event)">
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Package Tax<b style="color:red">*</b></label>
+                  <label class="col-md-3 col-form-label" for="text-input">Package Tax</label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="packageTax" class="form-control"
-                      placeholder="Package Tax" [(ngModel)]="packagesDetails.mb_pack_tax"
-                      [ngClass]="{ 'is-invalid': submitted && f.packageTax.errors }">
-                    <div *ngIf="submitted && f.packageTax.errors" class="invalid-feedback">
-                      <div *ngIf="f.packageTax.errors.required" style="color:red">packageTax is required</div>
-                    </div>
+                    <input type="text" maxlength="50" class="form-control" placeholder="Package Tax"
+                      [(ngModel)]="packagesDetails.mb_pack_tax" [(ngModel)]="showMoreControls"
+                      [ngModelOptions]="{standalone: true}" (keypress)="only_allow_number($event)">
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-3 col-form-label" for="text-input">Package Count<b
-                      style="color:red">*</b></label>
+                  <label class="col-md-3 col-form-label" for="text-input">Package Count
+                  </label>
                   <div class="col-md-9">
-                    <input type="text" maxlength="50" formControlName="programCount" class="form-control"
-                      placeholder=" package count" [(ngModel)]="packagesDetails.mb_pack_count"
-                      [ngClass]="{ 'is-invalid': submitted && f.programCount.errors }">
-                    <div *ngIf="submitted && f.programCount.errors" class="invalid-feedback">
-                      <div *ngIf="f.programCount.errors.required" style="color:red">programCount is required</div>
-                    </div>
+                    <input type="text" maxlength="50" class="form-control" placeholder=" package count"
+                      [(ngModel)]="packagesDetails.mb_pack_count" [(ngModel)]="showMoreControls"
+                      [ngModelOptions]="{standalone: true}" (keypress)="only_allow_number($event)">
                   </div>
                 </div>
                 <div class="form-group row">
