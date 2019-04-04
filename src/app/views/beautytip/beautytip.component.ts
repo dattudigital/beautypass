@@ -90,7 +90,7 @@ export class BeautyTipsComponent implements OnInit {
       tip_description: this.beautytips.tip_description,
       tip_img: this.beautytips.tip_img,
       tip_category: 1,
-      profile_name: this.beautytips.profile_name,
+      profile_name: "/" + this.beautytips.profile_name,
       tip_video: this.beautytips.tip_video,
       tip_type: this.beautytips.tip_type,
       rec_status: this.beautytips.rec_status

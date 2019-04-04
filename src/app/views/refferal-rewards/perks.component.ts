@@ -9,7 +9,8 @@ import { CompleteBeautypassService } from '../../services/complete-beautypass.se
 @Component({
   templateUrl: 'perks.component.html',
   providers: [
-    DatePipe
+    DatePipe,
+    ToastMessageService
   ]
 })
 
