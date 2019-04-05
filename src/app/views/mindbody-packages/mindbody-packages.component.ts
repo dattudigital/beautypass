@@ -47,7 +47,6 @@ export class MindbodyPackagesComponent implements OnInit {
 
   ngOnInit() {
     this.getPackages();
-
     this.service.getSites().subscribe(res => {
       if (res["status"] == true) {
         this.siteData = res["data"]
@@ -191,6 +190,7 @@ export class MindbodyPackagesComponent implements OnInit {
     this.packagesDetails.mb_pack_tax = '';
     this.packagesDetails.mb_pack_count = '';
     this.packagesDetails.mb_pack_validity = '';
+    this.packagesDetails.rec_status = '';
   }
 
   deleteAlert() {

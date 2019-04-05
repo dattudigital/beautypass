@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   // host:' http://ec2-52-66-45-172.ap-south-1.compute.amazonaws.com:3000/'
   //  host:' http://ec2-54-88-194-105.compute-1.amazonaws.com:3000/',
- // host:' http://localhost:3000/'
+//  host:' https://localhost:3001/'
 //  host:'http://ec2-52-66-45-172.ap-south-1.compute.amazonaws.com:3001/',
    host: 'https://api.getbeautypass.com/'
 
