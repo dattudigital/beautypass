@@ -139,7 +139,7 @@
                   <div class=" form-group row">
                     <label class="col-md-3 col-form-label" for="text-input">Video Url</label>
                     <div class="col-md-9">
-                      <input type="text" name="tipvideo" id="tipvideo" maxlength="50" class="form-control"
+                      <input type="text" name="tipvideo" id="tipvideo" maxlength="500" class="form-control"
                         placeholder="Enter Video Url" [(ngModel)]="beautytips.tip_video" [(ngModel)]="showMoreControls"
                         [ngModelOptions]="{standalone: true}" />
                     </div>
@@ -192,6 +192,7 @@
                 <th>Description</th>
                 <th>Image</th>
                 <th>Type</th>
+                <th>Video</th>
                 <th>Status</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -203,6 +204,11 @@
                 <td>{{data.tip_description}}</td>
                 <td> <img [src]="data.tip_img" height="50"></td>
                 <td>{{data.tip_type}}</td>
+                <td>
+                  <span *ngIf="data.tip_video==''"><a style="color:blue;">No Video </a></span>
+                  <span *ngIf="data.tip_video!=''"><a style="color:blue;" target="_blank"
+                      href="{{data.tip_video}}">Click Here For Video</a></span>
+                </td>
                 <td>{{data.rec_status == "1" ? "Active" : "In Active"}}</td>
                 <td> <button class="btn-primary" data-toggle="modal"
                     (click)="addOrUpdateBeautyTip.show();editBeautyTip(data,i)"><i class="fa fa-edit"></i></button></td>
