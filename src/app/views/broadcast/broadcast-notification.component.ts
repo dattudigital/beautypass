@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BroadcastSmsService } from '../../services/broadcast-sms.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastMessageService } from '../../services/toast-message.service';
 
 @Component({
   selector: 'app-broadcast-notification',
-  templateUrl: './broadcast-notification.component.html'
+  templateUrl: './broadcast-notification.component.html',
+  providers: [ToastMessageService]
+
 })
 export class BroadcastNotificationComponent implements OnInit {
   broadcastIds: any;
@@ -17,7 +20,7 @@ export class BroadcastNotificationComponent implements OnInit {
   notificationForm: FormGroup;
   submitted = false;
 
-  constructor(private spinner: NgxSpinnerService, private formBuilder: FormBuilder, private service: BroadcastSmsService) { }
+  constructor(private spinner: NgxSpinnerService, private messageService: ToastMessageService, private formBuilder: FormBuilder, private service: BroadcastSmsService) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -64,7 +67,11 @@ export class BroadcastNotificationComponent implements OnInit {
       title: this.title,
       desc: this.textToSend
     }
-    this.service.broadcastNotification(data).subscribe(res => { });
+    this.spinner.show();
+    this.service.broadcastNotification(data).subscribe(res => {
+      this.spinner.hide();
+      this.messageService.successToast("Notification Sent Successfully")
+    });
   }
 
 

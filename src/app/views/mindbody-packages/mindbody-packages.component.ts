@@ -100,7 +100,7 @@ export class MindbodyPackagesComponent implements OnInit {
 
   addOrUpdatePackage() {
     this.submitted = true;
-
+    console.log("submit",this.submitted)
     if (this.packagesForm.invalid) {
       return;
     }
@@ -178,6 +178,8 @@ export class MindbodyPackagesComponent implements OnInit {
 
   removeFields() {
     this.submitted = false;
+    console.log("submit false",this.submitted)
+    this.packagesDetails.mb_pack_id = '';
     this.packagesDetails.mb_pack_name = '';
     this.packagesDetails.mb_pack_desc = '';
     this.packagesDetails.studio_id = undefined;

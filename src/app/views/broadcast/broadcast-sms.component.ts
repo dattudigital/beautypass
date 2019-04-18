@@ -4,6 +4,7 @@ import { AlertConfig } from 'ngx-bootstrap/alert';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BroadcastSmsService } from '../../services/broadcast-sms.service'
+import { ToastMessageService } from '../../services/toast-message.service';
 
 // such override allows to keep some initial values
 declare var $: any;
@@ -22,7 +23,7 @@ export function getAlertConfig(): AlertConfig {
   }
   `
   ],
-  providers: [{ provide: AlertConfig, useFactory: getAlertConfig }]
+  providers: [{ provide: AlertConfig, useFactory: getAlertConfig, }, ToastMessageService]
 })
 export class broadcastSmsComponent implements OnInit {
 
@@ -31,7 +32,7 @@ export class broadcastSmsComponent implements OnInit {
   locationSelectedId: any = undefined;
   locationIds: any
   textToSend: any;
-  constructor(private spinner: NgxSpinnerService, private router: Router, sanitizer: DomSanitizer, private service: BroadcastSmsService) {
+  constructor(private spinner: NgxSpinnerService, private messageService: ToastMessageService, private router: Router, sanitizer: DomSanitizer, private service: BroadcastSmsService) {
   }
 
   ngOnInit() {
@@ -68,7 +69,10 @@ export class broadcastSmsComponent implements OnInit {
       location: this.locationSelectedId,
       message: this.textToSend
     }
+    this.spinner.show()
     this.service.broadcastSend(data).subscribe(res => {
+      this.spinner.hide();
+      this.messageService.successToast("SMS Sent Successfully")
     })
   }
 }
